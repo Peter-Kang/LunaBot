@@ -1,2 +1,2 @@
-# LeagueBot
-LeagueBot
+# League Disc Bot
+League Disc Bot
