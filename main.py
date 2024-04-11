@@ -24,8 +24,8 @@ async def on_ready():
 
 @bot.command(name="random", description="Gets a random Champion")
 async def random(ctx: commands.Context):
-        leagueStuff.randomChampion()
-        await ctx.send("Random!")
+        result = leagueStuff.randomChampion()
+        await ctx.send(result)
 
 
 @bot.command(name="syncTree", description="syncs the command tree")

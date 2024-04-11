@@ -1,29 +1,20 @@
-from urllib.parse import urlencode
-import requests
+from .components.champions import Champions 
+import random
 
 class league:
 
-    def __init__(self, RiotAPIKey):
-        self.RIOT_API_KEY = RiotAPIKey;
-        self.ChampionList = []
+    def __init__(self, riotAPIKey):
+        self.RIOT_API_KEY = riotAPIKey
+        self.ChampionData = Champions(riotAPIKey)
         self.UserToSummoner = {}
-        self.repopulateChampionList()
-
-#Champion related
-    def repopulateChampionList(self):
-        self.ChampionList = []
-        #make the request and get the reponse
-        api_url = f"https://ddragon.leagueoflegends.com/cdn/14.7.1/data/en_US/champion.json"
-        try:
-            rep = requests.get(api_url)
-            if( rep.status_code is 200 ):
-                data = rep.json()
-                print(data)
-        except requests.exceptions.RequestException as e:
-            print(e.strerror)
         
     def randomChampion(self):
-        print("Random")
+        champ_count = len(self.ChampionData.ChampionList)-1
+        result = "No Data"
+        if champ_count != 0:
+            index = random.randrange(0, champ_count, 1)
+            result = self.ChampionData.ChampionList[index]
+        return result
 
     def register(self, user:str , summoner:str):
         if( not user in self.userToSummonerList):
