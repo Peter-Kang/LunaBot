@@ -2,11 +2,12 @@ import os
 from dotenv import load_dotenv
 import discord
 from discord.ext import commands
-from discordViewModel.discordInit import discordInit
-from leagueViewModel.league import league
+from discordServices.discordInit import discordInit
+from leagueServices.league import league
 
 load_dotenv()
 DISCORD_BOT_TOKEN = os.getenv('DISCORD_BOT_TOKEN')
+RIOT_API_KEY = os.getenv('RIOT_API_KEY')
 
 intents_LeagueDiscBot = discord.Intents.default()
 intents_LeagueDiscBot.members = True
@@ -14,7 +15,7 @@ intents_LeagueDiscBot.message_content = True
 
 bot = commands.Bot(command_prefix='/', intents=intents_LeagueDiscBot)
 discordInitBot = discordInit(bot)
-leagueStuff = league()
+leagueStuff = league(RIOT_API_KEY)
 
 @bot.event
 async def on_ready():
