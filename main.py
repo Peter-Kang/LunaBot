@@ -27,9 +27,27 @@ async def random(ctx: commands.Context):
         result = leagueStuff.randomChampion()
         await ctx.send(result)
 
-
 @bot.command(name="syncTree", description="syncs the command tree")
 async def syncTree(ctx: commands.Context):
-       await discordInitBot.sync()
+        await discordInitBot.sync()
+
+@bot.command(name="registerSummoner", description="registers the user and a summoner name")
+async def registerSummoner(ctx:commands.Context, sumName:str = None):
+        if(sumName == None):
+                await ctx.send(sumName)
+        else:
+                success:bool = leagueStuff.register(ctx.author.id, sumName)
+                reponseString:str = "Couldn't add it"
+                if success:
+                        reponseString = "Registered"
+                await ctx.send(reponseString)
+
+@bot.command(name="leagueStats", description="gets the user's current stats")
+async def leagueStats(ctx:commands.Context):
+        if(not ctx.author.id in leagueStuff.UserSummonerData.userToSummonerPUUID):
+                await ctx.send("You are not registered")
+        else:
+                return leagueStuff.getUserStatus(ctx.author.id)
+
 
 bot.run(DISCORD_BOT_TOKEN)
