@@ -46,8 +46,8 @@ async def registerSummoner(ctx:commands.Context, sumName:str = None):
 async def leagueStats(ctx:commands.Context):
         if(not ctx.author.id in leagueStuff.UserSummonerData.userToSummonerPUUID):
                 await ctx.send("You are not registered")
-        else:
-                return leagueStuff.getUserStatus(ctx.author.id)
-
+        else:   
+                result = await leagueStuff.getUserStatus(ctx.author.id)
+                await ctx.send(f"Time spent on League in the past 7 Days: {result}") 
 
 bot.run(DISCORD_BOT_TOKEN)

@@ -23,7 +23,7 @@ class league:
     def unregister(self, user: str, summoner:str):
         return None
 
-    def getUserStatus(self, userID:str):
-        return self.UserSummonerData.getStatus(userID)
+    async def getUserStatus(self, userID:str):
+        return await self.UserSummonerData.getStatus(userID)
 
         

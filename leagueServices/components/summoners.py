@@ -1,7 +1,9 @@
 from urllib.parse import urlencode
 import requests
-import time    
 from datetime import datetime, timedelta
+from .matches import matches
+import asyncio
+
 
 class Summoners: 
 
@@ -32,14 +34,13 @@ class Summoners:
         return False
     
 #Get
-    def getStatus(self, userID):
+    async def getStatus(self, userID):
         daysToSubtract = 7
         puuid = self.userToSummonerPUUID[userID]
         stop_epoch_time = datetime.now().strftime('%s')
         start_epoch_time = (datetime.now() - timedelta(days=daysToSubtract)).strftime('%s')
         api_url = f"https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids"
         url_params:dict = {
-            
             "startTime":start_epoch_time,
             "endTime":stop_epoch_time,
             "type":"ranked",
@@ -49,7 +50,14 @@ class Summoners:
             }
         response = requests.get(api_url, params=urlencode(url_params))
         if(response.status_code == 200):
-            totalTime:time = 0;
+            totalTimeS:float = 0.0;
+            matchesList = []
             for match in response.json():
-                #get gameEndTimestamp - gameStartTimestamp
-                print(match)
+                matchesList.append(matches(self.RIOT_API_KEY,match))
+            res = await asyncio.gather( *[matchItem.getMatchData() for matchItem in matchesList])
+            for match in matchesList:
+                totalTimeS+=match.durationMS
+            totalTimeS/=1000
+            formatted:str = str(timedelta(seconds=int(totalTimeS)))
+            return formatted
+        return None
