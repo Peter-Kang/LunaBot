@@ -8,4 +8,4 @@ class discordInit():
     async def sync(self):
         for a_guild in self.bot.guilds:
             await self.bot.tree.sync(guild = a_guild)
-            print(f'Tree of {a_guild.id} has been sync')
+            print(f'Tree of {a_guild.id} ,{a_guild.name}, has been sync')
