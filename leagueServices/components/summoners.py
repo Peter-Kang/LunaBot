@@ -43,6 +43,7 @@ class Summoners:
         url_params:dict = {
             "startTime":start_epoch_time,
             "endTime":stop_epoch_time,
+            #"type":"ranked",
             "stop":"0",
             "count":"100",
             "api_key":self.RIOT_API_KEY,
