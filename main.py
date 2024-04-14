@@ -5,6 +5,7 @@ from discord.ext import commands
 from discordServices.discordInit import discordInit
 from leagueServices.league import league
 
+
 load_dotenv()
 DISCORD_BOT_TOKEN = os.getenv('DISCORD_BOT_TOKEN')
 RIOT_API_KEY = os.getenv('RIOT_API_KEY')
@@ -31,7 +32,7 @@ async def random(ctx: commands.Context):
 async def syncTree(ctx: commands.Context):
         await discordInitBot.sync()
 
-@bot.command(name="registerSummoner", description="registers the user and a summoner name")
+@bot.command(name="reg", description="registers the user and a summoner name")
 async def registerSummoner(ctx:commands.Context, sumName:str = None):
         if(sumName == None):
                 await ctx.send(sumName)
@@ -42,8 +43,8 @@ async def registerSummoner(ctx:commands.Context, sumName:str = None):
                         reponseString = "Registered"
                 await ctx.send(reponseString)
 
-@bot.command(name="leagueStats", description="gets the user's current stats")
-async def leagueStats(ctx:commands.Context):
+@bot.command(name="stats", description="gets the user's current stats")
+async def stats(ctx:commands.Context):
         if(not ctx.author.id in leagueStuff.UserSummonerData.userToSummonerPUUID):
                 await ctx.send("You are not registered")
         else:   

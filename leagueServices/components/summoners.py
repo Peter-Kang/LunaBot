@@ -37,13 +37,12 @@ class Summoners:
     async def getStatus(self, userID):
         daysToSubtract = 7
         puuid = self.userToSummonerPUUID[userID]
-        stop_epoch_time = datetime.now().strftime('%s')
-        start_epoch_time = (datetime.now() - timedelta(days=daysToSubtract)).strftime('%s')
+        stop_epoch_time = int(datetime.now().timestamp())
+        start_epoch_time = int((datetime.now() - timedelta(days=daysToSubtract)).timestamp())
         api_url = f"https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids"
         url_params:dict = {
             "startTime":start_epoch_time,
             "endTime":stop_epoch_time,
-            "type":"ranked",
             "stop":"0",
             "count":"100",
             "api_key":self.RIOT_API_KEY,
