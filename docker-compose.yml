@@ -1,0 +1,21 @@
+version: "0"
+services:
+  leaguebot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: long-horns
+    container_name: long-horns
+    volumes:
+      - .:/services
+    depends_on:
+      - sqlitedb
+  sqlitedb:
+    image: nouchka/sqlite3:latest
+    volumes:
+      - ./data/db:/root/db
+    environment:
+      - SQLITE3_DB=db.sqlite3
+
+volumes:
+  sqlite-data:
