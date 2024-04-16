@@ -32,7 +32,7 @@ class league:
         Flash Count: {sumStats.FlashCount}
         KDA: {(sumStats.Kills+sumStats.Assists)/sumStats.Deaths}
         Deaths: {sumStats.Deaths}
-        :milk:Cheers:milk:'''
+:milk:Cheers:milk:'''
         return result
 
         
