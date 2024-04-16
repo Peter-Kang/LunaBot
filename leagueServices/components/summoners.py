@@ -7,10 +7,12 @@ import asyncio
 
 @dataclass
 class SummonerStat:
+    TotalGames:int
     WinRate:float
     TotalGold:int 
     TotalTimeSpent:str
     MinionsKilled:int
+    FlashCount:int
 
 class Summoners: 
 
@@ -67,6 +69,7 @@ class Summoners:
             totalWins:float = 0
             totalLoss:float = 0
             totalTimeS:float = 0.0
+            flashCount:int = 0
             #get results
             for match in matchesList:
                 totalTimeS+=match.durationMS
@@ -78,6 +81,11 @@ class Summoners:
                         totalLoss+=1
                     totalMinionsKilled += int(player["totalMinionsKilled"])
                     goldEarned += int(player["goldEarned"])
+                    #get flash count
+                    if(int(player["summoner1Id"]) == 4):
+                        flashCount += int(player["summoner1Casts"]) 
+                    elif (int(player["summoner2Id"]) == 4):
+                        flashCount += int(player["summone2Casts"]) 
             formatted:str = str(timedelta(seconds=int( totalTimeS/1000)))
-            return SummonerStat(WinRate = (totalWins/(totalWins+totalLoss)), TotalGold=goldEarned, TotalTimeSpent=formatted, MinionsKilled=totalMinionsKilled)
+            return SummonerStat(TotalGames=(totalLoss+totalWins),WinRate = (totalWins/(totalWins+totalLoss)), TotalGold=goldEarned, TotalTimeSpent=formatted, MinionsKilled=totalMinionsKilled, FlashCount=flashCount)
         return None
