@@ -1,5 +1,6 @@
 from .components.champions import Champions 
 from .components.summoners import Summoners, SummonerStat
+from discord.emoji import Emoji
 import random
 
 class league:
@@ -22,7 +23,7 @@ class league:
 
     async def getUserStatus(self, userID:str):
         sumStats:SummonerStat = await self.UserSummonerData.getStatus(userID)
-        result = f"In the past 7 Days:\nTotal Games: {sumStats.TotalGames}\nWinRate: {sumStats.WinRate}\nTime Spent: {sumStats.TotalTimeSpent}\nGold Gained: {sumStats.TotalGold}\nMinions Merked: {sumStats.MinionsKilled}\nFlash Count: {sumStats.FlashCount}"
+        result = f":milk: In the past 7 Days:milk:\nTotal Games: {sumStats.TotalGames}\nWinRate: {sumStats.WinRate}\nTime Spent: {sumStats.TotalTimeSpent}\nGold Gained: {sumStats.TotalGold}\nMinions Merked: {sumStats.MinionsKilled}\nFlash Count: {sumStats.FlashCount}\n:milk:Cheers:milk:"
         return result
 
         

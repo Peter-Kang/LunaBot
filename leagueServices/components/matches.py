@@ -24,15 +24,19 @@ class matches:
                             self.results = data['info']
                             #get gameEndTimestamp - gameStartTimestamp
                             self.durationMS = data['info']['gameEndTimestamp'] - data['info']['gameStartTimestamp']
+                    else:
+                        print(f"Match: {self.matchID} Failed to get data. Status: {rep.status}")
         except Exception as e:
             print(e)
 
     def getPlayerPUUIDIfExists(self, PUUID:str):
         if(self.results is None or PUUID is None or PUUID == ""):
+            print(f"Match:{self.matchID} not loaded or PUUID not present")
             return None
         for player in self.results['participants'] :
             if player['puuid'] == PUUID:
                 self.LastPlayerGot = player
                 return player
+        print(f"Could not find player: {PUUID} in match: {self.matchID}")
         return None
     
