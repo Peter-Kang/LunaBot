@@ -4,7 +4,7 @@ class discordInit():
 
     def __init__(self, bot:discord.Client, status:str):
         self.bot = bot
-        self.status
+        self.status = status
 
     async def sync(self):
         for a_guild in self.bot.guilds:
