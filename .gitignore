@@ -9,3 +9,6 @@ __pycache__/
 *.py[cod]
 *$py.class
 */logs
+
+#generated files
+db.sqlite3
