@@ -13,6 +13,9 @@ class SummonerStat:
     TotalTimeSpent:str
     MinionsKilled:int
     FlashCount:int
+    Kills:int
+    Deaths:int
+    Assists:int
 
 class Summoners: 
 
@@ -72,6 +75,9 @@ class Summoners:
             totalLoss:float = 0
             totalTimeS:float = 0.0
             flashCount:int = 0
+            totalKills:int = 0
+            totalDeaths:int = 0
+            totalAssists:int = 0
             #get results
             for match in matchesList:
                 totalTimeS+=match.durationMS
@@ -88,7 +94,11 @@ class Summoners:
                         flashCount += int(player["summoner1Casts"]) 
                     elif (int(player["summoner2Id"]) == self.FLASH_SUMMONER_ID):
                         flashCount += int(player["summoner2Casts"]) 
+                    #KDA
+                    totalKills+=int(player["kills"])
+                    totalDeaths+=int(player["deaths"])
+                    totalAssists+=int(player["assists"])
             formatted:str = str(timedelta(seconds=int( totalTimeS/1000)))
             totalGames=(totalLoss+totalWins)
-            return SummonerStat(TotalGames=(totalGames),WinRate = str(int((totalWins/totalGames)*100))+"%", TotalGold=goldEarned, TotalTimeSpent=formatted, MinionsKilled=totalMinionsKilled, FlashCount=flashCount)
+            return SummonerStat(TotalGames=(totalGames),WinRate = str(int((totalWins/totalGames)*100))+"%", TotalGold=goldEarned, TotalTimeSpent=formatted, MinionsKilled=totalMinionsKilled, FlashCount=flashCount, Kills=totalKills, Deaths=totalDeaths, Assists=totalAssists)
         return None
