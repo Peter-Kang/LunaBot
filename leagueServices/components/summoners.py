@@ -89,5 +89,6 @@ class Summoners:
                     elif (int(player["summoner2Id"]) == self.FLASH_SUMMONER_ID):
                         flashCount += int(player["summoner2Casts"]) 
             formatted:str = str(timedelta(seconds=int( totalTimeS/1000)))
-            return SummonerStat(TotalGames=(totalLoss+totalWins),WinRate = (totalWins/(totalWins+totalLoss)), TotalGold=goldEarned, TotalTimeSpent=formatted, MinionsKilled=totalMinionsKilled, FlashCount=flashCount)
+            totalGames=(totalLoss+totalWins)
+            return SummonerStat(TotalGames=(totalGames),WinRate = (totalWins/totalGames), TotalGold=goldEarned, TotalTimeSpent=formatted, MinionsKilled=totalMinionsKilled, FlashCount=flashCount)
         return None
