@@ -1,5 +1,5 @@
 from .components.champions import Champions 
-from .components.summoners import Summoners
+from .components.summoners import Summoners, SummonerStat
 import random
 
 class league:
@@ -21,6 +21,8 @@ class league:
         return self.UserSummonerData.register(user, summoner)
 
     async def getUserStatus(self, userID:str):
-        return await self.UserSummonerData.getStatus(userID)
+        sumStats:SummonerStat = await self.UserSummonerData.getStatus(userID)
+        result = f"WinRate: {sumStats.WinRate}\nTime Spent: {sumStats.TotalTimeSpent}\nGold Gained: {sumStats.TotalGold}\nMinions Merked: {sumStats.MinionsKilled}"
+        return result
 
         

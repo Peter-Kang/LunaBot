@@ -1,9 +1,16 @@
+from dataclasses import dataclass
 from urllib.parse import urlencode
 import requests
 from datetime import datetime, timedelta
 from .matches import matches
 import asyncio
 
+@dataclass
+class SummonerStat:
+    WinRate:float
+    TotalGold:int 
+    TotalTimeSpent:str
+    MinionsKilled:int
 
 class Summoners: 
 
@@ -50,14 +57,27 @@ class Summoners:
             }
         response = requests.get(api_url, params=urlencode(url_params))
         if(response.status_code == 200):
-            totalTimeS:float = 0.0;
             matchesList = []
             for match in response.json():
                 matchesList.append(matches(self.RIOT_API_KEY,match))
-            res = await asyncio.gather( *[matchItem.getMatchData() for matchItem in matchesList])
+            await asyncio.gather( *[matchItem.getMatchData() for matchItem in matchesList])
+            #things to track
+            totalMinionsKilled:float = 0
+            goldEarned:float = 0
+            totalWins:float = 0
+            totalLoss:float = 0
+            totalTimeS:float = 0.0
+            #get results
             for match in matchesList:
                 totalTimeS+=match.durationMS
-            totalTimeS/=1000
-            formatted:str = str(timedelta(seconds=int(totalTimeS)))
-            return formatted
+                player = match.getPlayerPUUIDIfExists(puuid)
+                if(player != None):
+                    if(bool(player["win"])):
+                        totalWins+=1
+                    else:
+                        totalLoss+=1
+                    totalMinionsKilled += int(player["totalMinionsKilled"])
+                    goldEarned += int(player["goldEarned"])
+            formatted:str = str(timedelta(seconds=int( totalTimeS/1000)))
+            return SummonerStat(WinRate = (totalWins/(totalWins+totalLoss)), TotalGold=goldEarned, TotalTimeSpent=formatted, MinionsKilled=totalMinionsKilled)
         return None

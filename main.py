@@ -5,7 +5,6 @@ from discord.ext import commands
 from discordServices.discordInit import discordInit
 from leagueServices.league import league
 
-
 load_dotenv()
 DISCORD_BOT_TOKEN = os.getenv('DISCORD_BOT_TOKEN')
 RIOT_API_KEY = os.getenv('RIOT_API_KEY')
@@ -48,7 +47,7 @@ async def stats(ctx:commands.Context):
         if(not ctx.author.id in leagueStuff.UserSummonerData.userToSummonerPUUID):
                 await ctx.send("You are not registered")
         else:   
-                result = await leagueStuff.getUserStatus(ctx.author.id)
-                await ctx.send(f"Time spent on League in the past 7 Days: {result}") 
+                result:str = await leagueStuff.getUserStatus(ctx.author.id)
+                await ctx.send(result) 
 
 bot.run(DISCORD_BOT_TOKEN)
