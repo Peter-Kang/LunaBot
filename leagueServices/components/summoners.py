@@ -8,7 +8,7 @@ import asyncio
 @dataclass
 class SummonerStat:
     TotalGames:int
-    WinRate:float
+    WinRate:str
     TotalGold:int 
     TotalTimeSpent:str
     MinionsKilled:int
@@ -90,5 +90,5 @@ class Summoners:
                         flashCount += int(player["summoner2Casts"]) 
             formatted:str = str(timedelta(seconds=int( totalTimeS/1000)))
             totalGames=(totalLoss+totalWins)
-            return SummonerStat(TotalGames=(totalGames),WinRate = (totalWins/totalGames), TotalGold=goldEarned, TotalTimeSpent=formatted, MinionsKilled=totalMinionsKilled, FlashCount=flashCount)
+            return SummonerStat(TotalGames=(totalGames),WinRate = str(int((totalWins/totalGames)*100))+"%", TotalGold=goldEarned, TotalTimeSpent=formatted, MinionsKilled=totalMinionsKilled, FlashCount=flashCount)
         return None
