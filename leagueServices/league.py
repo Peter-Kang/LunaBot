@@ -22,7 +22,7 @@ class league:
 
     async def getUserStatus(self, userID:str):
         sumStats:SummonerStat = await self.UserSummonerData.getStatus(userID)
-        result = f"WinRate: {sumStats.WinRate}\nTime Spent: {sumStats.TotalTimeSpent}\nGold Gained: {sumStats.TotalGold}\nMinions Merked: {sumStats.MinionsKilled}"
+        result = f"In the past 7 Days:\nWinRate: {sumStats.WinRate}\nTime Spent: {sumStats.TotalTimeSpent}\nGold Gained: {sumStats.TotalGold}\nMinions Merked: {sumStats.MinionsKilled}"
         return result
 
         
