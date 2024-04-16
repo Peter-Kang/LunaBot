@@ -9,8 +9,6 @@ class matches:
         self.results = None
         self.durationMS = 0
         self.LastPlayerGot = None
-        self.FLASH_SUMMONER_ID = 5
-        self.GHOST_SUMMONER_ID = 6
 
     async def getMatchData(self):
         api_url:str = f'https://americas.api.riotgames.com/lol/match/v5/matches/{self.matchID}'
