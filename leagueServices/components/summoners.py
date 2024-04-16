@@ -85,7 +85,7 @@ class Summoners:
                     if(int(player["summoner1Id"]) == 4):
                         flashCount += int(player["summoner1Casts"]) 
                     elif (int(player["summoner2Id"]) == 4):
-                        flashCount += int(player["summone2Casts"]) 
+                        flashCount += int(player["summoner2Casts"]) 
             formatted:str = str(timedelta(seconds=int( totalTimeS/1000)))
             return SummonerStat(TotalGames=(totalLoss+totalWins),WinRate = (totalWins/(totalWins+totalLoss)), TotalGold=goldEarned, TotalTimeSpent=formatted, MinionsKilled=totalMinionsKilled, FlashCount=flashCount)
         return None
