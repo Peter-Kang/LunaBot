@@ -2,13 +2,22 @@ from .components.champions import Champions
 from .components.summoners import Summoners, SummonerStat
 from discord.emoji import Emoji
 import random
+from DatabaseLayer.LeagueDatabase import LeagueDatabase
 
 class league:
 
-    def __init__(self, riotAPIKey):
+    def __init__(self, riotAPIKey:str,db:LeagueDatabase):
         self.RIOT_API_KEY = riotAPIKey
         self.ChampionData = Champions(riotAPIKey)
         self.UserSummonerData = Summoners(riotAPIKey)
+        self.db:LeagueDatabase = db
+        self.userToSummonerPUUID = {}
+        self.__initUserToSummonerPUUID()
+
+    def __initUserToSummonerPUUID(self):
+        result = self.db.getAllUsers()
+        for row in result:
+            self.userToSummonerPUUID[row[0]] = row[1]
         
     def randomChampion(self):
         champ_count = len(self.ChampionData.ChampionList)-1
@@ -19,10 +28,17 @@ class league:
         return result
 
     def register(self, user:str , summoner:str):
-        return self.UserSummonerData.register(user, summoner)
+        puuid = self.UserSummonerData.getSummonerPUUID( summoner )
+        self.db.addOrUpdateUserToSummonerMapping(user, summoner, puuid)
+        if(puuid != ""):
+            self.userToSummonerPUUID[user] = puuid
+        return puuid
 
     async def getUserStatus(self, userID:str):
-        sumStats:SummonerStat = await self.UserSummonerData.getStatus(userID)
+        if( not (userID in self.userToSummonerPUUID)):
+            return ""
+        puuid = self.userToSummonerPUUID[userID]
+        sumStats:SummonerStat = await self.UserSummonerData.getStatus(puuid)
         result = f''':milk: In the past 7 Days:milk:
         Total Games: {sumStats.TotalGames}
         WinRate: {sumStats.WinRate}

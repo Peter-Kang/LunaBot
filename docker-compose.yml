@@ -13,9 +13,9 @@ services:
   sqlitedb:
     image: nouchka/sqlite3:latest
     volumes:
-      - ./data/db:/root/db
+      - ${SQLITE3_PATH}:/root/db
     environment:
-      - SQLITE3_DB=db.sqlite3
+      - SQLITE3_DB=${SQLITE3_DB_FILE}
 
 volumes:
   sqlite-data:

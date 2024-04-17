@@ -21,7 +21,6 @@ class Summoners:
 
     def __init__(self, riotAPIKey ):
         self.RIOT_API_KEY = riotAPIKey
-        self.userToSummonerPUUID = {}
         self.FLASH_SUMMONER_ID = 4
         self.GHOST_SUMMONER_ID = 6
 
@@ -39,18 +38,10 @@ class Summoners:
         except requests.exceptions.RequestException as e:
             print(e.strerror)
         return result
-
-    def register(self, userID, summoner ):
-        PUUID:str = self.getSummonerPUUID(summoner)
-        if(PUUID != ""):
-            self.userToSummonerPUUID[userID] = PUUID
-            return True
-        return False
     
 #Get
-    async def getStatus(self, userID):
+    async def getStatus(self, puuid:str):
         daysToSubtract = 7
-        puuid = self.userToSummonerPUUID[userID]
         stop_epoch_time = int(datetime.now().timestamp())
         start_epoch_time = int((datetime.now() - timedelta(days=daysToSubtract)).timestamp())
         api_url = f"https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids"
