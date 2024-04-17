@@ -46,7 +46,7 @@ class league:
         Gold Gained: {sumStats.TotalGold}
         Minions Merked: {sumStats.MinionsKilled}
         Flash Count: {sumStats.FlashCount}
-        KDA: {'{0:.2f}'.format(((sumStats.Kills+sumStats.Assists)/sumStats.Deaths)) if sumStats.Deaths != 0 else "UnDead" }
+        KDA: {'{0:.2f}'.format(((sumStats.Kills+sumStats.Assists)/sumStats.Deaths)) if sumStats.Deaths != 0 else "Undead" }
         Deaths: {sumStats.Deaths}
 :milk:Cheers:milk:'''
         return result
