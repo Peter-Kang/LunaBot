@@ -91,5 +91,6 @@ class Summoners:
                     totalAssists+=int(player["assists"])
             formatted:str = str(timedelta(seconds=int( totalTimeS/1000)))
             totalGames=(totalLoss+totalWins)
-            return SummonerStat(TotalGames=(totalGames),WinRate = str(int((totalWins/totalGames)*100))+"%", TotalGold=goldEarned, TotalTimeSpent=formatted, MinionsKilled=totalMinionsKilled, FlashCount=flashCount, Kills=totalKills, Deaths=totalDeaths, Assists=totalAssists)
+            winRate = int((totalWins/totalGames)*100) if totalGames != 0 else 100
+            return SummonerStat(TotalGames=(totalGames),WinRate = str(winRate)+"%", TotalGold=goldEarned, TotalTimeSpent=formatted, MinionsKilled=totalMinionsKilled, FlashCount=flashCount, Kills=totalKills, Deaths=totalDeaths, Assists=totalAssists)
         return None

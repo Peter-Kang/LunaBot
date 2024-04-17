@@ -52,6 +52,6 @@ PUUID TEXT);'''
         query:str = "SELECT discordUserID, PUUID FROM UserToSummonerMapping"
         cursor = self.sqliteConnection.cursor()
         cursor.execute(query)
-        results = cursor.fetchmany()
+        results = cursor.fetchall()
         cursor.close()
         return results

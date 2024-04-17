@@ -29,9 +29,9 @@ class league:
 
     def register(self, user:str , summoner:str):
         puuid = self.UserSummonerData.getSummonerPUUID( summoner )
-        self.db.addOrUpdateUserToSummonerMapping(user, summoner, puuid)
         if(puuid != ""):
-            self.userToSummonerPUUID[user] = puuid
+            self.userToSummonerPUUID[str(user)] = puuid
+            self.db.addOrUpdateUserToSummonerMapping(user, summoner, puuid)
         return puuid
 
     async def getUserStatus(self, userID:str):
@@ -46,7 +46,7 @@ class league:
         Gold Gained: {sumStats.TotalGold}
         Minions Merked: {sumStats.MinionsKilled}
         Flash Count: {sumStats.FlashCount}
-        KDA: {(sumStats.Kills+sumStats.Assists)/sumStats.Deaths}
+        KDA: {'{0:.2f}'.format(((sumStats.Kills+sumStats.Assists)/sumStats.Deaths)) if sumStats.Deaths != 0 else "UnDead" }
         Deaths: {sumStats.Deaths}
 :milk:Cheers:milk:'''
         return result

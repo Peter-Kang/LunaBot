@@ -45,7 +45,7 @@ async def registerSummoner(ctx:commands.Context, sumName:str = None):
         if(sumName == None):
                 await ctx.send("Please enter a summoner name")
         else:
-                result:str = leagueStuff.register(ctx.author.id, sumName)
+                result:str = leagueStuff.register(str(ctx.author.id), sumName)
                 responseString:str = "Couldn't add it"
                 if result != "":
                         responseString = "Registered"
