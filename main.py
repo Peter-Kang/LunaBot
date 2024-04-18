@@ -2,9 +2,9 @@ import os
 from dotenv import load_dotenv
 import discord
 from discord.ext import commands
-from discordServices.discordInit import discordInit
-from leagueServices.league import league
-from DatabaseLayer.LeagueDatabase import LeagueDatabase
+from DiscordServices.discordInit import discordInit
+from LeagueServices.league import league
+from DataAccess.LeagueDatabase import LeagueDatabase
 
 load_dotenv()
 #api keys

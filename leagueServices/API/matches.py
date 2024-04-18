@@ -9,6 +9,7 @@ class matches:
         self.results = None
         self.durationMS = 0
         self.LastPlayerGot = None
+        self.Status = None
 
     async def getMatchData(self):
         api_url:str = f'https://americas.api.riotgames.com/lol/match/v5/matches/{self.matchID}'
@@ -19,13 +20,12 @@ class matches:
             async with aiohttp.ClientSession() as session:
                 async with session.get(api_url,params=urlencode(url_params) ) as rep:
                     data = await rep.json()
+                    self.Status = rep.status
                     if( rep.status == 200 ):
                         if("info" in data ):
                             self.results = data['info']
                             #get gameEndTimestamp - gameStartTimestamp
                             self.durationMS = data['info']['gameEndTimestamp'] - data['info']['gameStartTimestamp']
-                    else:
-                        print(f"Match: {self.matchID} Failed to get data. Status: {rep.status}")
         except Exception as e:
             print(e)
 

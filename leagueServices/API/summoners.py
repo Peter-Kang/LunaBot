@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+import time
 from urllib.parse import urlencode
 import requests
 from datetime import datetime, timedelta
@@ -39,7 +40,7 @@ class Summoners:
             print(e.strerror)
         return result
     
-#Get
+#Get List of matches played
     async def getStatus(self, puuid:str):
         daysToSubtract = 7
         stop_epoch_time = int(datetime.now().timestamp())
@@ -58,7 +59,14 @@ class Summoners:
             matchesList = []
             for match in response.json():
                 matchesList.append(matches(self.RIOT_API_KEY,match))
-            await asyncio.gather( *[matchItem.getMatchData() for matchItem in matchesList])
+            keepCalling:bool = True
+            while ( keepCalling ):
+                await asyncio.gather( *[matchItem.getMatchData() for matchItem in matchesList if (matchItem.Status == None or matchItem.Status == 429)])
+                keepCalling = False
+                for matchItem in matchesList:
+                    if(matchItem.Status == None or matchItem.Status == 429):
+                        keepCalling = True
+                        time.sleep(1)
             #things to track
             totalMinionsKilled:float = 0
             goldEarned:float = 0

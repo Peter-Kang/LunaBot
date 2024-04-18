@@ -1,34 +1,33 @@
-from .components.champions import Champions as ChampionsAPI 
-from .components.summoners import Summoners as SummonersAPI, SummonerStat
-from discord.emoji import Emoji
+from .API.champions import Champions as ChampionsAPI 
+from .API.summoners import Summoners as SummonersAPI, SummonerStat
 import random
-from DatabaseLayer.LeagueDatabase import LeagueDatabase
+from DataAccess.LeagueDatabase import LeagueDatabase
 
 class league:
 
     def __init__(self, riotAPIKey:str,db:LeagueDatabase):
         self.RIOT_API_KEY:str = riotAPIKey
         self.ChampionData:ChampionsAPI = ChampionsAPI(riotAPIKey)
-        self.UserSummonerData:SummonersAPI = SummonersAPI(riotAPIKey)
+        self.UserSummonerAPI:SummonersAPI = SummonersAPI(riotAPIKey)
         self.db:LeagueDatabase = db
         self.userToSummonerPUUID:dict = {}
         self.__initUserToSummonerPUUID()
 
     def __initUserToSummonerPUUID(self):
-        result = self.db.getAllUsers()
+        result:list = self.db.getAllUsers()
         for row in result:
             self.userToSummonerPUUID[row[0]] = row[1]
         
     def randomChampion(self):
-        champ_count = len(self.ChampionData.ChampionList)-1
-        result = "No Data"
+        champ_count:int = len(self.ChampionData.ChampionList)-1
+        result:str = "No Data"
         if champ_count >= 0:
-            index = random.randrange(0, champ_count, 1)
-            result = self.ChampionData.ChampionList[index][0]
+            index:int = random.randrange(0, champ_count, 1)
+            result:str = self.ChampionData.ChampionList[index][0]
         return result
 
     def register(self, user:str , summoner:str):
-        puuid = self.UserSummonerData.getSummonerPUUID( summoner )
+        puuid:str = self.UserSummonerAPI.getSummonerPUUID( summoner )
         if(puuid != ""):
             self.userToSummonerPUUID[str(user)] = puuid
             self.db.addOrUpdateUserToSummonerMapping(user, summoner, puuid)
@@ -36,10 +35,10 @@ class league:
 
     async def getUserStatus(self, userID:str):
         if( not (userID in self.userToSummonerPUUID)):
-            return ""
-        puuid = self.userToSummonerPUUID[userID]
-        sumStats:SummonerStat = await self.UserSummonerData.getStatus(puuid)
-        result = f''':milk: In the past 7 Days:milk:
+            return "Not Registered"
+        puuid:str = self.userToSummonerPUUID[userID]
+        sumStats:SummonerStat = await self.UserSummonerAPI.getStatus(puuid)
+        result:str = f''':milk: In the past 7 Days:milk:
         Total Games: {sumStats.TotalGames}
         WinRate: {sumStats.WinRate}
         Time Spent: {sumStats.TotalTimeSpent}
