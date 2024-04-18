@@ -1,5 +1,5 @@
-from .components.champions import Champions 
-from .components.summoners import Summoners, SummonerStat
+from .components.champions import Champions as ChampionsAPI 
+from .components.summoners import Summoners as SummonersAPI, SummonerStat
 from discord.emoji import Emoji
 import random
 from DatabaseLayer.LeagueDatabase import LeagueDatabase
@@ -7,11 +7,11 @@ from DatabaseLayer.LeagueDatabase import LeagueDatabase
 class league:
 
     def __init__(self, riotAPIKey:str,db:LeagueDatabase):
-        self.RIOT_API_KEY = riotAPIKey
-        self.ChampionData = Champions(riotAPIKey)
-        self.UserSummonerData = Summoners(riotAPIKey)
+        self.RIOT_API_KEY:str = riotAPIKey
+        self.ChampionData:ChampionsAPI = ChampionsAPI(riotAPIKey)
+        self.UserSummonerData:SummonersAPI = SummonersAPI(riotAPIKey)
         self.db:LeagueDatabase = db
-        self.userToSummonerPUUID = {}
+        self.userToSummonerPUUID:dict = {}
         self.__initUserToSummonerPUUID()
 
     def __initUserToSummonerPUUID(self):
