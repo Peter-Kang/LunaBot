@@ -3,7 +3,7 @@ import time
 from urllib.parse import urlencode
 import requests
 from datetime import datetime, timedelta
-from .matches import matches
+from .Matches import Matches
 import asyncio
 
 @dataclass
@@ -58,7 +58,7 @@ class Summoners:
         if(response.status_code == 200):
             matchesList = []
             for match in response.json():
-                matchesList.append(matches(self.RIOT_API_KEY,match))
+                matchesList.append(Matches(self.RIOT_API_KEY,match))
             keepCalling:bool = True
             while ( keepCalling ):
                 await asyncio.gather( *[matchItem.getMatchData() for matchItem in matchesList if (matchItem.Status == None or matchItem.Status == 429)])

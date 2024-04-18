@@ -1,6 +1,6 @@
 import discord
 
-class discordInit():
+class DiscordInit():
 
     def __init__(self, bot:discord.Client, status:str):
         self.bot = bot

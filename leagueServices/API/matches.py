@@ -1,7 +1,7 @@
 import aiohttp
 from urllib.parse import urlencode
 
-class matches:
+class Matches:
 
     def __init__(self, riotAPIKey, matchID):
         self.RIOT_API_KEY = riotAPIKey

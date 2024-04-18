@@ -1,5 +1,5 @@
-from .API.champions import Champions as ChampionsAPI 
-from .API.summoners import Summoners as SummonersAPI, SummonerStat
+from .API.Champions import Champions as ChampionsAPI 
+from .API.Summoners import Summoners as SummonersAPI, SummonerStat
 import random
 from DataAccess.LeagueDatabase import LeagueDatabase
 
@@ -7,14 +7,18 @@ class league:
 
     def __init__(self, riotAPIKey:str,db:LeagueDatabase):
         self.RIOT_API_KEY:str = riotAPIKey
+        #API calls
         self.ChampionData:ChampionsAPI = ChampionsAPI(riotAPIKey)
         self.UserSummonerAPI:SummonersAPI = SummonersAPI(riotAPIKey)
+        #Features/DataModels
+
+        #Database
         self.db:LeagueDatabase = db
         self.userToSummonerPUUID:dict = {}
         self.__initUserToSummonerPUUID()
 
     def __initUserToSummonerPUUID(self):
-        result:list = self.db.getAllUsers()
+        result:list = self.db.SummonerDB.getAllUsers()
         for row in result:
             self.userToSummonerPUUID[row[0]] = row[1]
         
@@ -30,7 +34,7 @@ class league:
         puuid:str = self.UserSummonerAPI.getSummonerPUUID( summoner )
         if(puuid != ""):
             self.userToSummonerPUUID[str(user)] = puuid
-            self.db.addOrUpdateUserToSummonerMapping(user, summoner, puuid)
+            self.db.SummonerDB.addOrUpdateUserToSummonerMapping(user, summoner, puuid)
         return puuid
 
     async def getUserStatus(self, userID:str):
@@ -38,7 +42,7 @@ class league:
             return "Not Registered"
         puuid:str = self.userToSummonerPUUID[userID]
         sumStats:SummonerStat = await self.UserSummonerAPI.getStatus(puuid)
-        result:str = f''':milk: In the past 7 Days:milk:
+        return f''':milk: In the past 7 Days:milk:
         Total Games: {sumStats.TotalGames}
         WinRate: {sumStats.WinRate}
         Time Spent: {sumStats.TotalTimeSpent}
@@ -48,6 +52,3 @@ class league:
         KDA: {'{0:.2f}'.format(((sumStats.Kills+sumStats.Assists)/sumStats.Deaths)) if sumStats.Deaths != 0 else "Undead" }
         Deaths: {sumStats.Deaths}
 :milk:Cheers:milk:'''
-        return result
-
-        

@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 import discord
 from discord.ext import commands
-from DiscordServices.discordInit import discordInit
+from DiscordServices.DiscordInit import DiscordInit
 from LeagueServices.league import league
 from DataAccess.LeagueDatabase import LeagueDatabase
 
@@ -22,7 +22,7 @@ intents_LeagueDiscBot.members = True
 intents_LeagueDiscBot.message_content = True
 
 bot = commands.Bot(command_prefix='/', intents=intents_LeagueDiscBot)
-discordInitBot:discordInit = discordInit(bot,BOT_STATUS)
+discordInitBot:DiscordInit = DiscordInit(bot,BOT_STATUS)
 db:LeagueDatabase = LeagueDatabase(SQLITE3_PATH,SQLITE3_DB_FILE)
 leagueStuff = league(RIOT_API_KEY, db)
 
