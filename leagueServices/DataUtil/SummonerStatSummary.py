@@ -15,7 +15,16 @@ class SummonerStatSummaryResults:
     Assists:int =0
 
     def __format__(self, format_spec: str) -> str:
-        pass
+        return f''':milk: In the past 7 Days:milk:
+    Total Games: {self.TotalGames}
+    WinRate: {self.WinRate}
+    Time Spent: {self.TotalTimeSpent}
+    Gold Gained: {self.TotalGold}
+    Minions Merked: {self.MinionsKilled}
+    Flash Count: {self.FlashCount}
+    KDA: {'{0:.2f}'.format(((self.Kills+self.Assists)/self.Deaths)) if self.Deaths != 0 else "Undead" }
+    Deaths: {self.Deaths}
+:milk:Cheers:milk:'''
 
 class SummonerStatSummary:
 
