@@ -1,7 +1,8 @@
 from .API.Champions import Champions as ChampionsAPI 
-from .API.Summoners import Summoners as SummonersAPI, SummonerStat
+from .API.Summoners import Summoners as SummonersAPI
 import random
 from DataAccess.LeagueDatabase import LeagueDatabase
+from .DataUtil.SummonerStatSummary import SummonerStatSummary, SummonerStatSummaryResults
 
 class league:
 
@@ -12,6 +13,7 @@ class league:
         self.UserSummonerAPI:SummonersAPI = SummonersAPI(riotAPIKey)
 
         #Features/DataModels
+        self.SummonerStat = SummonerStatSummary()
 
         #Database
         self.db:LeagueDatabase = db
@@ -42,14 +44,6 @@ class league:
         if( not (userID in self.userToSummonerPUUID)):
             return "Not Registered"
         puuid:str = self.userToSummonerPUUID[userID]
-        sumStats:SummonerStat = await self.UserSummonerAPI.getStatus(puuid)
-        return f''':milk: In the past 7 Days:milk:
-        Total Games: {sumStats.TotalGames}
-        WinRate: {sumStats.WinRate}
-        Time Spent: {sumStats.TotalTimeSpent}
-        Gold Gained: {sumStats.TotalGold}
-        Minions Merked: {sumStats.MinionsKilled}
-        Flash Count: {sumStats.FlashCount}
-        KDA: {'{0:.2f}'.format(((sumStats.Kills+sumStats.Assists)/sumStats.Deaths)) if sumStats.Deaths != 0 else "Undead" }
-        Deaths: {sumStats.Deaths}
-:milk:Cheers:milk:'''
+        matchList:list = await self.UserSummonerAPI.getMatchesFromSummoner(puuid)
+        res:SummonerStatSummaryResults = self.SummonerStat(matchList)
+        return format(res)
