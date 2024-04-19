@@ -21,27 +21,25 @@ SQLITE3_DB_FILE = os.getenv('SQLITE3_DB_FILE')
 intents_LeagueDiscBot = discord.Intents.default()
 intents_LeagueDiscBot.members = True
 intents_LeagueDiscBot.message_content = True
+client:discord.Client = discord.Client(intents=intents_LeagueDiscBot)
+tree:app_commands.tree = app_commands.CommandTree(client)
 
-bot = commands.Bot(command_prefix='/', intents=intents_LeagueDiscBot)
-discordInitBot:DiscordInit = DiscordInit(bot,BOT_STATUS)
+discordInitBot:DiscordInit = DiscordInit(client,tree,BOT_STATUS)
 db:LeagueDatabase = LeagueDatabase(SQLITE3_PATH,SQLITE3_DB_FILE)
 leagueStuff = league(RIOT_API_KEY, db)
 
-@bot.event
+
+@client.event
 async def on_ready():
         await discordInitBot.sync()
-        print(f'{bot.user} has connected to Discord!')
+        print(f'{client.user} has connected to Discord!')
 
-@bot.command(name="random", description="Gets a random Champion")
+@tree.command(name="random", description="Gets a random Champion")
 async def random(ctx: commands.Context):
         result = leagueStuff.randomChampion()
         await ctx.send(result)
 
-@bot.command(name="syncTree", description="syncs the command tree")
-async def syncTree(ctx: commands.Context):
-        await discordInitBot.sync()
-
-@bot.command(name="reg", description="registers the user and a summoner name")
+@tree.command(name="reg", description="registers the user and a summoner name")
 async def registerSummoner(ctx:commands.Context, sumName:str = None):
         if(sumName == None):
                 await ctx.send("Please enter a summoner name")
@@ -52,7 +50,7 @@ async def registerSummoner(ctx:commands.Context, sumName:str = None):
                         responseString = "Registered"
                 await ctx.send(responseString)
 
-@bot.command(name="stats", description="gets the user's current stats")
+@tree.command(name="stats", description="gets the user's current stats")
 async def stats(ctx:commands.Context):
         userId = str(ctx.author.id)
         if(userId not in leagueStuff.userToSummonerPUUID):
@@ -61,4 +59,4 @@ async def stats(ctx:commands.Context):
                 result:str = await leagueStuff.getUserStatus(userId)
                 await ctx.send(result) 
 
-bot.run(DISCORD_BOT_TOKEN)
+client.run(DISCORD_BOT_TOKEN)
