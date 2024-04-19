@@ -10,6 +10,7 @@ class league:
         #API calls
         self.ChampionData:ChampionsAPI = ChampionsAPI(riotAPIKey)
         self.UserSummonerAPI:SummonersAPI = SummonersAPI(riotAPIKey)
+
         #Features/DataModels
 
         #Database
@@ -22,7 +23,7 @@ class league:
         for row in result:
             self.userToSummonerPUUID[row[0]] = row[1]
         
-    def randomChampion(self):
+    def randomChampion(self) -> str:
         champ_count:int = len(self.ChampionData.ChampionList)-1
         result:str = "No Data"
         if champ_count >= 0:
@@ -30,14 +31,14 @@ class league:
             result:str = self.ChampionData.ChampionList[index][0]
         return result
 
-    def register(self, user:str , summoner:str):
+    def register(self, user:str , summoner:str) -> str:
         puuid:str = self.UserSummonerAPI.getSummonerPUUID( summoner )
         if(puuid != ""):
             self.userToSummonerPUUID[str(user)] = puuid
             self.db.SummonerDB.addOrUpdateUserToSummonerMapping(user, summoner, puuid)
         return puuid
 
-    async def getUserStatus(self, userID:str):
+    async def getUserStatus(self, userID:str) -> str:
         if( not (userID in self.userToSummonerPUUID)):
             return "Not Registered"
         puuid:str = self.userToSummonerPUUID[userID]
