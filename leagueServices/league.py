@@ -45,5 +45,5 @@ class league:
             return "Not Registered"
         puuid:str = self.userToSummonerPUUID[userID]
         matchList:list = await self.UserSummonerAPI.getMatchesFromSummoner(puuid)
-        res:SummonerStatSummaryResults = self.SummonerStat(matchList)
+        res:SummonerStatSummaryResults = self.SummonerStat.ListOfMatchesToSummonerStat(matchList,puuid)
         return format(res)
