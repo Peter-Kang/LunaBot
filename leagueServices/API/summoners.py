@@ -33,7 +33,10 @@ class Summoners:
             "api_key":self.RIOT_API_KEY
             }
         try:
-            response = requests.get(api_url, params=urlencode(url_params))
+            response = None
+            while response == None or response.status_code == 429:
+                response = requests.get(api_url, params=urlencode(url_params))
+                time.wait(1)
             if(response.status_code == 200):
                 result = response.json()['puuid']
         except requests.exceptions.RequestException as e:
