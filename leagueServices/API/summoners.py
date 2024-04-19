@@ -48,6 +48,14 @@ class Summoners:
         if(response.status_code == 200):
             matchesList:list = []
             for match in response.json():
+                matchesList.append(match)
+            return matchesList
+        return []
+    
+    async def getMatchesFromList(self, stringListOfMatches:list):
+        matchesList:list = []
+        if len(stringListOfMatches) != 0:
+            for match in stringListOfMatches:
                 matchesList.append(Matches(self.RIOT_API_KEY,match))
             keepCalling:bool = True
             while ( keepCalling ):
@@ -57,5 +65,4 @@ class Summoners:
                     if(matchItem.Status == None or matchItem.Status == 429):
                         keepCalling = True
                         time.sleep(1) #wait until rate limit is freed
-            return matchesList
-        return []
+        return matchesList
