@@ -23,9 +23,10 @@ class Summoners:
             response = None
             while response == None or response.status_code == 429:
                 response = requests.get(api_url, params=urlencode(url_params))
-                time.wait(1)
-            if(response.status_code == 200):
-                result = response.json()['puuid']
+                if(response.status_code == 200):
+                    result = response.json()['puuid']
+                else:
+                    time.sleep(1)
         except requests.exceptions.RequestException as e:
             print(e.strerror)
         return result
