@@ -56,7 +56,7 @@ async def registerSummoner(interaction:discord.Interaction, summoner:str = None)
                 await interaction.response.send_message("Please enter a summoner name")
         else:
                 result:str = leagueStuff.register(str(interaction.user.id), summoner)
-                responseString:str = "Couldn't add it"
+                responseString:str = f"Couldn't add {summoner}"
                 if result != "":
                         responseString = "Registered"
                 await interaction.response.send_message(responseString)
