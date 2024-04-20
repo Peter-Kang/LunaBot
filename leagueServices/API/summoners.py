@@ -1,47 +1,38 @@
-from dataclasses import dataclass
 import time
 from urllib.parse import urlencode
 import requests
 from datetime import datetime, timedelta
-from .matches import matches
+from .Matches import Matches
 import asyncio
 
-@dataclass
-class SummonerStat:
-    TotalGames:int
-    WinRate:str
-    TotalGold:int 
-    TotalTimeSpent:str
-    MinionsKilled:int
-    FlashCount:int
-    Kills:int
-    Deaths:int
-    Assists:int
+
 
 class Summoners: 
 
     def __init__(self, riotAPIKey ):
         self.RIOT_API_KEY = riotAPIKey
-        self.FLASH_SUMMONER_ID = 4
-        self.GHOST_SUMMONER_ID = 6
 
 #Changes to the user to summoner PUUID list
-    def getSummonerPUUID(self, summoner):
+    def getSummonerPUUID(self, summoner) -> str:
         api_url:str = f"https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/{summoner.lower().strip()}"
         result = ""
         url_params:dict = {
             "api_key":self.RIOT_API_KEY
             }
         try:
-            response = requests.get(api_url, params=urlencode(url_params))
-            if(response.status_code == 200):
-                result = response.json()['puuid']
+            response = None
+            while response == None or response.status_code == 429:
+                response = requests.get(api_url, params=urlencode(url_params))
+                if(response.status_code == 200):
+                    result = response.json()['puuid']
+                else:
+                    time.sleep(1)
         except requests.exceptions.RequestException as e:
             print(e.strerror)
         return result
     
 #Get List of matches played
-    async def getStatus(self, puuid:str):
+    async def getMatchesFromSummoner(self, puuid:str) -> list:
         daysToSubtract = 7
         stop_epoch_time = int(datetime.now().timestamp())
         start_epoch_time = int((datetime.now() - timedelta(days=daysToSubtract)).timestamp())
@@ -56,9 +47,17 @@ class Summoners:
             }
         response = requests.get(api_url, params=urlencode(url_params))
         if(response.status_code == 200):
-            matchesList = []
+            matchesList:list = []
             for match in response.json():
-                matchesList.append(matches(self.RIOT_API_KEY,match))
+                matchesList.append(match)
+            return matchesList
+        return []
+    
+    async def getMatchesFromList(self, stringListOfMatches:list):
+        matchesList:list = []
+        if len(stringListOfMatches) != 0:
+            for match in stringListOfMatches:
+                matchesList.append(Matches(self.RIOT_API_KEY,match))
             keepCalling:bool = True
             while ( keepCalling ):
                 await asyncio.gather( *[matchItem.getMatchData() for matchItem in matchesList if (matchItem.Status == None or matchItem.Status == 429)])
@@ -66,39 +65,5 @@ class Summoners:
                 for matchItem in matchesList:
                     if(matchItem.Status == None or matchItem.Status == 429):
                         keepCalling = True
-                        time.sleep(1)
-            #things to track
-            totalMinionsKilled:float = 0
-            goldEarned:float = 0
-            totalWins:float = 0
-            totalLoss:float = 0
-            totalTimeS:float = 0.0
-            flashCount:int = 0
-            totalKills:int = 0
-            totalDeaths:int = 0
-            totalAssists:int = 0
-            #get results
-            for match in matchesList:
-                totalTimeS+=match.durationMS
-                player = match.getPlayerPUUIDIfExists(puuid)
-                if(player != None):
-                    if(bool(player["win"])):
-                        totalWins+=1
-                    else:
-                        totalLoss+=1
-                    totalMinionsKilled += int(player["totalMinionsKilled"])
-                    goldEarned += int(player["goldEarned"])
-                    #get flash count
-                    if(int(player["summoner1Id"]) == self.FLASH_SUMMONER_ID):
-                        flashCount += int(player["summoner1Casts"]) 
-                    elif (int(player["summoner2Id"]) == self.FLASH_SUMMONER_ID):
-                        flashCount += int(player["summoner2Casts"]) 
-                    #KDA
-                    totalKills+=int(player["kills"])
-                    totalDeaths+=int(player["deaths"])
-                    totalAssists+=int(player["assists"])
-            formatted:str = str(timedelta(seconds=int( totalTimeS/1000)))
-            totalGames=(totalLoss+totalWins)
-            winRate = int((totalWins/totalGames)*100) if totalGames != 0 else 100
-            return SummonerStat(TotalGames=(totalGames),WinRate = str(winRate)+"%", TotalGold=goldEarned, TotalTimeSpent=formatted, MinionsKilled=totalMinionsKilled, FlashCount=flashCount, Kills=totalKills, Deaths=totalDeaths, Assists=totalAssists)
-        return None
+                        time.sleep(1) #wait until rate limit is freed
+        return matchesList

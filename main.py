@@ -1,8 +1,9 @@
 import os
 from dotenv import load_dotenv
 import discord
+from discord import app_commands
 from discord.ext import commands
-from DiscordServices.discordInit import discordInit
+from DiscordServices.discordInit import DiscordInit
 from LeagueServices.league import league
 from DataAccess.LeagueDatabase import LeagueDatabase
 
@@ -21,43 +22,58 @@ intents_LeagueDiscBot = discord.Intents.default()
 intents_LeagueDiscBot.members = True
 intents_LeagueDiscBot.message_content = True
 
-bot = commands.Bot(command_prefix='/', intents=intents_LeagueDiscBot)
-discordInitBot:discordInit = discordInit(bot,BOT_STATUS)
+#client:discord.Client = discord.Client(intents=intents_LeagueDiscBot)
+#tree:app_commands.CommandTree = app_commands.CommandTree(client)
+bot = commands.Bot(
+    command_prefix="/",  
+    case_insensitive=True,  
+  intents=intents_LeagueDiscBot 
+)
+#services
+#discordInitBot:DiscordInit = DiscordInit(client,tree,BOT_STATUS)
+discordInitBot:DiscordInit = DiscordInit(bot, BOT_STATUS)
+
 db:LeagueDatabase = LeagueDatabase(SQLITE3_PATH,SQLITE3_DB_FILE)
 leagueStuff = league(RIOT_API_KEY, db)
 
-@bot.event
-async def on_ready():
-        await discordInitBot.sync()
-        print(f'{bot.user} has connected to Discord!')
+@bot.command(name="sync")
+@commands.guild_only()
+async def sync(ctx:commands.context):
+        #sync global
+        ctx.bot.tree.copy_global_to(guild=ctx.guild)
+        synced = await ctx.bot.tree.sync(guild=ctx.guild)
+        print(f"Synced {len(synced)} commands for {ctx.guild}({ctx.guild.name})")
 
-@bot.command(name="random", description="Gets a random Champion")
-async def random(ctx: commands.Context):
-        result = leagueStuff.randomChampion()
-        await ctx.send(result)
+@bot.tree.command(name="random",  description="Gets a random Champion")
+async def random(interaction:discord.Interaction):
+        result:str = leagueStuff.randomChampion()
+        await interaction.response.send_message(result)
 
-@bot.command(name="syncTree", description="syncs the command tree")
-async def syncTree(ctx: commands.Context):
-        await discordInitBot.sync()
-
-@bot.command(name="reg", description="registers the user and a summoner name")
-async def registerSummoner(ctx:commands.Context, sumName:str = None):
-        if(sumName == None):
-                await ctx.send("Please enter a summoner name")
+@bot.tree.command(name="reg", description="registers the user and a summoner name")
+@app_commands.describe(summoner = "A League Summoner Name" )
+async def registerSummoner(interaction:discord.Interaction, summoner:str = None):
+        if(summoner == None):
+                await interaction.response.send_message("Please enter a summoner name")
         else:
-                result:str = leagueStuff.register(str(ctx.author.id), sumName)
-                responseString:str = "Couldn't add it"
+                result:str = leagueStuff.register(str(interaction.user.id), summoner)
+                responseString:str = f"Couldn't add {summoner}"
                 if result != "":
                         responseString = "Registered"
-                await ctx.send(responseString)
+                await interaction.response.send_message(responseString)
 
-@bot.command(name="stats", description="gets the user's current stats")
-async def stats(ctx:commands.Context):
-        userId = str(ctx.author.id)
+@bot.tree.command(name="stats", description="gets the user's current stats")
+async def stats(interaction:discord.Interaction):
+        userId = str(interaction.user.id)
         if(userId not in leagueStuff.userToSummonerPUUID):
-                await ctx.send("You are not registered")
+                await interaction.response.send_message("You are not registered")
         else:   
+                await interaction.response.defer()
                 result:str = await leagueStuff.getUserStatus(userId)
-                await ctx.send(result) 
+                await interaction.followup.send(result) 
+
+@bot.event
+async def on_ready():
+        await discordInitBot.on_ready()
+        print(f'{bot.user} has connected to Discord!')
 
 bot.run(DISCORD_BOT_TOKEN)
