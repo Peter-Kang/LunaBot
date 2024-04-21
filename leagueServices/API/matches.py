@@ -1,15 +1,19 @@
-import aiohttp
 from urllib.parse import urlencode
+import asyncio
+import aiohttp
+import time
+import json
 
-class Matches:
+
+class Match:
 
     def __init__(self, riotAPIKey, matchID):
-        self.RIOT_API_KEY = riotAPIKey
-        self.matchID = matchID
-        self.results = None
-        self.durationMS = 0
-        self.LastPlayerGot = None
-        self.Status = None
+        self.RIOT_API_KEY:str = riotAPIKey
+        self.matchID:str = matchID
+        self.results:json = None
+        self.durationMS:int = 0
+        self.LastPlayerGot:json = None
+        self.Status:int = None
 
     async def getMatchData(self):
         api_url:str = f'https://americas.api.riotgames.com/lol/match/v5/matches/{self.matchID}'
@@ -40,3 +44,24 @@ class Matches:
         print(f"Could not find player: {PUUID} in match: {self.matchID}")
         return None
     
+class Matches:
+
+    def __init__(self, riotAPIKey):
+          self.RIOT_API_KEY:str = riotAPIKey
+          self.MatchCache = {}
+
+    async def getMatchesFromList(self, stringListOfMatches:list):
+        matchesList:list = []
+        if len(stringListOfMatches) != 0:
+            for match in stringListOfMatches:
+                matchesList.append(Match(self.RIOT_API_KEY,match))
+            keepCalling:bool = True
+            while ( keepCalling ):
+                await asyncio.gather( *[matchItem.getMatchData() for matchItem in matchesList if (matchItem.Status == None or matchItem.Status == 429)])
+                keepCalling = False
+                for matchItem in matchesList:
+                    if(matchItem.Status == None or matchItem.Status == 429):
+                        keepCalling = True
+                        time.sleep(1) #wait until rate limit is freed
+
+        return matchesList

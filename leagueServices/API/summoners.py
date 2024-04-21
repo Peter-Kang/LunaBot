@@ -1,11 +1,7 @@
-import time
 from urllib.parse import urlencode
 import requests
 from datetime import datetime, timedelta
-from .Matches import Matches
-import asyncio
-
-
+import time
 
 class Summoners: 
 
@@ -52,18 +48,3 @@ class Summoners:
                 matchesList.append(match)
             return matchesList
         return []
-    
-    async def getMatchesFromList(self, stringListOfMatches:list):
-        matchesList:list = []
-        if len(stringListOfMatches) != 0:
-            for match in stringListOfMatches:
-                matchesList.append(Matches(self.RIOT_API_KEY,match))
-            keepCalling:bool = True
-            while ( keepCalling ):
-                await asyncio.gather( *[matchItem.getMatchData() for matchItem in matchesList if (matchItem.Status == None or matchItem.Status == 429)])
-                keepCalling = False
-                for matchItem in matchesList:
-                    if(matchItem.Status == None or matchItem.Status == 429):
-                        keepCalling = True
-                        time.sleep(1) #wait until rate limit is freed
-        return matchesList

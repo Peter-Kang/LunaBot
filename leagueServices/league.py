@@ -1,5 +1,6 @@
 from .API.Champions import Champions as ChampionsAPI 
 from .API.Summoners import Summoners as SummonersAPI
+from .API.Matches import Matches as MatchesAPI
 import random
 from DataAccess.LeagueDatabase import LeagueDatabase
 from .DataUtil.SummonerStatSummary import SummonerStatSummary, SummonerStatSummaryResults
@@ -11,6 +12,7 @@ class league:
         #API calls
         self.ChampionData:ChampionsAPI = ChampionsAPI(riotAPIKey)
         self.UserSummonerAPI:SummonersAPI = SummonersAPI(riotAPIKey)
+        self.MatchesAPI:MatchesAPI = MatchesAPI(riotAPIKey)
 
         #Features/DataModels
         self.SummonerStat = SummonerStatSummary()
@@ -20,10 +22,13 @@ class league:
         self.userToSummonerPUUID:dict = {}
         self.__initUserToSummonerPUUID()
 
-    def __initUserToSummonerPUUID(self):
+    def __initUserToSummonerPUUID(self) -> None:
+        userIDIndex:int = 0
+        summonerPUUIDIndex:int = 1
         result:list = self.db.SummonerDB.getAllUsers()
+        #populate
         for row in result:
-            self.userToSummonerPUUID[row[0]] = row[1]
+            self.userToSummonerPUUID[row[userIDIndex]] = row[summonerPUUIDIndex]
         
     def randomChampion(self) -> str:
         champ_count:int = len(self.ChampionData.ChampionList)-1
@@ -44,8 +49,8 @@ class league:
         if( not (userID in self.userToSummonerPUUID)):
             return "Not Registered"
         puuid:str = self.userToSummonerPUUID[userID]
-        matchStringList:list = await self.UserSummonerAPI.getMatchesFromSummoner(puuid) # list of strings
-        matchList:list = await self.UserSummonerAPI.getMatchesFromList(matchStringList) # list of completed matches
+        matchStringList:list = await self.UserSummonerAPI.getMatchesFromSummoner(puuid) # list of match ids
+        matchList:list = await self.MatchesAPI.getMatchesFromList(matchStringList) # turn list of match ids to list of completed matches
         # get the matches
         res:SummonerStatSummaryResults = self.SummonerStat.ListOfMatchesToSummonerStat(matchList,puuid)
         return format(res)
