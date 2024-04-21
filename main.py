@@ -22,15 +22,13 @@ intents_LeagueDiscBot = discord.Intents.default()
 intents_LeagueDiscBot.members = True
 intents_LeagueDiscBot.message_content = True
 
-#client:discord.Client = discord.Client(intents=intents_LeagueDiscBot)
-#tree:app_commands.CommandTree = app_commands.CommandTree(client)
+
 bot = commands.Bot(
     command_prefix="/",  
     case_insensitive=True,  
   intents=intents_LeagueDiscBot 
 )
 #services
-#discordInitBot:DiscordInit = DiscordInit(client,tree,BOT_STATUS)
 discordInitBot:DiscordInit = DiscordInit(bot, BOT_STATUS)
 
 db:LeagueDatabase = LeagueDatabase(SQLITE3_PATH,SQLITE3_DB_FILE)
