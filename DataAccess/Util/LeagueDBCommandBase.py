@@ -11,6 +11,14 @@ class LeagueDBCommandBase:
         cursor.close()
         self.sqliteConnection.commit()
 
+    def sendScalarCommand(self, query:str, args:tuple=()):
+        cursor = self.sqliteConnection.cursor()
+        cursor.execute(query,args)
+        result = cursor.fetchone()
+        cursor.close()
+        self.sqliteConnection.commit()
+        return result
+
     def sendQueryCommand(self, query:str, args:tuple=()):
         cursor = self.sqliteConnection.cursor()
         cursor.execute(query,args)
@@ -19,10 +27,3 @@ class LeagueDBCommandBase:
         self.sqliteConnection.commit()
         return result
 
-    def sendScalarCommand(self, query:str, args:tuple=()):
-        cursor = self.sqliteConnection.cursor()
-        cursor.execute(query,args)
-        result = cursor.fetchone()
-        cursor.close()
-        self.sqliteConnection.commit()
-        return result
