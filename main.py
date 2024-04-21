@@ -32,7 +32,12 @@ bot = commands.Bot(
 discordInitBot:DiscordInit = DiscordInit(bot, BOT_STATUS)
 
 db:LeagueDatabase = LeagueDatabase(SQLITE3_PATH,SQLITE3_DB_FILE)
-leagueStuff = league(RIOT_API_KEY, db)
+leagueStuff:league = league(RIOT_API_KEY, db)
+
+@bot.event
+async def on_command_error(ctx, error):
+    if isinstance(error, discord.ext.commands.errors.CommandNotFound):
+        await ctx.send("That command wasn't found! Sorry :(")
 
 @bot.command(name="sync")
 @commands.guild_only()
