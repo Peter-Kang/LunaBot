@@ -64,8 +64,8 @@ class SummonerStatSummary:
                     totalKills+=int(player["kills"])
                     totalDeaths+=int(player["deaths"])
                     totalAssists+=int(player["assists"])
-            formatted:str = str(timedelta(seconds=int( totalTimeS/1000)))
+            formattedTimeSpent:str = str(timedelta(seconds=int( totalTimeS/1000)))
             totalGames=(totalLoss+totalWins)
             winRate = int((totalWins/totalGames)*100) if totalGames != 0 else 100
-            return SummonerStatSummaryResults(TotalGames=(totalGames),WinRate = str(winRate)+"%", TotalGold=goldEarned, TotalTimeSpent=formatted, MinionsKilled=totalMinionsKilled, FlashCount=flashCount, Kills=totalKills, Deaths=totalDeaths, Assists=totalAssists)
+            return SummonerStatSummaryResults(TotalGames=totalGames, WinRate = str(winRate)+"%", TotalGold=goldEarned, TotalTimeSpent=formattedTimeSpent, MinionsKilled=totalMinionsKilled, FlashCount=flashCount, Kills=totalKills, Deaths=totalDeaths, Assists=totalAssists)
         return SummonerStatSummaryResults()

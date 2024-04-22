@@ -17,6 +17,6 @@ PUUID TEXT);'''
         args:tuple = (str(discordID),str(summonerName),str(PUUID))
         super().sendVoidCommand(query, args)
 
-    def getAllUsers(self):
+    def getAllUsers(self) -> list[tuple[str]]:
         query:str = "SELECT discordUserID, PUUID FROM UserToSummonerMapping;"
         return super().sendQueryCommand(query)
