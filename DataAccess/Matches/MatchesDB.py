@@ -21,6 +21,6 @@ class MatchesDB(base):
         args:tuple = (epoch)
         super().sendVoidCommand(query, args)
 
-    def getMatches(self) -> list:
+    def getMatches(self) -> list[tuple[str]]:
         query:str = "SELECT MatchID, EndTimeSecondsPastEpoch, Data FROM MatchCache;"
         return super().sendQueryCommand(query)

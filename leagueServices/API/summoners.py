@@ -28,7 +28,7 @@ class Summoners:
         return result
     
 #Get List of matches played
-    async def getMatchesFromSummoner(self, puuid:str) -> list:
+    async def getMatchesFromSummoner(self, puuid:str) -> list[str]:
         daysToSubtract = 7
         stop_epoch_time = int(datetime.now().timestamp())
         start_epoch_time = int((datetime.now() - timedelta(days=daysToSubtract)).timestamp())

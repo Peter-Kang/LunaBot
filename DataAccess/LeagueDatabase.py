@@ -20,6 +20,6 @@ class LeagueDatabase:
         if self.sqliteConnection:
             self.sqliteConnection.close()
 
-    def InitTables(self):
+    def InitTables(self) -> None:
         self.SummonerDB.initUserToSummonerMapping()
         self.MatchesDB.initMatchesTable()
