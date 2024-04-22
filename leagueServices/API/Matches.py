@@ -8,7 +8,7 @@ import json
 class Match:
     RIOT_API_KEY:str = ""
     matchID:str = ""
-    results:json = None
+    results:dict[str,any] = None
     durationMS:int = 0
     LastPlayerGot:json = None
     Status:int = None
@@ -32,7 +32,7 @@ class Match:
             for player in self.results['participants']:
                 self.Participants.append(player['puuid'])
     
-    def setResult(self, result:json) -> None:
+    def setResult(self, result:dict[str,any]) -> None:
         self.results = result
         self.__setDuration()
         self.__setParticipants()
