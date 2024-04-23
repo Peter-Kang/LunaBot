@@ -38,7 +38,7 @@ class league:
         jsonIndex:int = 2
         result:list[tuple[str]] = self.db.MatchesDB.getMatches()
         for row in result:
-            self.matchCache[row[matchIDIndex]] = json.loads(row[jsonIndex])
+            self.matchCache[row[matchIDIndex]] = Match(self.RIOT_API_KEY,row[matchIDIndex],json.loads(row[jsonIndex]))
         
     def randomChampion(self) -> str:
         champ_count:int = len(self.ChampionData.ChampionList)-1
@@ -55,6 +55,7 @@ class league:
             self.db.SummonerDB.addOrUpdateUserToSummonerMapping(user, summoner, puuid)
         return puuid
 
+#summoner stats
     def updateMissingMatchesData(self, matchList:list[Match]) -> None:
         for match in matchList:
             self.matchCache[match.matchID] = match
@@ -66,7 +67,7 @@ class league:
             result.append(self.matchCache[matchID])
         return result
     
-    async def populateMissingMatches(self, matchListString:list[str]):
+    async def populateMissingMatches(self, matchListString:list[str])-> None:
         matchListStringMissing:list[str] = []
         #filter out the list of ids we already have
         for matchStr in matchListString :

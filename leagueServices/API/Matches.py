@@ -32,7 +32,7 @@ class Match:
             for player in self.results['participants']:
                 self.Participants.append(player['puuid'])
     
-    def setResult(self, result:dict[str,any]) -> None:
+    def __setResult(self, result:dict[str,any]) -> None:
         self.results = result
         self.__setDuration()
         self.__setParticipants()
@@ -51,7 +51,7 @@ class Match:
                     self.Status = rep.status
                     if( rep.status == 200 ):
                         if("info" in data ):
-                            self.setResult( (data['info']) )
+                            self.__setResult( (data['info']) )
                             
         except Exception as e:
             print(e)
