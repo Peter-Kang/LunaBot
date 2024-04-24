@@ -1,3 +1,10 @@
 {
-  "cSpell.words": ["aiohttp", "Petechan", "Peterchan", "PUUID", "riotid"]
+  "cSpell.words": [
+    "aiohttp",
+    "dotenv",
+    "Petechan",
+    "Peterchan",
+    "PUUID",
+    "riotid"
+  ]
 }
