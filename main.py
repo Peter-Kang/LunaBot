@@ -1,19 +1,8 @@
-import os
-from dotenv import load_dotenv
-
 import discord
 from discord import app_commands
 from discord.ext import commands
 
 from LeagueDiscordBot import LeagueDiscordBot
-
-load_dotenv()
-DISCORD_BOT_TOKEN = os.getenv('DISCORD_BOT_TOKEN')
-#api keys
-RIOT_API_KEY = os.getenv('RIOT_API_KEY')
-#sqlite database
-SQLITE3_PATH = os.getenv('SQLITE3_PATH')
-SQLITE3_DB_FILE = os.getenv('SQLITE3_DB_FILE')
 
 bot = LeagueDiscordBot()
 
@@ -57,4 +46,4 @@ async def stats(interaction:discord.Interaction):
                 result:str = await bot.LeagueService.getUserStatus(userId)
                 await interaction.followup.send(result) 
 
-bot.run(DISCORD_BOT_TOKEN)
+bot.run(bot.DISCORD_BOT_TOKEN)
