@@ -48,11 +48,11 @@ class league:
             result:str = self.ChampionData.ChampionList[index][0]
         return result
 
-    def register(self, user:str , summoner:str) -> str:
-        puuid:str = self.UserSummonerAPI.getSummonerPUUID( summoner )
+    def register(self, user:str , riotid:str) -> str:
+        puuid:str = self.UserSummonerAPI.getPUUIDFromRiotID( riotid )
         if(puuid != ""):
             self.userToSummonerPUUID[str(user)] = puuid
-            self.db.SummonerDB.addOrUpdateUserToSummonerMapping(user, summoner, puuid)
+            self.db.SummonerDB.addOrUpdateUserToSummonerMapping(user, riotid, puuid)
         return puuid
 
 #summoner stats

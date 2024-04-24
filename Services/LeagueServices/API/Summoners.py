@@ -8,9 +8,14 @@ class Summoners:
     def __init__(self, riotAPIKey ):
         self.RIOT_API_KEY = riotAPIKey
 
-#Changes to the user to summoner PUUID list
-    def getSummonerPUUID(self, summoner) -> str:
-        api_url:str = f"https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/{summoner.lower().strip()}"
+#Changes to the user to riot PUUID list
+    def getPUUIDFromRiotID(self, riotid) -> str:
+        riotTag = riotid.split('#')
+        if(len(riotTag) != 2):
+            return ""
+        gameName = riotTag[0]
+        tagName = riotTag[1]
+        api_url:str = f"https://americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/{gameName}/{tagName}"
         result = ""
         url_params:dict = {
             "api_key":self.RIOT_API_KEY

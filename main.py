@@ -3,8 +3,8 @@ from dotenv import load_dotenv
 import discord
 from discord import app_commands
 from discord.ext import commands
-from DiscordServices.discordInit import DiscordInit
-from LeagueServices.league import league
+from Services.DiscordServices.discordInit import DiscordInit
+from Services.LeagueServices.league import league
 from DataAccess.LeagueDatabase import LeagueDatabase
 
 load_dotenv()
@@ -52,14 +52,14 @@ async def random(interaction:discord.Interaction):
         result:str = leagueStuff.randomChampion()
         await interaction.response.send_message(result)
 
-@bot.tree.command(name="reg", description="registers the user and a summoner name")
-@app_commands.describe(summoner = "A League Summoner Name" )
-async def registerSummoner(interaction:discord.Interaction, summoner:str = None):
-        if(summoner == None):
-                await interaction.response.send_message("Please enter a summoner name")
+@bot.tree.command(name="reg", description="registers the user and a Riot ID ")
+@app_commands.describe(riot = "A Riot ID (GameName#TagName ie: Peterchan#NA1)" )
+async def registerSummoner(interaction:discord.Interaction, riot:str = None):
+        if(riot == None):
+                await interaction.response.send_message("Please enter a Riot ID.")
         else:
-                result:str = leagueStuff.register(str(interaction.user.id), summoner)
-                responseString:str = f"Couldn't add {summoner}"
+                result:str = leagueStuff.register(str(interaction.user.id), riot)
+                responseString:str = f"Couldn't add the Riot ID: {riot} \nPlease check use a Riot id ie Petechan#NA1"
                 if result != "":
                         responseString = "Registered"
                 await interaction.response.send_message(responseString)
