@@ -40,5 +40,13 @@ class LeagueDiscordBot(commands.Bot):
         #can remove the init service
         for a_guild in self.guilds:
             print(f'{a_guild.id}, {a_guild.name} Connected')
+        await self.load_extensions()
         #set the status for the bot
         await self.change_presence(activity=discord.Activity(type=discord.ActivityType.playing, name=self.BOT_STATUS))#services
+
+    #async def setup_hook(self):
+    async def load_extensions(self):
+        #attach cogs
+        for Filename in os.listdir('./CogCommands'):
+            if Filename.endswith('.py'):
+                await self.load_extension(f"CogCommands.{Filename[:-3]}")
