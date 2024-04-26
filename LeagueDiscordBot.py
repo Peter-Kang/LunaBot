@@ -7,6 +7,7 @@ from discord.ext import commands
 
 from Services.LeagueServices.league import league
 from DataAccess.LeagueDatabase import LeagueDatabase
+from Services.DnDServices.DnDService import DnD
 
 class LeagueDiscordBot(commands.Bot):
     db:LeagueDatabase = None
@@ -29,6 +30,7 @@ class LeagueDiscordBot(commands.Bot):
         #services
         self.db:LeagueDatabase = LeagueDatabase(self.SQLITE3_PATH,self.SQLITE3_DB_FILE)
         self.LeagueService:league = league(self.RIOT_API_KEY, self.db)
+        self.DnDService:DnD = DnD()
 
         #discord bot settings
         intents_LeagueDiscBot = discord.Intents.default()
@@ -44,7 +46,6 @@ class LeagueDiscordBot(commands.Bot):
         #set the status for the bot
         await self.change_presence(activity=discord.Activity(type=discord.ActivityType.playing, name=self.BOT_STATUS))#services
 
-    #async def setup_hook(self):
     async def load_extensions(self):
         #attach cogs
         for Filename in os.listdir('./CogCommands'):
