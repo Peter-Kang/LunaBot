@@ -8,7 +8,7 @@ class DnD:
         diceInfo:list[int] = input.lower().replace(" ","").split('d') #ie 2d8
         inputParsed:str = input.lower().replace(" ","")
         result:str = "Please enter valid dice format. ie: 2d8 is 2 eight sided dice."
-        if(len(diceInfo) == 2 and diceInfo[0].isnumeric() and diceInfo[1].isnumeric() and int(diceInfo[0]) != 0 and int(diceInfo[1]) != 1 ):
+        if(len(diceInfo) == 2 and diceInfo[0].isnumeric() and diceInfo[1].isnumeric() and int(diceInfo[0]) > 0 and int(diceInfo[1]) >0 ):
             count:int = int(diceInfo[0])
             diceSide:int = int(diceInfo[1])
             rollResults:list[int] = []
