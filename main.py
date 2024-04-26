@@ -1,3 +1,4 @@
+#!/usr/bin/env python3.11
 import discord
 from discord.ext import commands
 

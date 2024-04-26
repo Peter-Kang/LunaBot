@@ -17,7 +17,7 @@ class DnD:
                 roll:int = random.randrange(1, diceSide, 1)
                 rollResults.append(roll)
                 total += roll
-            rollResultsString = ', '.join([str(i) for i in rollResults])
+            rollResultsString = ' , '.join([str(i) for i in rollResults])
             
-            result=f"You Rolled {inputParsed}\n[ {rollResultsString} ]\nTotal:{total}"
+            result=f"You Rolled {inputParsed}\n[{rollResultsString}]\nTotal:{total}"
         return result
