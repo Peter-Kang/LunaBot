@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from discord import app_commands
+from discord import Embed
 
 class LeagueCogCommands(commands.Cog):
     def __init__(self, bot):
@@ -8,9 +9,8 @@ class LeagueCogCommands(commands.Cog):
 
     @app_commands.command(name="random",  description="Gets a random Champion")
     async def random(self,interaction:discord.Interaction):
-        result:str = self.bot.LeagueService.randomChampion()
-        await interaction.response.send_message(result)
-
+        result:Embed = self.bot.LeagueService.randomChampion()
+        await interaction.response.send_message(embed=result)
 
     @app_commands.command(name="reg", description="registers the user and a Riot ID ")
     @app_commands.describe(riot = "A Riot ID (GameName#TagName ie: Peterchan#NA1)" )

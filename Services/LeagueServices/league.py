@@ -1,9 +1,10 @@
 from .API.Champions import Champions as ChampionsAPI 
 from .API.Summoners import Summoners as SummonersAPI
 from .API.Matches import Matches as MatchesAPI, Match
-import random
+
 from DataAccess.LeagueDatabase import LeagueDatabase
 from .DataUtil.SummonerStatSummary import SummonerStatSummary, SummonerStatSummaryResults
+from .DataUtil.ChampionStats import ChampionStats, ChampionDisplay
 import json
 
 class league:
@@ -15,7 +16,8 @@ class league:
         self.UserSummonerAPI:SummonersAPI = SummonersAPI(riotAPIKey)
         self.MatchesAPI:MatchesAPI = MatchesAPI(riotAPIKey)
         #Features/DataModels
-        self.SummonerStat = SummonerStatSummary()
+        self.SummonerStat:SummonerStatSummary = SummonerStatSummary()
+        self.ChampionData:ChampionStats = ChampionStats(self.ChampionData.version, self.ChampionData.ChampionList)
         #Database
         self.db:LeagueDatabase = db
         #commonly used data
@@ -40,13 +42,8 @@ class league:
         for row in result:
             self.matchCache[row[matchIDIndex]] = Match(self.RIOT_API_KEY,row[matchIDIndex],json.loads(row[jsonIndex]))
         
-    def randomChampion(self) -> str:
-        champ_count:int = len(self.ChampionData.ChampionList)-1
-        result:str = "No Data"
-        if champ_count >= 0:
-            index:int = random.randrange(0, champ_count, 1)
-            result:str = self.ChampionData.ChampionList[index][0]
-        return result
+    def randomChampion(self):
+        return self.ChampionData.randomChampion()
 
     def register(self, user:str , riotid:str) -> str:
         puuid:str = self.UserSummonerAPI.getPUUIDFromRiotID( riotid )

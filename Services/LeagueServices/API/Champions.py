@@ -1,12 +1,13 @@
 from packaging.version import Version
 import requests
 
+
 class Champions:
 
     def __init__(self, riotAPIKey):
-        self.ChampionList = []
-        self.RIOT_API_KEY = riotAPIKey
-        self.version = None
+        self.ChampionList:list[tuple[str,dict[str:str]]] = []
+        self.RIOT_API_KEY:str = riotAPIKey
+        self.version:Version = None
         self.getLatestVersion()
         self.repopulateChampionList()
 
@@ -17,7 +18,7 @@ class Champions:
             rep = requests.get(api_url)
             data = rep.json()
             if( rep.status_code == 200 and len(data) != 0):
-                self.version = Version(data[0]);
+                self.version = Version(data[0])
         except requests.exceptions.RequestException as e:
             print(e.strerror)
 
