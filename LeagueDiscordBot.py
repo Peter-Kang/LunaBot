@@ -2,7 +2,6 @@ import os
 from dotenv import load_dotenv
 
 import discord
-from discord import app_commands
 from discord.ext import commands
 
 from Services.LeagueServices.league import league
@@ -12,6 +11,7 @@ from Services.DnDServices.DnDService import DnD
 class LeagueDiscordBot(commands.Bot):
     db:LeagueDatabase = None
     LeagueService:league = None
+    DnDService:DnD = None
     #Keys
     DISCORD_BOT_TOKEN:str= None
 
