@@ -102,10 +102,34 @@ class DnDMonster:
         return self.Name
     
     def getEmbedding(self) ->discord.Embed:
-        embed = discord.Embed(title=f"{self.Name} - Challenge Rating {self.ChallengeRating}")
+        embed = discord.Embed(title=f"{self.Name} - Challenge Rating {self.ChallengeRating}, Exp {self.Experience}")
         embed.description = f"AC: {self.AC} HP: {self.HP}"
         embed.add_field(name="Movement", 
-                        value=f"Normal:{self.SpeedNormal} Flying:{self.SpeedFlying} Swimming:{self.SpeedSwimming} Burrow:{self.SpeedBurrowing} Climbing:{self.SpeedClimb}")
+                        value=f"Normal:{self.SpeedNormal} Flying:{self.SpeedFlying} Swimming:{self.SpeedSwimming} Burrow:{self.SpeedBurrowing} Climbing:{self.SpeedClimb}",
+                        inline=False)
         embed.add_field(name="Stats",
-                        value=f"STR:{self.Strength} DEX:{self.Dexterity} CON:{self.Constitution} INT:{self.Intelligence} WIS:{self.Wisdom} CHA:{self.Charisma}")
+                        value=f"STR:{self.Strength} DEX:{self.Dexterity} CON:{self.Constitution} INT:{self.Intelligence} WIS:{self.Wisdom} CHA:{self.Charisma}",
+                        inline=False)
+        embed.add_field(name="details",
+                        value=f"Saving Throws: {self.SavingThrows}\nSkills: {self.Skills}\nWRI:{self.WeaknessResistanceImmunities}\nSenses:{self.Senses}\nLanguages:{self.Languages}",
+                        inline=False)
+        environmentList = []
+        if self.Unknown: environmentList.append("Unknown")
+        if self.AllEnvironments: environmentList.append("All")
+        if self.Arctic: environmentList.append("Arctic")
+        if self.Costal: environmentList.append("Coastal")
+        if self.Desert: environmentList.append("Desert")
+        if self.Forest: environmentList.append("Forest")
+        if self.Grassland: environmentList.append("Grassland")
+        if self.Hills: environmentList.append("Hills")
+        if self.Jungle: environmentList.append("Jungle")
+        if self.Mountain: environmentList.append("Mountain")
+        if self.Swamp: environmentList.append("Swamp")
+        if self.Underdark: environmentList.append("Underdark")
+        if self.Underwater: environmentList.append("Underwater")
+        if self.Urban: environmentList.append("Urban")
+        envStr:str = ", ".join(environmentList)
+        embed.add_field(name="Environment", value=envStr, inline=False)
+
+        embed.add_field(name="Extra",value=f"Additional: {self.Additional}")
         return embed
