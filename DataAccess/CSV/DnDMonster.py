@@ -104,16 +104,22 @@ class DnDMonster:
     def getEmbedding(self) ->discord.Embed:
         embed = discord.Embed(title=f"{self.Name} - Challenge Rating {self.ChallengeRating}, Exp {self.Experience}")
         embed.description = f"AC: {self.AC} HP: {self.HP}"
+        movementList:list[str] = []
+        if self.SpeedNormal != "": movementList.append(f">  Normal: {self.SpeedNormal}")
+        if self.SpeedFlying != "": movementList.append(f">  Flying: {self.SpeedFlying}")
+        if self.SpeedSwimming != "": movementList.append(f">  Swimming: {self.SpeedSwimming}")
+        if self.SpeedBurrowing != "": movementList.append(f">  Burrow: {self.SpeedBurrowing}")
+        if self.SpeedClimb != "": movementList.append(f">  Climbing: {self.SpeedClimb}")
         embed.add_field(name="Movement", 
-                        value=f"Normal:{self.SpeedNormal} Flying:{self.SpeedFlying} Swimming:{self.SpeedSwimming} Burrow:{self.SpeedBurrowing} Climbing:{self.SpeedClimb}",
+                        value="\n".join(movementList),
                         inline=False)
         embed.add_field(name="Stats",
-                        value=f"STR:{self.Strength} DEX:{self.Dexterity} CON:{self.Constitution} INT:{self.Intelligence} WIS:{self.Wisdom} CHA:{self.Charisma}",
+                        value=f">  STR: {self.Strength} DEX: {self.Dexterity} CON: {self.Constitution} INT: {self.Intelligence} WIS: {self.Wisdom} CHA: {self.Charisma}",
                         inline=False)
-        embed.add_field(name="details",
-                        value=f"Saving Throws: {self.SavingThrows}\nSkills: {self.Skills}\nWRI:{self.WeaknessResistanceImmunities}\nSenses:{self.Senses}\nLanguages:{self.Languages}",
+        embed.add_field(name="Details",
+                        value=f">  Saving Throws: {self.SavingThrows}\n>  Skills: {self.Skills}\n>  WRI: {self.WeaknessResistanceImmunities}\n>  Senses: {self.Senses}\n>  Languages: {self.Languages}",
                         inline=False)
-        environmentList = []
+        environmentList:list[str] = []
         if self.Unknown: environmentList.append("Unknown")
         if self.AllEnvironments: environmentList.append("All")
         if self.Arctic: environmentList.append("Arctic")
@@ -129,7 +135,7 @@ class DnDMonster:
         if self.Underwater: environmentList.append("Underwater")
         if self.Urban: environmentList.append("Urban")
         envStr:str = ", ".join(environmentList)
-        embed.add_field(name="Environment", value=envStr, inline=False)
+        embed.add_field(name="Environment", value=">  "+envStr, inline=False)
 
-        embed.add_field(name="Extra",value=f"Additional: {self.Additional}")
+        embed.add_field(name="Extra",value=f">  Additional: {self.Additional}")
         return embed
