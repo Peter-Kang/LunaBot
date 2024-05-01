@@ -137,5 +137,5 @@ class DnDMonster:
         envStr:str = ", ".join(environmentList)
         embed.add_field(name="Environment", value=">  "+envStr, inline=False)
 
-        embed.add_field(name="Extra",value=f">  Additional: {self.Additional}")
+        embed.add_field(name="Extra",value=f">  Actions: {self.Additional}")
         return embed
