@@ -3,6 +3,7 @@ from DataAccess.CSV.DnDMonsterReader import DnDMonsterReader
 from DataAccess.CSV.DnDMonster import DnDMonster
 import random
 
+#enums for the environment array
 class DnDEnvironments(Enum):
     Unknown     = 0
     All         = 1
@@ -43,7 +44,6 @@ class DnDMonsters:
     def __init__(self):
         self.CSVReader:DnDMonsterReader = DnDMonsterReader()
         self.__populateEnvironment()
-        self.Environments.append()
 
     def __populateEnvironment(self):
         for monster in self.CSVReader.monsterList:
@@ -64,10 +64,10 @@ class DnDMonsters:
         
     def Encounter(self, ChallengeRating:float = -1.0, Environment:DnDEnvironments = DnDEnvironments.All):
         result:DnDMonster = None
-        environmentToUse = self.Environments[int(Environment)]
+        environmentToUse = self.Environments[Environment.value]
         if( ChallengeRating >= 0 ): #look for cr CR
             environmentToUse = [x for x in environmentToUse if x.ChallengeRating == ChallengeRating]
-        result = random.randrange(0, len(environmentToUse), 1)
+        result = environmentToUse[random.randrange(0, len(environmentToUse), 1)]
         return result
 
 

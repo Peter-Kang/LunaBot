@@ -95,3 +95,6 @@ class DnDMonster:
         #Extra info
         self.Additional:str = row[39]                        #39
         self.Source:str = row[40]                            #40
+
+    def __format__(self, format_spec: str) -> str:
+        return self.Name
