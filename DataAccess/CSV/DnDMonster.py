@@ -102,8 +102,8 @@ class DnDMonster:
         return self.Name
     
     def getEmbedding(self) ->discord.Embed:
-        embed = discord.Embed(title=f"{self.Name} - Challenge Rating {self.ChallengeRating}, Exp {self.Experience}")
-        embed.description = f"AC: {self.AC} HP: {self.HP}"
+        embed = discord.Embed(title=f"{self.Name} - AC: {self.AC} HP: {self.HP}")
+        embed.description = f">  Challenge Rating {self.ChallengeRating}, Experience {self.Experience}"
         movementList:list[str] = []
         if self.SpeedNormal != "": movementList.append(f">  Normal: {self.SpeedNormal}")
         if self.SpeedFlying != "": movementList.append(f">  Flying: {self.SpeedFlying}")
@@ -114,7 +114,7 @@ class DnDMonster:
                         value="\n".join(movementList),
                         inline=False)
         embed.add_field(name="Stats",
-                        value=f">  :muscle:STR: {self.Strength}\n>  :pinched_fingers:DEX: {self.Dexterity}\n>  :person_in_lotus_position:CON: {self.Constitution}\n>  :brain:INT: {self.Intelligence}\n>  :owl:WIS: {self.Wisdom}\n>  :kiss: CHA: {self.Charisma}",
+                        value=f">  :muscle:Strength: {self.Strength}\n>  :pinched_fingers:Dexterity: {self.Dexterity}\n>  :person_in_lotus_position:Constitution: {self.Constitution}\n>  :brain:Intelligence: {self.Intelligence}\n>  :owl:Wisdom: {self.Wisdom}\n>  :kiss:Charisma: {self.Charisma}",
                         inline=False)
         embed.add_field(name="Details",
                         value=f">  Saving Throws: {self.SavingThrows}\n>  Skills: {self.Skills}\n>  WRI: {self.WeaknessResistanceImmunities}\n>  Senses: {self.Senses}\n>  Languages: {self.Languages}",
