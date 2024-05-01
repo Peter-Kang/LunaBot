@@ -114,7 +114,7 @@ class DnDMonster:
                         value="\n".join(movementList),
                         inline=False)
         embed.add_field(name="Stats",
-                        value=f">  STR: {self.Strength} DEX: {self.Dexterity} CON: {self.Constitution} INT: {self.Intelligence} WIS: {self.Wisdom} CHA: {self.Charisma}",
+                        value=f">  STR: {self.Strength}\nDEX: {self.Dexterity}\nCON: {self.Constitution}\nINT: {self.Intelligence}\nWIS: {self.Wisdom}\nCHA: {self.Charisma}",
                         inline=False)
         embed.add_field(name="Details",
                         value=f">  Saving Throws: {self.SavingThrows}\n>  Skills: {self.Skills}\n>  WRI: {self.WeaknessResistanceImmunities}\n>  Senses: {self.Senses}\n>  Languages: {self.Languages}",
