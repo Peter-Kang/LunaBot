@@ -1,8 +1,10 @@
 import random
+from Services.DnDServices.Monsters.DnDMonsters import DnDMonsters, DnDEnvironments
 
 class DnD:
+
     def __init__(self):
-        pass
+        self.DnDMonsters:DnDMonsters = DnDMonsters()
 
     def roll(self, input:str)->str:
         diceInfo:list[int] = input.lower().replace(" ","").split('d') #ie 2d8
@@ -21,3 +23,6 @@ class DnD:
             
             result=f"You Rolled {inputParsed}\n[{rollResultsString}]\nTotal:{total}"
         return result
+
+    def Encounter(self, ChallengeRating:float =-1.0, Environment=DnDEnvironments.All) -> str:
+        return format(self.DnDMonsters.Encounter(ChallengeRating,Environment))
