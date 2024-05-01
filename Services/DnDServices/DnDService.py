@@ -1,5 +1,6 @@
 import random
 from Services.DnDServices.Monsters.DnDMonsters import DnDMonsters, DnDEnvironments
+from DataAccess.CSV.DnDMonster import DnDMonster
 
 class DnD:
 
@@ -25,4 +26,7 @@ class DnD:
         return result
 
     def Encounter(self, ChallengeRating:float =-1.0, Environment=DnDEnvironments.All) -> str:
-        return format(self.DnDMonsters.Encounter(ChallengeRating,Environment))
+        result:DnDMonster = self.DnDMonsters.Encounter(ChallengeRating,Environment)
+        if(result == None):
+            return "No result"
+        return format(result)
