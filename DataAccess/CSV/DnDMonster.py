@@ -80,20 +80,20 @@ class DnDMonster:
         self.ChallengeRating:float= float(row[23])           #23
         self.Experience:int =  int(row[24])                  #24
         #Environments
-        self.Unknown:bool = bool(row[25])                    #25
-        self.AllEnvironments:bool = bool(row[26])            #26
-        self.Arctic:bool = bool(row[27])                     #27
-        self.Costal:bool = bool(row[28])                     #28
-        self.Desert:bool = bool(row[29])                     #29
-        self.Forest:bool = bool(row[30])                     #30
-        self.Grassland:bool = bool(row[31])                  #31
-        self.Hills:bool = bool(row[32])                      #32
-        self.Jungle:bool = bool(row[33])                     #33
-        self.Mountain:bool = bool(row[34])                   #34
-        self.Swamp:bool = bool(row[35])                      #35
-        self.Underdark:bool = bool(row[36])                  #36
-        self.Underwater:bool = bool(row[37])                 #37
-        self.Urban:bool = bool(row[38])                      #38
+        self.Unknown:bool = bool(row[25] == "TRUE")                    #25
+        self.AllEnvironments:bool = bool(row[26]== "TRUE")            #26
+        self.Arctic:bool = bool(row[27]== "TRUE")                     #27
+        self.Costal:bool = bool(row[28]== "TRUE")                     #28
+        self.Desert:bool = bool(row[29]== "TRUE")                     #29
+        self.Forest:bool = bool(row[30]== "TRUE")                     #30
+        self.Grassland:bool = bool(row[31]== "TRUE")                  #31
+        self.Hills:bool = bool(row[32]== "TRUE")                      #32
+        self.Jungle:bool = bool(row[33]== "TRUE")                     #33
+        self.Mountain:bool = bool(row[34]== "TRUE")                   #34
+        self.Swamp:bool = bool(row[35]== "TRUE")                      #35
+        self.Underdark:bool = bool(row[36]== "TRUE")                  #36
+        self.Underwater:bool = bool(row[37]== "TRUE")                 #37
+        self.Urban:bool = bool(row[38]== "TRUE")                      #38
         #Extra info
         self.Additional:str = row[39]                        #39
         self.Source:str = row[40]                            #40
