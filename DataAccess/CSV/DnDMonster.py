@@ -103,7 +103,7 @@ class DnDMonster:
     
     def getEmbedding(self) ->discord.Embed:
         embed = discord.Embed(title=f"{self.Name} - AC: {self.AC} HP: {self.HP}")
-        embed.description = f">  Challenge Rating {self.ChallengeRating}, Experience {self.Experience}"
+        embed.description = f">  Challenge Rating: {self.ChallengeRating}, Experience: {self.Experience}\n>  Alignment: {self.Alignment}, Type: {self.Type}, Size: {self.Size}"
         movementList:list[str] = []
         if self.SpeedNormal != "": movementList.append(f">  Normal: {self.SpeedNormal}")
         if self.SpeedFlying != "": movementList.append(f">  Flying: {self.SpeedFlying}")
