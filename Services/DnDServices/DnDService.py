@@ -1,6 +1,7 @@
 import random
 from Services.DnDServices.Monsters.DnDMonsters import DnDMonsters, DnDEnvironments
 from DataAccess.CSV.DnDMonster import DnDMonster
+import discord
 
 class DnD:
 
@@ -25,8 +26,8 @@ class DnD:
             result=f"You Rolled {inputParsed}\n[{rollResultsString}]\nTotal:{total}"
         return result
 
-    def Encounter(self, ChallengeRating:float =-1.0, Environment=DnDEnvironments.All) -> str:
+    def Encounter(self, ChallengeRating:float =-1.0, Environment=DnDEnvironments.All) -> discord.Embed:
         result:DnDMonster = self.DnDMonsters.Encounter(ChallengeRating,Environment)
         if(result == None):
-            return "No result"
-        return format(result)
+            return discord.Embed(title="No result")
+        return result.getEmbedding()
