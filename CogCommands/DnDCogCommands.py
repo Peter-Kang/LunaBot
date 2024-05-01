@@ -21,8 +21,8 @@ class DnDCogCommands(commands.Cog):
     @app_commands.command(name="encounter", description="Makes an encounter for a monster")
     @app_commands.describe(challenge = "The Challenge rating of the encounter", environment = "The environment")
     async def encounter(self,interaction:discord.Interaction, challenge:float=-1.0, environment:DnDEnvironments = DnDEnvironments.All):
-        result:str = self.bot.DnDService.Encounter(challenge,environment)
-        await interaction.response.send_message(result)
+        result:discord.Embed = self.bot.DnDService.Encounter(challenge,environment)
+        await interaction.response.send_message(embeds=result)
 
 async def setup(bot:commands.Bot) ->None:
     await bot.add_cog(DnDCogCommands(bot=bot))

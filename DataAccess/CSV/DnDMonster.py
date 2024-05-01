@@ -1,3 +1,5 @@
+import discord
+
 class DnDMonster:
     Name:str = ""                           #index 1
     Size:str = ""                           #2
@@ -98,3 +100,12 @@ class DnDMonster:
 
     def __format__(self, format_spec: str) -> str:
         return self.Name
+    
+    def getEmbedding(self) ->discord.Embed:
+        embed = discord.Embed(title=f"{self.Name} - Challenge Rating {self.ChallengeRating}")
+        embed.description = f"AC: {self.AC} HP: {self.HP}"
+        embed.add_field(name="Movement", 
+                        value=f"Normal:{self.SpeedNormal} Flying:{self.SpeedFlying} Swimming:{self.SpeedSwimming} Burrow:{self.SpeedBurrowing} Climbing:{self.SpeedClimb}")
+        embed.add_field(name="Stats",
+                        value=f"STR:{self.Strength} DEX:{self.Dexterity} CON:{self.Constitution} INT:{self.Intelligence} WIS:{self.Wisdom} CHA:{self.Charisma}")
+        return embed
