@@ -114,7 +114,7 @@ class DnDMonster:
                         value="\n".join(movementList),
                         inline=False)
         embed.add_field(name="Stats",
-                        value=f">  :muscle:Strength: {self.Strength}\n>  :pinched_fingers:Dexterity: {self.Dexterity}\n>  :person_in_lotus_position:Constitution: {self.Constitution}\n>  :brain:Intelligence: {self.Intelligence}\n>  :owl:Wisdom: {self.Wisdom}\n>  :kiss:Charisma: {self.Charisma}",
+                        value=f">  :mechanical_arm:Strength: {self.Strength}\n>  :pinched_fingers:Dexterity: {self.Dexterity}\n>  :sparkling_heart:Constitution: {self.Constitution}\n>  :brain:Intelligence: {self.Intelligence}\n>  :person_in_lotus_position:Wisdom: {self.Wisdom}\n>  :kiss:Charisma: {self.Charisma}",
                         inline=False)
         embed.add_field(name="Details",
                         value=f">  Saving Throws: {self.SavingThrows}\n>  Skills: {self.Skills}\n>  WRI: {self.WeaknessResistanceImmunities}\n>  Senses: {self.Senses}\n>  Languages: {self.Languages}",
