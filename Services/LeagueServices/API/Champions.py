@@ -8,8 +8,12 @@ class Champions:
         self.ChampionList:list[tuple[str,dict[str:str]]] = []
         self.RIOT_API_KEY:str = riotAPIKey
         self.version:Version = None
+        self.Update()
+        
+#macro Call
+    def Update(self) -> list[tuple[str,dict[str:str]]] :
         self.getLatestVersion()
-        self.repopulateChampionList()
+        return self.repopulateChampionList()
 
 #network calls
     def getLatestVersion(self):
@@ -37,5 +41,7 @@ class Champions:
                     self.ChampionList = []
                     for i in data["data"]:
                         self.ChampionList.append((i,data["data"][i]))
+                    return self.ChampionList
         except requests.exceptions.RequestException as e:
             print(e.strerror)
+        return None

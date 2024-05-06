@@ -1,5 +1,5 @@
 import discord
-from discord.ext import commands
+from discord.ext import tasks, commands
 from discord import app_commands
 from discord import Embed
 
@@ -33,6 +33,10 @@ class LeagueCogCommands(commands.Cog):
             await interaction.response.defer()
             result:str = await self.bot.LeagueService.getUserStatus(userId)
             await interaction.followup.send(result) 
+
+    @tasks.loop(hours=3.0)
+    async def updateChampionList(self):
+        self.bot.LeagueService.UpdateChampionList()
 
 async def setup(bot:commands.Bot) ->None:
     await bot.add_cog(LeagueCogCommands(bot=bot))

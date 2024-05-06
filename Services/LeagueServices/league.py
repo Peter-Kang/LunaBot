@@ -11,19 +11,23 @@ class league:
 
     def __init__(self, riotAPIKey:str,db:LeagueDatabase):
         self.RIOT_API_KEY:str = riotAPIKey
+        #Database
+        self.db:LeagueDatabase = db
+    #Champion Data
         #API call objects
-        self.ChampionData:ChampionsAPI = ChampionsAPI(riotAPIKey)
+        self.ChampionAPI:ChampionsAPI = ChampionsAPI(riotAPIKey)
+        #Features/DataModels
+        self.ChampionData:ChampionStats = ChampionStats(self.ChampionAPI.version, self.ChampionAPI.ChampionList)
+    #Summoner Data
+        #API call objects
         self.UserSummonerAPI:SummonersAPI = SummonersAPI(riotAPIKey)
         self.MatchesAPI:MatchesAPI = MatchesAPI(riotAPIKey)
         #Features/DataModels
         self.SummonerStat:SummonerStatSummary = SummonerStatSummary()
-        self.ChampionData:ChampionStats = ChampionStats(self.ChampionData.version, self.ChampionData.ChampionList)
-        #Database
-        self.db:LeagueDatabase = db
-        #commonly used data
+    #Cache and mappings
         self.userToSummonerPUUID:dict[str:str] = {} #discordUser:string to summonerPUUID:string
         self.matchCache:dict[str:Match] = {}#matchName:string to json
-        #inits
+    #inits
         self.__initUserToSummonerPUUID()
         self.__initMatchCache()
 
@@ -42,6 +46,14 @@ class league:
         for row in result:
             self.matchCache[row[matchIDIndex]] = Match(self.RIOT_API_KEY,row[matchIDIndex],json.loads(row[jsonIndex]))
         
+#update Champion Lists
+    def UpdateChampionList(self):
+        result = self.ChampionAPI.Update()
+        if result is not None:
+            self.ChampionData = ChampionStats(self.ChampionAPI.version.result)
+            print(f"Champion Data updated to {self.ChampionAPI.version}")
+
+#champion Data
     def randomChampion(self):
         return self.ChampionData.randomChampion()
 
