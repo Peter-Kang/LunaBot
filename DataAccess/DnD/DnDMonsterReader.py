@@ -1,5 +1,5 @@
 import csv
-from DataAccess.CSV.DnDMonster import DnDMonster
+from DataAccess.DnD.DnDMonster import DnDMonster
 
     
 class DnDMonsterReader:

@@ -1,6 +1,6 @@
 import random
 from Services.DnDServices.Monsters.DnDMonsters import DnDMonsters, DnDEnvironments
-from DataAccess.CSV.DnDMonster import DnDMonster
+from DataAccess.DnD.DnDMonster import DnDMonster
 import discord
 
 class DnD:

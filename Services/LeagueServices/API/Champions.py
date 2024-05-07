@@ -15,7 +15,7 @@ class Champions:
 #macro Call
     def Update(self) -> list[tuple[str,dict[str:str]]] :
         self.getLatestVersion()
-        return asyncio.run(self.repopulateChampionList())
+        return asyncio.run(self._repopulateChampionList())
 
 #network calls
     def getLatestVersion(self):
