@@ -15,7 +15,7 @@ class Champions:
 #macro Call
     def Update(self) -> list[tuple[str,dict[str:str]]] :
         result:Version = self.getLatestVersion()
-        if self.version is not None or result > self.version:
+        if self.version is None or result > self.version:
             self.version = result
             return asyncio.run(self._repopulateChampionList())
         return None
