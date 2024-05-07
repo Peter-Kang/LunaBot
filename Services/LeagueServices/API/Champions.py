@@ -14,19 +14,23 @@ class Champions:
         
 #macro Call
     def Update(self) -> list[tuple[str,dict[str:str]]] :
-        self.getLatestVersion()
-        return asyncio.run(self._repopulateChampionList())
+        result:Version = self.getLatestVersion()
+        if result > self.version:
+            self.version = result
+            return asyncio.run(self._repopulateChampionList())
+        return None
 
 #network calls
-    def getLatestVersion(self):
+    def getLatestVersion(self)-> Version:
         api_url:str = "https://ddragon.leagueoflegends.com/api/versions.json"
         try:
             rep = requests.get(api_url)
             data = rep.json()
             if( rep.status_code == 200 and len(data) != 0):
-                self.version = Version(data[0])
+                return Version(data[0])
         except requests.exceptions.RequestException as e:
             print(e.strerror)
+        return None
 
     async def _repopulateChampionList(self):
         #make the request and get the response
