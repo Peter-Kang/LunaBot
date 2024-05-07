@@ -28,8 +28,8 @@ class ChampionDisplay:
         self.Tags = self.data["tags"]
         self.Title = self.data["title"]
         self.ImageUrl = f"https://ddragon.leagueoflegends.com/cdn/{self.ChampionVersion}/img/champion/{self.id}.png"
-        self.TeamTips = "\n".join(self.data["allytips"])
-        self.EnemyTips = "\n".join(self.data["enemytips"])
+        self.TeamTips = "- "+"\n- ".join(self.data["allytips"])
+        self.EnemyTips = "- "+"\n- ".join(self.data["enemytips"])
 
     def getEmbed(self) -> str:
         embed = discord.Embed(title=f"{self.Name} - {self.Title}")
