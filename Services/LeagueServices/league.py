@@ -8,10 +8,25 @@ from .DataUtil.ChampionStats import ChampionStats, ChampionDisplay
 import json
 
 class league:
+    #database
+    db:LeagueDatabase
 
+    #apis
+    ChampionAPI:ChampionsAPI
+    UserSummonerAPI:SummonersAPI
+    SummonerMatchAPI:MatchesAPI
+
+    #business logic
+    ChampionData:ChampionStats
+    SummonerStat:SummonerStatSummary
+
+    #cache
+    userToSummonerPUUID:dict[str:str] #discordUser:string to summonerPUUID:string
+    matchCache:dict[str:Match]  #matchName:string to json
+  
     def __init__(self, riotAPIKey:str,db:LeagueDatabase):
         self.RIOT_API_KEY:str = riotAPIKey
-        #Database
+    #Database
         self.db:LeagueDatabase = db
     #Champion Data
         #API call objects
@@ -21,7 +36,7 @@ class league:
     #Summoner Data
         #API call objects
         self.UserSummonerAPI:SummonersAPI = SummonersAPI(riotAPIKey)
-        self.MatchesAPI:MatchesAPI = MatchesAPI(riotAPIKey)
+        self.SummonerMatchAPI:MatchesAPI = MatchesAPI(riotAPIKey)
         #Features/DataModels
         self.SummonerStat:SummonerStatSummary = SummonerStatSummary()
     #Cache and mappings
@@ -30,7 +45,7 @@ class league:
     #inits
         self.__initUserToSummonerPUUID()
         self.__initMatchCache()
-
+#inits
     def __initUserToSummonerPUUID(self) -> None:
         userIDIndex:int = 0
         summonerPUUIDIndex:int = 1
@@ -46,7 +61,7 @@ class league:
         for row in result:
             self.matchCache[row[matchIDIndex]] = Match(self.RIOT_API_KEY,row[matchIDIndex],json.loads(row[jsonIndex]))
         
-#update Champion Lists
+#update Champion Lists, cron call
     def UpdateChampionList(self):
         result = self.ChampionAPI.Update()
         if result is not None:
@@ -83,7 +98,7 @@ class league:
             if not matchStr in self.matchCache:
                 matchListStringMissing.append(matchStr)
         # get the matches missing
-        matchMissingListMatch:list[Match] = await self.MatchesAPI.getMatchesFromList(matchListStringMissing) # turn list of match ids to list of completed matches
+        matchMissingListMatch:list[Match] = await self.SummonerMatchAPI.getMatchesFromList(matchListStringMissing) # turn list of match ids to list of completed matches
          # save the matches to db and add to match cache
         self.updateMissingMatchesData(matchMissingListMatch)
 

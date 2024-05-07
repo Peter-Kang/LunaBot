@@ -1,6 +1,8 @@
 from packaging.version import Version
 import requests
-
+import asyncio
+import aiohttp
+from urllib.parse import urlencode
 
 class Champions:
 
@@ -13,7 +15,7 @@ class Champions:
 #macro Call
     def Update(self) -> list[tuple[str,dict[str:str]]] :
         self.getLatestVersion()
-        return self.repopulateChampionList()
+        return asyncio.run(self.repopulateChampionList())
 
 #network calls
     def getLatestVersion(self):
@@ -26,7 +28,7 @@ class Champions:
         except requests.exceptions.RequestException as e:
             print(e.strerror)
 
-    def repopulateChampionList(self):
+    async def repopulateChampionList(self):
         #make the request and get the response
         api_url:str = f"https://ddragon.leagueoflegends.com/cdn/{self.version}/data/en_US/champion.json"
         try:
@@ -41,7 +43,31 @@ class Champions:
                     self.ChampionList = []
                     for i in data["data"]:
                         self.ChampionList.append((i,data["data"][i]))
+                    await self.updateAllChampionDetails()
                     return self.ChampionList
         except requests.exceptions.RequestException as e:
             print(e.strerror)
         return None
+    
+    async def updateAllChampionDetails(self):
+        try:
+            #Data filtering
+            self.ChampionList = await asyncio.gather( *[self.requestChampionDetails(championID[0]) for championID in self.ChampionList])
+        except requests.exceptions.RequestException as e:
+            print(e.strerror)
+        return None
+    
+    async def requestChampionDetails(self, id:str):
+        api_url:str = f"https://ddragon.leagueoflegends.com/cdn/{self.version}/data/en_US/champion/{id}.json"
+        url_params:dict = {
+            "api_key":self.RIOT_API_KEY
+            }
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.get(api_url,params=urlencode(url_params) ) as rep:
+                    response = await rep.json()
+                    self.Status = rep.status
+                    if( rep.status == 200 ):
+                        return (id,response['data'][id])
+        except Exception as e:
+            print(e)
