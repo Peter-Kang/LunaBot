@@ -30,7 +30,7 @@ class Champions:
                 return Version(data[0])
         except requests.exceptions.RequestException as e:
             print(e.strerror)
-        return None
+        return self.version
 
     async def _repopulateChampionList(self):
         #make the request and get the response
