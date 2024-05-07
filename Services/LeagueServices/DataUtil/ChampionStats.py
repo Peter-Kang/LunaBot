@@ -33,6 +33,7 @@ class ChampionDisplay:
 
     def getEmbed(self) -> str:
         embed = discord.Embed(title=f"{self.Name} - {self.Title}")
+        embed.set_footer(text=self.ChampionVersion)
         embed.description = self.Lore
         embed.add_field(name="Team Tips", value=self.TeamTips, inline=False)
         embed.add_field(name="Enemy Tips", value=self.EnemyTips, inline=False)
