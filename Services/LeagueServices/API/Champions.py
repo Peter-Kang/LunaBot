@@ -28,7 +28,7 @@ class Champions:
         except requests.exceptions.RequestException as e:
             print(e.strerror)
 
-    async def repopulateChampionList(self):
+    async def _repopulateChampionList(self):
         #make the request and get the response
         api_url:str = f"https://ddragon.leagueoflegends.com/cdn/{self.version}/data/en_US/champion.json"
         try:
@@ -43,21 +43,21 @@ class Champions:
                     self.ChampionList = []
                     for i in data["data"]:
                         self.ChampionList.append((i,data["data"][i]))
-                    await self.updateAllChampionDetails()
+                    await self._updateAllChampionDetails()
                     return self.ChampionList
         except requests.exceptions.RequestException as e:
             print(e.strerror)
         return None
     
-    async def updateAllChampionDetails(self):
+    async def _updateAllChampionDetails(self):
         try:
             #Data filtering
-            self.ChampionList = await asyncio.gather( *[self.requestChampionDetails(championID[0]) for championID in self.ChampionList])
+            self.ChampionList = await asyncio.gather( *[self._requestChampionDetails(championID[0]) for championID in self.ChampionList])
         except requests.exceptions.RequestException as e:
             print(e.strerror)
         return None
     
-    async def requestChampionDetails(self, id:str):
+    async def _requestChampionDetails(self, id:str):
         api_url:str = f"https://ddragon.leagueoflegends.com/cdn/{self.version}/data/en_US/champion/{id}.json"
         url_params:dict = {
             "api_key":self.RIOT_API_KEY
