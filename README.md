@@ -1,2 +1,2 @@
-# League Disc Bot
-League Disc Bot
+# Luna Bot
+Pyhtong 3.11 Discord Bot
