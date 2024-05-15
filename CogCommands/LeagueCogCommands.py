@@ -34,7 +34,7 @@ class LeagueCogCommands(commands.Cog):
             result:str = await self.bot.LeagueService.getUserStatus(userId)
             await interaction.followup.send(result) 
 
-    @tasks.loop(hours=1.0)
+    @tasks.loop(hours=0.25)
     async def updateChampionList(self):
         self.bot.LeagueService.UpdateChampionList()
 
