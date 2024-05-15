@@ -17,6 +17,7 @@ class Champions:
         result:Version = self.getLatestVersion()
         if self.version is None or result > self.version:
             self.version = result
+            print(f"Update the version {self.version}")
             return asyncio.run(self._repopulateChampionList())
         return None
 
