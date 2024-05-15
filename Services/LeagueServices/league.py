@@ -67,6 +67,8 @@ class league:
         if result is not None:
             self.ChampionData = ChampionStats(self.ChampionAPI.version.result)
             print(f"Champion Data updated to {self.ChampionAPI.version}")
+        else:
+            print(f"No updates Current Version: {self.ChampionAPI.version}")
 
 #champion Data
     def randomChampion(self):
