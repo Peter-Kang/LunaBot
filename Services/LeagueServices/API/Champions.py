@@ -19,6 +19,8 @@ class Champions:
             self.version = result
             print(f"Update the version {self.version}")
             return asyncio.run(self._repopulateChampionList())
+        else:
+            print(f"No Update Current {self.version} received {result}")
         return None
 
 #network calls
