@@ -14,7 +14,7 @@ class DnD:
         result:str = "Please enter valid dice format. ie: 2d8 is 2 eight sided dice."
         if(len(diceInfo) == 2 and diceInfo[0].isnumeric() and diceInfo[1].isnumeric() and int(diceInfo[0]) > 0 and int(diceInfo[1]) >0 ):
             count:int = int(diceInfo[0])
-            diceSide:int = int(diceInfo[1])
+            diceSide:int = int(diceInfo[1])+1
             rollResults:list[int] = []
             total:int = 0
             for _ in range(0,count):
