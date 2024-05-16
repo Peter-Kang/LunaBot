@@ -3,6 +3,7 @@ import requests
 import asyncio
 import aiohttp
 from urllib.parse import urlencode
+import datetime
 
 class Champions:
 
@@ -19,8 +20,6 @@ class Champions:
             self.version = result
             print(f"Update the version {self.version}")
             return asyncio.run(self._repopulateChampionList())
-        else:
-            print(f"No Update Current {self.version} received {result}")
         return None
 
 #network calls
