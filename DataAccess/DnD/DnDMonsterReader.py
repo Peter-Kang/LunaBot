@@ -1,10 +1,9 @@
-import csv
 from DataAccess.DnD.DnDMonster import DnDMonster
+import json
 
     
 class DnDMonsterReader:
-    MonsterStats:str = "./data/DnDMonsters.csv"
-    MonsterLocationCSV:str = "./data/DnDMonsterLocation.csv"
+    MonsterFileLocation:str = "./data/monster.data.txt"
     monsterList:list[DnDMonster] = []
 
     def __init__(self):
@@ -12,21 +11,10 @@ class DnDMonsterReader:
         pass
 
     def ReadInCSV(self) -> None:
-        monsterNameMapping:dict[str,DnDMonster] = {}
-        with open(self.MonsterLocationCSV,'r') as file:
-            reader = csv.reader(file)
-            for _ in range(3): next(reader) # clear the header
+        with open(self.MonsterFileLocation,'r') as file:
+            reader = file.readlines()
             for row in reader:
-                monster:DnDMonster = DnDMonster(row)
-                monsterNameMapping[monster.Name.lower().strip()] = monster
-                
-        with open(self.MonsterStats,'r') as file:
-            reader = csv.reader(file)
-            for _ in range(2): next(reader) #header
-            for row in reader:
-                #get monster
-                if str(row[1].lower().strip()) in monsterNameMapping:
-                    monsterNameMapping[row[1].lower().strip()].setMonsterInfo(row)
-        self.monsterList:list[DnDMonster] = list(monsterNameMapping.values())
+                jsonRow = json.loads(row)
+                self.monsterList.append(DnDMonster(jsonRow))
         pass
 

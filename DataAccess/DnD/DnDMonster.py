@@ -1,4 +1,5 @@
 import discord
+import json
 
 class DnDMonster:
     Name:str = ""                           #index 1
@@ -54,30 +55,103 @@ class DnDMonster:
         self.setMonsterLocation(row)
         pass
 
-    def setMonsterLocation(self, row:list[str]):
-        self.Name:str = str(row[0])
+    def setMonsterLocation(self, row:dict):
+        self.Name:str = str(row['name'])
         #environments
-        self.Arctic:bool = row[13] != ''
-        self.Costal:bool = row[14] != ''
-        self.Desert:bool = row[15] != ''
-        self.Forest:bool = row[16] != ''
-        self.Grassland:bool = row[17] != ''
-        self.Hills:bool = row[18] != ''
-        self.Jungle:bool = row[19] != ''
-        self.Mountain:bool = row[20] != ''
-        self.Swamp:bool = row[21] != ''
-        self.Underdark:bool = row[22] != ''
-        self.Underwater:bool = row[23] != ''
-        self.Urban:bool = row[24] != ''
+        for env in row['environments']:
+            match env.lower():
+                case 'arctic':
+                    pass
+                case 'tundra':
+                    pass
+                
+                case 'coastal':
+                    pass
+                case 'desert':
+                    pass
+                case 'forest':
+                    pass
+                case 'grassland':
+                    pass
+                case 'hill' | 'hills':
+                    pass
+                case 'jungle':
+                    pass
+                case 'mountain'|'mountains':
+                    pass
+                case 'swamp':
+                    pass
+                case 'underdark':
+                    pass
+                case 'water' | 'underwater':
+                    pass
+                case 'urban':
+                    pass
+                case 'settlement':
+                    pass
+                case 'sewer':
+                    pass
+                case 'ruin'|'ruins':
+                    pass
+                case 'feywild':
+                    pass
+                case 'hell':
+                    pass
+                case 'plane of earth':
+                    pass
+                case 'plane of fire':
+                    pass
+                case 'plane of water':
+                    pass
+                case 'plane of air':
+                    pass
+                case 'laboratory':
+                    pass
+                case 'tomb':
+                    pass
+                case 'shadowfell':
+                    pass
+                
+                case 'abyss':
+                    pass
+                
+
+                case 'caves':
+                    pass
+                case 'caverns':
+                    pass
+
+                case 'temple':
+                    pass
+                case 'astral plane':
+                    pass
+                case 'ethereal plane':
+                    pass
+                case 'lake':
+                    pass
+                case 'ocean':
+                    pass
+                case 'ice':
+                    pass
+                case 'any':
+                    pass
+                case 'volcano':
+                    pass
+                case _:
+                    print(f"Missing Environment {env}")
+        
         #stats
+        '''
         if('/' in row[5]):
             numerator, denominator = row[5].split('/')
             self.ChallengeRating:float = float(numerator)/float(denominator)
         else:
             self.ChallengeRating:float = float(row[5])
+        '''
         pass
 
     def setMonsterInfo(self, row:list[str]):
+        '''
         #self.Name:str = row[1]                         
         self.Size:str = row[2]                    
         self.Type:str = row[3]                                         
@@ -110,6 +184,8 @@ class DnDMonster:
         #Extra info
         self.Additional:str = row[39]                        #39
         self.Source:str = row[40]                            #40
+        '''
+        pass
 
     def __format__(self, format_spec: str) -> str:
         return self.Name
