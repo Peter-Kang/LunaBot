@@ -33,24 +33,52 @@ class DnDMonster:
     #Environments
     Unknown:bool = False                    #25
     AllEnvironments:bool = False            #26
-    Arctic:bool = False                     #27
-    Costal:bool = False                     #28
-    Desert:bool = False                     #29
-    Forest:bool = False                     #30
-    Grassland:bool = False                  #31
-    Hills:bool = False                      #32
-    Jungle:bool = False                     #33
-    Mountain:bool = False                   #34
-    Swamp:bool = False                      #35
-    Underdark:bool = False                  #36
-    Underwater:bool = False                 #37
-    Urban:bool = False                      #38
+    Arctic:bool = False                     #27 #13 in locations csv 
+    Costal:bool = False                     #28 #14
+    Desert:bool = False                     #29 #15
+    Forest:bool = False                     #30 #16
+    Grassland:bool = False                  #31 #17
+    Hills:bool = False                      #32 #18
+    Jungle:bool = False                     #33 #19
+    Mountain:bool = False                   #34 #20
+    Swamp:bool = False                      #35 #21
+    Underdark:bool = False                  #36 #22
+    Underwater:bool = False                 #37 #23
+    Urban:bool = False                      #38 #24
     #Extra info
     Additional:str = ""                     #39
     Source:str= ""                          #40
 
     def __init__(self, row:list[str]=[]):
-        self.Name:str = row[1]                         
+        #set the location and monster names
+        self.setMonsterLocation(row)
+        pass
+
+    def setMonsterLocation(self, row:list[str]):
+        self.Name:str = str(row[0])
+        #environments
+        self.Arctic:bool = row[13] != ''
+        self.Costal:bool = row[14] != ''
+        self.Desert:bool = row[15] != ''
+        self.Forest:bool = row[16] != ''
+        self.Grassland:bool = row[17] != ''
+        self.Hills:bool = row[18] != ''
+        self.Jungle:bool = row[19] != ''
+        self.Mountain:bool = row[20] != ''
+        self.Swamp:bool = row[21] != ''
+        self.Underdark:bool = row[22] != ''
+        self.Underwater:bool = row[23] != ''
+        self.Urban:bool = row[24] != ''
+        #stats
+        if('/' in row[5]):
+            numerator, denominator = row[5].split('/')
+            self.ChallengeRating:float = float(numerator)/float(denominator)
+        else:
+            self.ChallengeRating:float = float(row[5])
+        pass
+
+    def setMonsterInfo(self, row:list[str]):
+        #self.Name:str = row[1]                         
         self.Size:str = row[2]                    
         self.Type:str = row[3]                                         
         self.Alignment:str = row[4]                   
@@ -79,28 +107,13 @@ class DnDMonster:
         #Challenge
         self.ChallengeRating:float= float(row[23])           #23
         self.Experience:int =  int(row[24])                  #24
-        #Environments
-        self.Unknown:bool = bool(row[25] == "TRUE")                    #25
-        self.AllEnvironments:bool = bool(row[26]== "TRUE")            #26
-        self.Arctic:bool = bool(row[27]== "TRUE")                     #27
-        self.Costal:bool = bool(row[28]== "TRUE")                     #28
-        self.Desert:bool = bool(row[29]== "TRUE")                     #29
-        self.Forest:bool = bool(row[30]== "TRUE")                     #30
-        self.Grassland:bool = bool(row[31]== "TRUE")                  #31
-        self.Hills:bool = bool(row[32]== "TRUE")                      #32
-        self.Jungle:bool = bool(row[33]== "TRUE")                     #33
-        self.Mountain:bool = bool(row[34]== "TRUE")                   #34
-        self.Swamp:bool = bool(row[35]== "TRUE")                      #35
-        self.Underdark:bool = bool(row[36]== "TRUE")                  #36
-        self.Underwater:bool = bool(row[37]== "TRUE")                 #37
-        self.Urban:bool = bool(row[38]== "TRUE")                      #38
         #Extra info
         self.Additional:str = row[39]                        #39
         self.Source:str = row[40]                            #40
 
     def __format__(self, format_spec: str) -> str:
         return self.Name
-    
+
     def getEmbedding(self) ->discord.Embed:
         embed = discord.Embed(title=f"{self.Name} - AC: {self.AC} HP: {self.HP}")
         embed.description = f">  Challenge Rating: {self.ChallengeRating}, Experience: {self.Experience}\n>  Alignment: {self.Alignment}, Type: {self.Type}, Size: {self.Size}"
