@@ -5,7 +5,8 @@ class DnDMonster:
     Name:str = ""                           
     Size:str = ""                           
     Type:str = ""                                         
-    Alignment:str = ""                      
+    Alignment:str = ""
+    HitDice:str = ""                      
     #defense
     AC:int = 0
     ArmorDescription:str = ""                              
@@ -75,6 +76,7 @@ class DnDMonster:
         self.setMonsterInfo(row)
 
     def setMonsterLocationAndCR(self, row:dict):
+        #this is separated out since it is what we search by
         self.Name:str = str(row['name'])
         #environments
         for env in row['environments']:
@@ -145,6 +147,7 @@ class DnDMonster:
     def setMonsterInfo(self, row:list[str]):                  
         self.Size:str = row['size']                    
         self.Type:str = f"{row['type']}"
+        self.HitDice:str = row['hit_dice']
         if(row['subtype'] != ''):
             self.Type += f" - {row['subtype']}"
         self.Alignment:str = row['alignment']                   
@@ -184,13 +187,27 @@ class DnDMonster:
         self.Charisma:int =  int(row['charisma'])  
 
         #saving throws
-
+        saves:list[str] = []
+        if(row['strength_save'] != None):
+            saves.append(f">  :person_lifting_weights:**Strength:** {row['strength_save']}")
+        if(row['dexterity_save'] != None):
+            saves.append(f">  :pinched_fingers:**Dexterity:** {row['dexterity_save']}")
+        if(row['constitution_save'] != None):
+            saves.append(f">  :anatomical_heart:**Constitution:** {row['constitution_save']}")
+        if(row['intelligence_save'] != None):
+            saves.append(f">  :nerd:**Intelligence:** {row['intelligence_save']}")
+        if(row['wisdom_save'] != None):
+            saves.append(f">  :woman_in_lotus_position:**Wisdom:** {row['wisdom_save']}")
+        if(row['charisma_save'] != None):
+            saves.append(f">  :lips:**Charisma:** {row['charisma_save']}")
+        if(row['perception'] != None):
+            saves.append(f">  :nazar_amulet:**Perception:** {row['perception']}")
+        self.SavingThrows:str = "\n".join(saves)
         #abilities
         self.Languages:str=row['languages']
         self.Senses:str=row['senses']
         '''         
-        #details
-        self.SavingThrows:str = row[18]                      
+        #details            
         self.Skills:str = row[19]                            
         self.WeaknessResistanceImmunities:str = row[20]      
                  
@@ -204,7 +221,7 @@ class DnDMonster:
 
     def getEmbedding(self) ->discord.Embed:
         embed = discord.Embed(title=f"{self.Name}")
-        embed.description = f"**AC:** {str(self.AC) + self.ArmorDescription}\n**HP:** {self.HP}\n>  **Challenge Rating:** {self.ChallengeRating}\n>  **Type:** [{self.Type}]\n>  **Size:** [{self.Size}]"
+        embed.description = f"**AC:** {str(self.AC) + self.ArmorDescription}\n**HP:** {self.HP}\n>  **Challenge Rating:** {self.ChallengeRating}\n>  **Type:** [{self.Type}]\n>  **Size:** [{self.Size}]\n>  **Hit Dice:** {self.HitDice}"
         if self.Alignment != '':
             embed.description += f"\n>  **Alignment:** [{self.Alignment}]"
 
@@ -223,9 +240,13 @@ class DnDMonster:
                         inline=False)
         embed.add_field(name="Stats",
                         value=f">  :mechanical_arm:**Strength:** {self.Strength}\n>  :pinched_fingers:**Dexterity:** {self.Dexterity}\n>  :sparkling_heart:**Constitution:** {self.Constitution}\n>  :brain:**Intelligence:** {self.Intelligence}\n>  :person_in_lotus_position:**Wisdom:** {self.Wisdom}\n>  :kiss:**Charisma:** {self.Charisma}",
-                        inline=False)
+                        inline=True)
+        if(self.SavingThrows != ""):
+            embed.add_field(name="Saving Throws",
+                            value=self.SavingThrows,
+                            inline=True)
         embed.add_field(name="Details",
-                        value=f">  **Saving Throws:** {self.SavingThrows}\n>  **Skills:** {self.Skills}\n>  **WRI:** {self.WeaknessResistanceImmunities}\n>  **Senses:** {self.Senses}\n>  **Languages:** {self.Languages}",
+                        value=f"\n>  **Skills:** {self.Skills}\n>  **WRI:** {self.WeaknessResistanceImmunities}\n>  **Senses:** {self.Senses}\n>  **Languages:** {self.Languages}",
                         inline=False)
         environmentList:list[str] = []
         if self.Arctic == True: environmentList.append("Arctic")

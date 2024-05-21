@@ -8,7 +8,7 @@ class DnDCogCommands(commands.Cog):
         self.bot = bot
 
     @app_commands.command(name="roll", description="Rolls a dice")
-    @app_commands.describe(dice = "(count of dice)d(sides of dice) ie: 2d8 is 2 eight sided dice." )
+    @app_commands.describe(dice = "(count of dice)d(sides of dice)(optional +additions) ie: 2d8+3 is 2 eight sided dice plus 3. 4d6 is 4 six sided dice.")
     async def roll(self,interaction:discord.Interaction, dice:str):
         result:str = self.bot.DnDService.roll(dice)
         await interaction.response.send_message(result)
