@@ -5,26 +5,41 @@ import random
 
 #enums for the environment array
 class DnDEnvironments(Enum):
-    Unknown     = 0
-    All         = 1
-    Arctic       = 2
-    Coastal = 3
-    Desert = 4
-    Forest = 5
-    Grassland = 6
-    Hills = 7
-    Jungle = 8
-    Mountain = 9
-    Swamp = 10
-    Underdark = 11
-    Underwater = 12
-    Urban = 13
+    All         = 0
+    Arctic      = 1
+    Coastal     = 2
+    Desert      = 3
+    Forest      = 4
+    Grassland   = 5
+    Hills       = 6
+    Jungle      = 7
+    Mountain    = 8
+    Swamp       = 9
+    Underdark   = 10
+    Underwater  = 11
+    Urban       = 12
+    Sewer       = 13
+    Ruin        = 14
+    Feywild     = 15
+    Hell        = 16
+    EarthPlane  = 17
+    FirePlane   = 18
+    WaterPlane  = 19
+    AirPlane    = 20
+    AstralPlane = 21
+    EtherealPlane = 22
+    Laboratory  = 23
+    ShadowFell  = 24
+    Abyss       = 25
+    Caves       = 26
+    Temple      = 27
+    Volcano     = 28
+    Flexible    = 29
 
 class DnDMonsters:
     #monster location Enum
 
     #monsters by environment
-    Unknown:list[DnDMonster] = []
     All:list[DnDMonster] = []
     Arctic:list[DnDMonster] = []
     Coastal:list[DnDMonster] = []
@@ -38,17 +53,33 @@ class DnDMonsters:
     Underdark:list[DnDMonster] = []
     Underwater:list[DnDMonster] = []
     Urban:list[DnDMonster] = []
+    Sewer:list[DnDMonster] = []
+    Ruin:list[DnDMonster] = []
+    Feywild:list[DnDMonster] = []
+    Hell:list[DnDMonster] = []
+    EarthPlane:list[DnDMonster] = []
+    FirePlane:list[DnDMonster] = []
+    WaterPlane:list[DnDMonster] = []
+    AirPlane:list[DnDMonster] = []
+    AstralPlane:list[DnDMonster] = []
+    EtherealPlane:list[DnDMonster] = []
+    Laboratory:list[DnDMonster] = []
+    ShadowFell:list[DnDMonster] = []
+    Abyss:list[DnDMonster] = []
+    Caves:list[DnDMonster] = []
+    Temple:list[DnDMonster] = []
+    Volcano:list[DnDMonster] = []
+    Flexible:list[DnDMonster] = []
 
-    Environments:list[list[DnDMonster]] = [Unknown, All, Arctic, Coastal, Desert, Forest, Grassland, Hills, Jungle, Mountain, Swamp, Underdark, Underwater,Urban]
+    Environments:list[list[DnDMonster]] = [ All, Arctic, Coastal, Desert, Forest, Grassland, Hills, Jungle, Mountain, Swamp, Underdark, Underwater,Urban,Sewer, Ruin, Feywild, Hell, EarthPlane, FirePlane, WaterPlane, AirPlane, AstralPlane, EtherealPlane, Laboratory, ShadowFell, Abyss, Caves, Temple, Volcano, Flexible]
 
     def __init__(self):
-        self.CSVReader:DnDMonsterReader = DnDMonsterReader()
+        self.Reader:DnDMonsterReader = DnDMonsterReader()
         self.__populateEnvironment()
 
     def __populateEnvironment(self):
-        for monster in self.CSVReader.monsterList:
-            if monster.Unknown: self.Unknown.append(monster)
-            if monster.AllEnvironments: self.All.append(monster)
+        for monster in self.Reader.monsterList:
+            self.All.append(monster)
             if monster.Arctic: self.Arctic.append(monster)
             if monster.Costal: self.Coastal.append(monster)
             if monster.Desert: self.Desert.append(monster)
@@ -61,6 +92,24 @@ class DnDMonsters:
             if monster.Underdark: self.Underdark.append(monster)
             if monster.Underwater: self.Underwater.append(monster)
             if monster.Urban: self.Urban.append(monster)
+            if monster.Sewer is True : self.Sewer.append("Sewer")
+            if monster.Ruin is True : self.Ruin.append("Ruin")
+            if monster.Feywild is True : self.Feywild.append("Feywild")
+            if monster.Hell is True : self.Hell.append("Hell")
+            if monster.EarthPlane is True : self.EarthPlane.append("Earth Plane")
+            if monster.FirePlane is True : self.FirePlane.append("Fire Plane")
+            if monster.WaterPlane is True : self.WaterPlane.append("Water Plane")
+            if monster.AirPlane is True : self.AirPlane.append("Air Plane")
+            if monster.AstralPlane is True : self.AstralPlane.append("Astral Plane")
+            if monster.EtherealPlane is True : self.EtherealPlane.append("Ethereal Plane")
+            if monster.Laboratory is True : self.Laboratory.append("Laboratory")
+            if monster.ShadowFell is True : self.ShadowFell.append("ShadowFell")
+            if monster.Abyss is True : self.Abyss.append("Abyss")
+            if monster.Caves is True : self.Caves.append("Caves")
+            if monster.Temple is True : self.Temple.append("Temple")
+            if monster.Volcano is True : self.Volcano.append("Volcano")
+            if monster.Flexible is True : self.Flexible.append("Flexible")
+        print("DnD Monsters Populated")
         
     def Encounter(self, ChallengeRating:float = -1.0, Environment:DnDEnvironments = DnDEnvironments.All):
         result:DnDMonster = None

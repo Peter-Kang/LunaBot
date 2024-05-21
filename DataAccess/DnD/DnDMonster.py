@@ -2,203 +2,222 @@ import discord
 import json
 
 class DnDMonster:
-    Name:str = ""                           #index 1
-    Size:str = ""                           #2
-    Type:str = ""                           #3                   
-    Alignment:str = ""                      #4
+    Name:str = ""                           
+    Size:str = ""                           
+    Type:str = ""                                         
+    Alignment:str = ""                      
     #defense
-    AC:int = 0                              #5
-    HP:int = 0                              #6
+    AC:int = 0
+    ArmorDescription:str = ""                              
+    HP:int = 0                             
     #Movement
-    SpeedNormal:str = ""                    #7
-    SpeedFlying:str = ""                    #8
-    SpeedSwimming:str = ""                  #9
-    SpeedBurrowing:str = ""                 #10
-    SpeedClimb:str = ""                     #11
+    SpeedNormal:str = ""                    
+    SpeedFlying:str = ""                   
+    SpeedSwimming:str = ""                  
+    SpeedBurrowing:str = ""                 
+    SpeedClimb:str = ""
+    SpeedHover:str = ""
+    SpeedLightWalk:str = ""
+    SpeedNotes:str = ""                     
     #stats
-    Strength:int = 0                        #12
-    Dexterity:int = 0                       #13
-    Constitution:int = 0                    #14
-    Intelligence:int = 0                    #15
-    Wisdom:int = 0                          #16
-    Charisma:int = 0                        #17
+    Strength:int = 0                        
+    Dexterity:int = 0                       
+    Constitution:int = 0                    
+    Intelligence:int = 0                    
+    Wisdom:int = 0                          
+    Charisma:int = 0                        
     #details
-    SavingThrows:str = ""                   #18
-    Skills:str = ""                         #19
-    WeaknessResistanceImmunities:str = ""   #20
-    Senses:str=""                           #21
-    Languages:str=""                        #22
+    SavingThrows:str = ""                   
+    Skills:str = ""                         
+    WeaknessResistanceImmunities:str = ""   
+    Senses:str=""                           
+    Languages:str=""                        
     #Challenge
-    ChallengeRating:float=0.0               #23
-    Experience:int = 0                      #24
+    ChallengeRating:float=0.0            
     #Environments
-    Unknown:bool = False                    #25
-    AllEnvironments:bool = False            #26
-    Arctic:bool = False                     #27 #13 in locations csv 
-    Costal:bool = False                     #28 #14
-    Desert:bool = False                     #29 #15
-    Forest:bool = False                     #30 #16
-    Grassland:bool = False                  #31 #17
-    Hills:bool = False                      #32 #18
-    Jungle:bool = False                     #33 #19
-    Mountain:bool = False                   #34 #20
-    Swamp:bool = False                      #35 #21
-    Underdark:bool = False                  #36 #22
-    Underwater:bool = False                 #37 #23
-    Urban:bool = False                      #38 #24
+    AllEnvironments:bool = True            
+    Arctic:bool = False                     
+    Costal:bool = False                     
+    Desert:bool = False                    
+    Forest:bool = False                     
+    Grassland:bool = False                  
+    Hills:bool = False                      
+    Jungle:bool = False                     
+    Mountain:bool = False                   
+    Swamp:bool = False                      
+    Underdark:bool = False                  
+    Underwater:bool = False                 
+    Urban:bool = False
+    Sewer:bool = False
+    Ruin:bool = False
+    Feywild:bool = False
+    Hell:bool = False
+    EarthPlane:bool = False
+    FirePlane:bool = False
+    WaterPlane:bool = False
+    AirPlane:bool = False
+    AstralPlane:bool = False
+    EtherealPlane:bool = False
+    Laboratory:bool=False
+    ShadowFell:bool = False
+    Abyss:bool = False
+    Caves:bool = False
+    Temple:bool = False
+    Volcano:bool = False
+    Flexible:bool = False
     #Extra info
-    Additional:str = ""                     #39
-    Source:str= ""                          #40
+    Additional:str = ""                     
+    Source:str= ""                          
 
     def __init__(self, row:list[str]=[]):
         #set the location and monster names
-        self.setMonsterLocation(row)
-        pass
+        self.setMonsterLocationAndCR(row)
+        self.setMonsterInfo(row)
 
-    def setMonsterLocation(self, row:dict):
+    def setMonsterLocationAndCR(self, row:dict):
         self.Name:str = str(row['name'])
         #environments
         for env in row['environments']:
             match env.lower():
-                case 'arctic':
-                    pass
-                case 'tundra':
-                    pass
-                
+                case 'arctic' | 'tundra' | 'ice':
+                    self.Arctic = True
                 case 'coastal':
-                    pass
+                    self.Costal = True
                 case 'desert':
-                    pass
+                    self.Desert = True
                 case 'forest':
-                    pass
+                    self.Forest = True
                 case 'grassland':
-                    pass
+                    self.Grassland = True
                 case 'hill' | 'hills':
-                    pass
+                    self.Hills = True
                 case 'jungle':
-                    pass
+                    self.Jungle = True
                 case 'mountain'|'mountains':
-                    pass
+                    self.Mountain = True
                 case 'swamp':
-                    pass
+                    self.Swamp = True
                 case 'underdark':
-                    pass
-                case 'water' | 'underwater':
-                    pass
-                case 'urban':
-                    pass
-                case 'settlement':
-                    pass
+                    self.Underdark = True
+                case 'water' | 'underwater' | 'ocean' | 'lake':
+                    self.Underwater = True
+                case 'urban' | 'settlement':
+                    self.Urban = True
                 case 'sewer':
-                    pass
-                case 'ruin'|'ruins':
-                    pass
-                case 'feywild':
-                    pass
+                    self.Sewer = True
+                case 'ruin'|'ruins'|'tomb':
+                    self.Ruin = True
                 case 'hell':
-                    pass
+                    self.Hell = True
                 case 'plane of earth':
-                    pass
+                    self.EarthPlane = True
                 case 'plane of fire':
-                    pass
+                    self.FirePlane = True
                 case 'plane of water':
-                    pass
+                    self.WaterPlane = True
                 case 'plane of air':
-                    pass
-                case 'laboratory':
-                    pass
-                case 'tomb':
-                    pass
-                case 'shadowfell':
-                    pass
-                
-                case 'abyss':
-                    pass
-                
-
-                case 'caves':
-                    pass
-                case 'caverns':
-                    pass
-
-                case 'temple':
-                    pass
+                    self.AirPlane = True
                 case 'astral plane':
-                    pass
+                    self.AstralPlane = True
                 case 'ethereal plane':
-                    pass
-                case 'lake':
-                    pass
-                case 'ocean':
-                    pass
-                case 'ice':
-                    pass
-                case 'any':
-                    pass
+                    self.EtherealPlane = True
+                case 'laboratory':
+                    self.Laboratory = True
+                case 'shadowfell':
+                    self.ShadowFell = True
+                case 'feywild':
+                    self.Feywild = True
+                case 'abyss':
+                    self.Abyss = True
+                case 'caves' | 'caverns':
+                    self.Caves = True
+                case 'temple':
+                    self.Temple = True
+                case 'any': #flexible
+                    self.Flexible = True
                 case 'volcano':
-                    pass
+                    self.Volcano = True
                 case _:
                     print(f"Missing Environment {env}")
-        
         #stats
-        '''
-        if('/' in row[5]):
-            numerator, denominator = row[5].split('/')
-            self.ChallengeRating:float = float(numerator)/float(denominator)
-        else:
-            self.ChallengeRating:float = float(row[5])
-        '''
-        pass
+        self.ChallengeRating = float(row['cr'])
 
-    def setMonsterInfo(self, row:list[str]):
-        '''
-        #self.Name:str = row[1]                         
-        self.Size:str = row[2]                    
-        self.Type:str = row[3]                                         
-        self.Alignment:str = row[4]                   
+    def setMonsterInfo(self, row:list[str]):                  
+        self.Size:str = row['size']                    
+        self.Type:str = f"{row['type']}"
+        if(row['subtype'] != ''):
+            self.Type += f" - {row['subtype']}"
+        self.Alignment:str = row['alignment']                   
         #defense
-        self.AC:int = int(row[5])                           
-        self.HP:int = int(row[6])                     
+        self.AC:int = int(row['armor_class'])
+        self.ArmorDescription:str = f" {str(row['armor_desc'])}"                      
+        self.HP:int = int(row['hit_points'])                     
         #Movement
-        self.SpeedNormal:str = row[7]                        #7
-        self.SpeedFlying:str = row[8]                        #8
-        self.SpeedSwimming:str = row[9]                      #9
-        self.SpeedBurrowing:str = row[10]                    #10
-        self.SpeedClimb:str = row[11]                        #11
+        for speed in row['speed']:
+            match speed:
+                case 'walk':
+                    self.SpeedNormal = str(row['speed']['walk'])+" ft"
+                case 'burrow':
+                    self.SpeedBurrowing = str(row['speed']['burrow'])+" ft"
+                case 'bur.':
+                    self.SpeedBurrowing = str(row['speed']['bur.'])+" ft"
+                case 'fly':
+                    self.SpeedFlying = str(row['speed']['fly'])+" ft"
+                case 'climb':
+                    self.SpeedClimb = str(row['speed']['climb'])+" ft"
+                case 'swim':
+                    self.SpeedSwimming = str(row['speed']['swim'])+" ft"
+                case 'hover':
+                    self.SpeedHover = str(row['speed']['hover'])+" ft"
+                case 'lightwalking':
+                    self.SpeedLightWalk = str(row['speed']['lightwalking'])+" ft"
+                case 'notes':
+                    self.SpeedNotes = str(row['speed']['notes'])
+                case _:
+                    print(f"Missing Speed {speed}")
         #stats
-        self.Strength:int = int(row[12])                     #12
-        self.Dexterity:int =  int(row[13])                   #13
-        self.Constitution:int =  int(row[14])                #14
-        self.Intelligence:int =  int(row[15])                #15
-        self.Wisdom:int =  int(row[16])                      #16
-        self.Charisma:int =  int(row[17])                    #17
+        self.Strength:int = int(row['strength'])                     
+        self.Dexterity:int =  int(row['dexterity'])                   
+        self.Constitution:int =  int(row['constitution'])                
+        self.Intelligence:int =  int(row['intelligence'])               
+        self.Wisdom:int =  int(row['wisdom'])                      
+        self.Charisma:int =  int(row['charisma'])  
+
+        #saving throws
+
+        #abilities
+        self.Languages:str=row['languages']
+        self.Senses:str=row['senses']
+        '''         
         #details
-        self.SavingThrows:str = row[18]                      #18
-        self.Skills:str = row[19]                            #19
-        self.WeaknessResistanceImmunities:str = row[20]      #20
-        self.Senses:str=row[21]                              #21
-        self.Languages:str=row[22]                           #22
-        #Challenge
-        self.ChallengeRating:float= float(row[23])           #23
-        self.Experience:int =  int(row[24])                  #24
+        self.SavingThrows:str = row[18]                      
+        self.Skills:str = row[19]                            
+        self.WeaknessResistanceImmunities:str = row[20]      
+                 
         #Extra info
-        self.Additional:str = row[39]                        #39
-        self.Source:str = row[40]                            #40
+        self.Additional:str = row[39]                        
+        self.Source:str = row[40]                           
         '''
-        pass
 
     def __format__(self, format_spec: str) -> str:
         return self.Name
 
     def getEmbedding(self) ->discord.Embed:
-        embed = discord.Embed(title=f"{self.Name} - AC: {self.AC} HP: {self.HP}")
-        embed.description = f">  Challenge Rating: {self.ChallengeRating}, Experience: {self.Experience}\n>  Alignment: {self.Alignment}, Type: {self.Type}, Size: {self.Size}"
+        embed = discord.Embed(title=f"{self.Name}")
+        embed.description = f"AC: {str(self.AC) + self.ArmorDescription}\nHP: {self.HP}\n>  Challenge Rating: {self.ChallengeRating}\n>  Type: [{self.Type}]\n>  Size: [{self.Size}]"
+        if self.Alignment != '':
+            embed.description += f"\n>  Alignment: [{self.Alignment}]"
+
         movementList:list[str] = []
         if self.SpeedNormal != "": movementList.append(f">  Normal: {self.SpeedNormal}")
         if self.SpeedFlying != "": movementList.append(f">  Flying: {self.SpeedFlying}")
         if self.SpeedSwimming != "": movementList.append(f">  Swimming: {self.SpeedSwimming}")
         if self.SpeedBurrowing != "": movementList.append(f">  Burrow: {self.SpeedBurrowing}")
         if self.SpeedClimb != "": movementList.append(f">  Climbing: {self.SpeedClimb}")
+        if self.SpeedHover != "": movementList.append(f">  Hovering: {self.SpeedHover}")
+        if self.SpeedLightWalk != "": movementList.append(f">  Light Walking: {self.SpeedLightWalk}")
+        if self.SpeedNotes != "": movementList.append(f">  Notes: {self.SpeedNotes}")
+
         embed.add_field(name="Movement", 
                         value="\n".join(movementList),
                         inline=False)
@@ -209,8 +228,6 @@ class DnDMonster:
                         value=f">  Saving Throws: {self.SavingThrows}\n>  Skills: {self.Skills}\n>  WRI: {self.WeaknessResistanceImmunities}\n>  Senses: {self.Senses}\n>  Languages: {self.Languages}",
                         inline=False)
         environmentList:list[str] = []
-        if self.Unknown == True: environmentList.append("Unknown")
-        if self.AllEnvironments == True: environmentList.append("All")
         if self.Arctic == True: environmentList.append("Arctic")
         if self.Costal == True: environmentList.append("Coastal")
         if self.Desert == True: environmentList.append("Desert")
@@ -223,8 +240,27 @@ class DnDMonster:
         if self.Underdark == True: environmentList.append("Underdark")
         if self.Underwater == True: environmentList.append("Underwater")
         if self.Urban == True: environmentList.append("Urban")
-        envStr:str = ", ".join(environmentList)
-        embed.add_field(name="Environment", value=">  "+envStr, inline=False)
+        if self.Sewer is True : environmentList.append("Sewer")
+        if self.Ruin is True : environmentList.append("Ruin")
+        if self.Feywild is True : environmentList.append("Feywild")
+        if self.Hell is True : environmentList.append("Hell")
+        if self.EarthPlane is True : environmentList.append("Earth Plane")
+        if self.FirePlane is True : environmentList.append("Fire Plane")
+        if self.WaterPlane is True : environmentList.append("Water Plane")
+        if self.AirPlane is True : environmentList.append("Air Plane")
+        if self.AstralPlane is True : environmentList.append("Astral Plane")
+        if self.EtherealPlane is True : environmentList.append("Ethereal Plane")
+        if self.Laboratory is True : environmentList.append("Laboratory")
+        if self.ShadowFell is True : environmentList.append("ShadowFell")
+        if self.Abyss is True : environmentList.append("Abyss")
+        if self.Caves is True : environmentList.append("Caves")
+        if self.Temple is True : environmentList.append("Temple")
+        if self.Volcano is True : environmentList.append("Volcano")
+        if self.Flexible is True : environmentList.append("Flexible")
+
+        if len(environmentList) != 0 :
+            envStr:str = ", ".join(environmentList)
+            embed.add_field(name="Environment", value=">  "+envStr, inline=False)
 
         embed.add_field(name="Extra",value=f">  Actions: {self.Additional}")
         return embed
