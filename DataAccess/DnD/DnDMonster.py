@@ -204,28 +204,28 @@ class DnDMonster:
 
     def getEmbedding(self) ->discord.Embed:
         embed = discord.Embed(title=f"{self.Name}")
-        embed.description = f"AC: {str(self.AC) + self.ArmorDescription}\nHP: {self.HP}\n>  Challenge Rating: {self.ChallengeRating}\n>  Type: [{self.Type}]\n>  Size: [{self.Size}]"
+        embed.description = f"**AC:** {str(self.AC) + self.ArmorDescription}\n**HP:** {self.HP}\n>  **Challenge Rating:** {self.ChallengeRating}\n>  **Type:** [{self.Type}]\n>  **Size:** [{self.Size}]"
         if self.Alignment != '':
-            embed.description += f"\n>  Alignment: [{self.Alignment}]"
+            embed.description += f"\n>  **Alignment:** [{self.Alignment}]"
 
         movementList:list[str] = []
-        if self.SpeedNormal != "": movementList.append(f">  Normal: {self.SpeedNormal}")
-        if self.SpeedFlying != "": movementList.append(f">  Flying: {self.SpeedFlying}")
-        if self.SpeedSwimming != "": movementList.append(f">  Swimming: {self.SpeedSwimming}")
-        if self.SpeedBurrowing != "": movementList.append(f">  Burrow: {self.SpeedBurrowing}")
-        if self.SpeedClimb != "": movementList.append(f">  Climbing: {self.SpeedClimb}")
-        if self.SpeedHover != "": movementList.append(f">  Hovering: {self.SpeedHover}")
-        if self.SpeedLightWalk != "": movementList.append(f">  Light Walking: {self.SpeedLightWalk}")
-        if self.SpeedNotes != "": movementList.append(f">  Notes: {self.SpeedNotes}")
+        if self.SpeedNormal != "": movementList.append(f">  **Normal:** {self.SpeedNormal}")
+        if self.SpeedFlying != "": movementList.append(f">  **Flying:** {self.SpeedFlying}")
+        if self.SpeedSwimming != "": movementList.append(f">  **Swimming:** {self.SpeedSwimming}")
+        if self.SpeedBurrowing != "": movementList.append(f">  **Burrow:** {self.SpeedBurrowing}")
+        if self.SpeedClimb != "": movementList.append(f">  **Climbing:** {self.SpeedClimb}")
+        if self.SpeedHover != "": movementList.append(f">  **Hovering:** {self.SpeedHover}")
+        if self.SpeedLightWalk != "": movementList.append(f">  **Light Walking:** {self.SpeedLightWalk}")
+        if self.SpeedNotes != "": movementList.append(f">  **Notes:** {self.SpeedNotes}")
 
         embed.add_field(name="Movement", 
                         value="\n".join(movementList),
                         inline=False)
         embed.add_field(name="Stats",
-                        value=f">  :mechanical_arm:Strength: {self.Strength}\n>  :pinched_fingers:Dexterity: {self.Dexterity}\n>  :sparkling_heart:Constitution: {self.Constitution}\n>  :brain:Intelligence: {self.Intelligence}\n>  :person_in_lotus_position:Wisdom: {self.Wisdom}\n>  :kiss:Charisma: {self.Charisma}",
+                        value=f">  :mechanical_arm:**Strength:** {self.Strength}\n>  :pinched_fingers:**Dexterity:** {self.Dexterity}\n>  :sparkling_heart:**Constitution:** {self.Constitution}\n>  :brain:**Intelligence:** {self.Intelligence}\n>  :person_in_lotus_position:**Wisdom:** {self.Wisdom}\n>  :kiss:**Charisma:** {self.Charisma}",
                         inline=False)
         embed.add_field(name="Details",
-                        value=f">  Saving Throws: {self.SavingThrows}\n>  Skills: {self.Skills}\n>  WRI: {self.WeaknessResistanceImmunities}\n>  Senses: {self.Senses}\n>  Languages: {self.Languages}",
+                        value=f">  **Saving Throws:** {self.SavingThrows}\n>  **Skills:** {self.Skills}\n>  **WRI:** {self.WeaknessResistanceImmunities}\n>  **Senses:** {self.Senses}\n>  **Languages:** {self.Languages}",
                         inline=False)
         environmentList:list[str] = []
         if self.Arctic == True: environmentList.append("Arctic")
@@ -262,5 +262,5 @@ class DnDMonster:
             envStr:str = ", ".join(environmentList)
             embed.add_field(name="Environment", value=">  "+envStr, inline=False)
 
-        embed.add_field(name="Extra",value=f">  Actions: {self.Additional}")
+        embed.add_field(name="Extra",value=f">  **Actions:** {self.Additional}")
         return embed
