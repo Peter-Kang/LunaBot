@@ -4,6 +4,7 @@ from DataAccess.DnD.DnDMonster import DnDMonster
 import random
 
 #enums for the environment array
+#discord options limit count is 25 cut 5?
 class DnDEnvironments(Enum):
     All         = 0
     Arctic      = 1
@@ -92,23 +93,23 @@ class DnDMonsters:
             if monster.Underdark: self.Underdark.append(monster)
             if monster.Underwater: self.Underwater.append(monster)
             if monster.Urban: self.Urban.append(monster)
-            if monster.Sewer is True : self.Sewer.append("Sewer")
-            if monster.Ruin is True : self.Ruin.append("Ruin")
-            if monster.Feywild is True : self.Feywild.append("Feywild")
-            if monster.Hell is True : self.Hell.append("Hell")
-            if monster.EarthPlane is True : self.EarthPlane.append("Earth Plane")
-            if monster.FirePlane is True : self.FirePlane.append("Fire Plane")
-            if monster.WaterPlane is True : self.WaterPlane.append("Water Plane")
-            if monster.AirPlane is True : self.AirPlane.append("Air Plane")
-            if monster.AstralPlane is True : self.AstralPlane.append("Astral Plane")
-            if monster.EtherealPlane is True : self.EtherealPlane.append("Ethereal Plane")
-            if monster.Laboratory is True : self.Laboratory.append("Laboratory")
-            if monster.ShadowFell is True : self.ShadowFell.append("ShadowFell")
-            if monster.Abyss is True : self.Abyss.append("Abyss")
-            if monster.Caves is True : self.Caves.append("Caves")
-            if monster.Temple is True : self.Temple.append("Temple")
-            if monster.Volcano is True : self.Volcano.append("Volcano")
-            if monster.Flexible is True : self.Flexible.append("Flexible")
+            if monster.Sewer is True : self.Sewer.append(monster)
+            if monster.Ruin is True : self.Ruin.append(monster)
+            if monster.Feywild is True : self.Feywild.append(monster)
+            if monster.Hell is True : self.Hell.append(monster)
+            if monster.EarthPlane is True : self.EarthPlane.append(monster)
+            if monster.FirePlane is True : self.FirePlane.append(monster)
+            if monster.WaterPlane is True : self.WaterPlane.append(monster)
+            if monster.AirPlane is True : self.AirPlane.append(monster)
+            if monster.AstralPlane is True : self.AstralPlane.append(monster)
+            if monster.EtherealPlane is True : self.EtherealPlane.append(monster)
+            if monster.Laboratory is True : self.Laboratory.append(monster)
+            if monster.ShadowFell is True : self.ShadowFell.append(monster)
+            if monster.Abyss is True : self.Abyss.append(monster)
+            if monster.Caves is True : self.Caves.append(monster)
+            if monster.Temple is True : self.Temple.append(monster)
+            if monster.Volcano is True : self.Volcano.append(monster)
+            if monster.Flexible is True : self.Flexible.append(monster)
         print("DnD Monsters Populated")
         
     def Encounter(self, ChallengeRating:float = -1.0, Environment:DnDEnvironments = DnDEnvironments.All):
