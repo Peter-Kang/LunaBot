@@ -206,11 +206,16 @@ class DnDMonster:
         #abilities
         self.Languages:str=row['languages']
         self.Senses:str=row['senses']
+        #Skills
+        skills:list[str] = []
+        for skill in row['skills']:
+            skills.append(f"**{skill.capitalize()}**: {row['skills'][skill]}")
+        self.Skills:str = "\n>  ".join(skills)
+        if self.Skills != '':
+            self.Skills = "\n>  "+self.Skills
         '''         
-        #details            
-        self.Skills:str = row[19]                            
-        self.WeaknessResistanceImmunities:str = row[20]      
-                 
+        #details                                       
+        self.WeaknessResistanceImmunities:str = row[20]        
         #Extra info
         self.Additional:str = row[39]                        
         self.Source:str = row[40]                           
@@ -221,9 +226,9 @@ class DnDMonster:
 
     def getEmbedding(self) ->discord.Embed:
         embed = discord.Embed(title=f"{self.Name}")
-        embed.description = f"**AC:** {str(self.AC) + self.ArmorDescription}\n**HP:** {self.HP}\n>  **Challenge Rating:** {self.ChallengeRating}\n>  **Type:** [{self.Type}]\n>  **Size:** [{self.Size}]\n>  **Hit Dice:** {self.HitDice}"
         if self.Alignment != '':
-            embed.description += f"\n>  **Alignment:** [{self.Alignment}]"
+            self.Size = f"{self.Alignment.title()} {self.Size}"
+        embed.description = f"{self.Size} {self.Type}\n**Challenge Rating:** {self.ChallengeRating}\n**AC:** {str(self.AC) + self.ArmorDescription.title()} **HP:** {self.HP}\n **Hit Dice:** {self.HitDice}"
 
         movementList:list[str] = []
         if self.SpeedNormal != "": movementList.append(f">  **Normal:** {self.SpeedNormal}")
@@ -245,8 +250,10 @@ class DnDMonster:
             embed.add_field(name="Saving Throws",
                             value=self.SavingThrows,
                             inline=True)
+        if(self.Skills != ""):
+            embed.add_field(name="Skills", value=self.Skills, inline=True)
         embed.add_field(name="Details",
-                        value=f"\n>  **Skills:** {self.Skills}\n>  **WRI:** {self.WeaknessResistanceImmunities}\n>  **Senses:** {self.Senses}\n>  **Languages:** {self.Languages}",
+                        value=f"\n>  **Senses:** {self.Senses}\n>  **Languages:** {self.Languages}",
                         inline=False)
         environmentList:list[str] = []
         if self.Arctic == True: environmentList.append("Arctic")
