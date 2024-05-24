@@ -30,7 +30,6 @@ class DnDMonster:
     #details
     SavingThrows:str = ""                   
     Skills:str = ""                         
-    WeaknessResistanceImmunities:str = ""   
     Senses:str=""                           
     Languages:str=""                        
     #Challenge
@@ -66,6 +65,11 @@ class DnDMonster:
     Temple:bool = False
     Volcano:bool = False
     Flexible:bool = False
+    #WRI
+    Weaknesses:str = ""
+    Resistances:str = ""
+    DamageImmunities:str =""
+    ConditionImmunities:str = ""
     #Extra info
     Additional:str = ""                     
     Source:str= ""                          
@@ -184,8 +188,7 @@ class DnDMonster:
         self.Constitution:int =  int(row['constitution'])                
         self.Intelligence:int =  int(row['intelligence'])               
         self.Wisdom:int =  int(row['wisdom'])                      
-        self.Charisma:int =  int(row['charisma'])  
-
+        self.Charisma:int =  int(row['charisma'])
         #saving throws
         saves:list[str] = []
         if(row['strength_save'] != None):
@@ -213,6 +216,11 @@ class DnDMonster:
         self.Skills:str = "\n>  ".join(skills)
         if self.Skills != '':
             self.Skills = "\n>  "+self.Skills
+        #WRI
+        self.Weaknesses = row["damage_vulnerabilities"]
+        self.Resistances = row["damage_resistances"]
+        self.DamageImmunities = row["damage_immunities"]
+        self.ConditionImmunities = row["condition_immunities"]
         '''         
         #details                                       
         self.WeaknessResistanceImmunities:str = row[20]        
@@ -252,9 +260,8 @@ class DnDMonster:
                             inline=True)
         if(self.Skills != ""):
             embed.add_field(name="Skills", value=self.Skills, inline=True)
-        embed.add_field(name="Details",
-                        value=f"\n>  **Senses:** {self.Senses}\n>  **Languages:** {self.Languages}",
-                        inline=False)
+        embed.add_field(name = chr(173), value = chr(173),inline=False)
+        #environment
         environmentList:list[str] = []
         if self.Arctic == True: environmentList.append("Arctic")
         if self.Costal == True: environmentList.append("Coastal")
@@ -288,7 +295,21 @@ class DnDMonster:
 
         if len(environmentList) != 0 :
             envStr:str = ", ".join(environmentList)
-            embed.add_field(name="Environment", value=">  "+envStr, inline=False)
-
-        embed.add_field(name="Extra",value=f">  **Actions:** {self.Additional}")
+            embed.add_field(name="Environment", value=f">  {envStr}", inline=False)
+        #WRI
+        if(self.Weaknesses != ""):
+            embed.add_field(name="Vulnerabilities", value=f">  {self.Weaknesses}", inline=False)
+        if(self.Resistances != ""):
+            embed.add_field(name="Resistances", value=f">  {self.Resistances}", inline=True)
+        if(self.DamageImmunities != ""):
+            embed.add_field(name="Damage Immunities", value=f">  {self.DamageImmunities}", inline=True)
+        if(self.ConditionImmunities != ""):
+            embed.add_field(name="Conditional Immunities", value=f">  {self.ConditionImmunities}", inline=True)
+        #details
+        embed.add_field(name = chr(173), value = chr(173),inline=False)
+        embed.add_field(name="Details",
+                        value=f"\n>  **Senses:** {self.Senses}\n>  **Languages:** {self.Languages}",
+                        inline=False)
+        
+        #embed.add_field(name="Extra",value=f">  **Actions:** {self.Additional}")
         return embed

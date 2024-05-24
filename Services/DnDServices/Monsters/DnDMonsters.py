@@ -117,6 +117,8 @@ class DnDMonsters:
         environmentToUse = self.Environments[Environment.value]
         if( ChallengeRating >= 0 ): #look for cr CR
             environmentToUse = [x for x in environmentToUse if x.ChallengeRating == ChallengeRating]
+        if(len(environmentToUse) == 0):
+            return None
         result = environmentToUse[random.randrange(0, len(environmentToUse), 1)]
         return result
 
