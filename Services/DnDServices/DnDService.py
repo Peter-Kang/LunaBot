@@ -32,7 +32,7 @@ class DnD:
                     rollResultsString = f"\n[{rollResultsString}]"
                 else:
                     rollResultsString = ""
-                result=f"You Rolled {inputParsed}\nTotal:{total}"
+                result=f"You Rolled {inputParsed}{rollResultsString}\nTotal:{total}"
         return result
 
     def Encounter(self, ChallengeRating:float =-1.0, Environment:DnDEnvironments=DnDEnvironments.All) -> discord.Embed:
