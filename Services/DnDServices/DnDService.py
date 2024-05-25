@@ -28,7 +28,11 @@ class DnD:
                     rollResults.append(roll)
                     total += roll 
                 rollResultsString = ' , '.join([str(i) for i in rollResults])
-                result=f"You Rolled {inputParsed}\n[{rollResultsString}]\nTotal:{total}"
+                if len(rollResultsString) < 1900:
+                    rollResultsString = f"\n[{rollResultsString}]"
+                else:
+                    rollResultsString = ""
+                result=f"You Rolled {inputParsed}\nTotal:{total}"
         return result
 
     def Encounter(self, ChallengeRating:float =-1.0, Environment:DnDEnvironments=DnDEnvironments.All) -> discord.Embed:
