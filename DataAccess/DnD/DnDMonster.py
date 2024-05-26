@@ -1,87 +1,87 @@
 import discord
 import json
 
-class DnDMonster:
-    Name:str = ""                           
-    Size:str = ""                           
-    Type:str = ""                                         
-    Alignment:str = ""
-    HitDice:str = ""                      
-    #defense
-    AC:int = 0
-    ArmorDescription:str = ""                              
-    HP:int = 0                             
-    #Movement
-    SpeedNormal:str = ""                    
-    SpeedFlying:str = ""                   
-    SpeedSwimming:str = ""                  
-    SpeedBurrowing:str = ""                 
-    SpeedClimb:str = ""
-    SpeedHover:str = ""
-    SpeedLightWalk:str = ""
-    SpeedNotes:str = ""                     
-    #stats
-    Strength:int = 0                        
-    Dexterity:int = 0                       
-    Constitution:int = 0                    
-    Intelligence:int = 0                    
-    Wisdom:int = 0                          
-    Charisma:int = 0                        
-    #details
-    SavingThrows:str = ""                   
-    Skills:str = ""                         
-    Senses:str=""                           
-    Languages:str=""                        
-    #Challenge
-    ChallengeRating:float=0.0            
-    #Environments
-    AllEnvironments:bool = True            
-    Arctic:bool = False                     
-    Costal:bool = False                     
-    Desert:bool = False                    
-    Forest:bool = False                     
-    Grassland:bool = False                  
-    Hills:bool = False                      
-    Jungle:bool = False                     
-    Mountain:bool = False                   
-    Swamp:bool = False                      
-    Underdark:bool = False                  
-    Underwater:bool = False                 
-    Urban:bool = False
-    Sewer:bool = False
-    Ruin:bool = False
-    Feywild:bool = False
-    Hell:bool = False
-    EarthPlane:bool = False
-    FirePlane:bool = False
-    WaterPlane:bool = False
-    AirPlane:bool = False
-    AstralPlane:bool = False
-    EtherealPlane:bool = False
-    Laboratory:bool=False
-    ShadowFell:bool = False
-    Abyss:bool = False
-    Caves:bool = False
-    Temple:bool = False
-    Volcano:bool = False
-    Flexible:bool = False
-    #WRI
-    Weaknesses:str = ""
-    Resistances:str = ""
-    DamageImmunities:str =""
-    ConditionImmunities:str = ""
-    #actions
-    Actions:list[str] = []
-    BonusActions:list[str] = []
-    Reactions:list[str] = []
-    LegendaryActions:list[str] = []
-    SpecialAbilities:list[str] = []
-    SpellList:list[str] = []
-    #Extra info
-    Additional:str = ""                     
-    Source:str= ""                          
+class DnDMonster:                         
 
     def __init__(self, row:list[str]=[]):
+        self.Name:str = ""                           
+        self.Size:str = ""                           
+        self.Type:str = ""                                         
+        self.Alignment:str = ""
+        self.HitDice:str = ""                      
+    #defense
+        self.AC:int = 0
+        self.ArmorDescription:str = ""                              
+        self.HP:int = 0                             
+    #Movement
+        self.SpeedNormal:str = ""                    
+        self.SpeedFlying:str = ""                   
+        self.SpeedSwimming:str = ""                  
+        self.SpeedBurrowing:str = ""                 
+        self.SpeedClimb:str = ""
+        self.SpeedHover:str = ""
+        self.SpeedLightWalk:str = ""
+        self.SpeedNotes:str = ""                     
+    #stats
+        self.Strength:int = 0                        
+        self.Dexterity:int = 0                       
+        self.Constitution:int = 0                    
+        self.Intelligence:int = 0                    
+        self.Wisdom:int = 0                          
+        self.Charisma:int = 0                        
+    #details
+        self.SavingThrows:str = ""                   
+        self.Skills:str = ""                         
+        self.Senses:str=""                           
+        self.Languages:str=""                        
+    #Challenge
+        self.ChallengeRating:float=0.0            
+    #Environments
+        self.AllEnvironments:bool = True            
+        self.Arctic:bool = False                     
+        self.Costal:bool = False                     
+        self.Desert:bool = False                    
+        self.Forest:bool = False                     
+        self.Grassland:bool = False                  
+        self.Hills:bool = False                      
+        self.Jungle:bool = False                     
+        self.Mountain:bool = False                   
+        self.Swamp:bool = False                      
+        self.Underdark:bool = False                  
+        self.Underwater:bool = False                 
+        self.Urban:bool = False
+        self.Sewer:bool = False
+        self.Ruin:bool = False
+        self.Feywild:bool = False
+        self.Hell:bool = False
+        self.EarthPlane:bool = False
+        self.FirePlane:bool = False
+        self.WaterPlane:bool = False
+        self.AirPlane:bool = False
+        self.AstralPlane:bool = False
+        self.EtherealPlane:bool = False
+        self.Laboratory:bool=False
+        self.ShadowFell:bool = False
+        self.Abyss:bool = False
+        self.Caves:bool = False
+        self.Temple:bool = False
+        self.Volcano:bool = False
+        self.Flexible:bool = False
+    #WRI
+        self.Weaknesses:str = ""
+        self.Resistances:str = ""
+        self.DamageImmunities:str =""
+        self.ConditionImmunities:str = ""
+    #actions
+        self.Actions:list[str] = []
+        self.BonusActions:list[str] = []
+        self.Reactions:list[str] = []
+        self.LegendaryActions:list[str] = []
+        self.SpecialAbilities:list[str] = []
+        self.SpellList:list[str] = []
+    #Extra info
+        self.Additional:str = ""                     
+        self.Source:str= "" 
         #set the location and monster names
         self.setMonsterLocationAndCR(row)
         self.setMonsterInfo(row)
@@ -229,23 +229,29 @@ class DnDMonster:
         self.DamageImmunities = row["damage_immunities"]
         self.ConditionImmunities = row["condition_immunities"]
         #actions
-        for action in row["actions"]:
-            self.Actions.append(f"{action['name']}: {action['desc']}")
+        if row["actions"] != None:
+            for action in row["actions"]:
+                self.Actions.append(f"{action['name']}")#: {action['desc'] if 'desc' in action else action['description']}")
         #bonus_actions
-        for bonus in row["bonus_actions"]:
-            self.BonusActions.append(f"{bonus['name']}: {bonus['desc']}")
+        if row["bonus_actions"] != None:
+            for bonus in row["bonus_actions"]:
+                self.BonusActions.append(f"{bonus['name']}")#: {bonus['desc'] if 'desc' in bonus else bonus['description']}")
         #reactions
-        for reaction in row["reactions"]:
-            self.Reactions.append(f"{reaction['name']}: {reaction['desc']}")
+        if row["reactions"] != None:
+            for reaction in row["reactions"]:
+                self.Reactions.append(f"{reaction['name']}")#: {reaction['desc'] if 'desc' in reaction else reaction['description']}")
         #legendary_actions
-        for legendary in row["legendary_actions"]:
-            self.LegendaryActions.append(f"{legendary['name']}: {legendary['desc']}")
+        if row["legendary_actions"] != None:
+            for legendary in row["legendary_actions"]:
+                self.LegendaryActions.append(f"{legendary['name']}")#: {legendary['desc'] if 'desc' in legendary else legendary['description']}")
         #special_abilities
-        for spec in row["special_abilities"]:
-            self.SpecialAbilities.append(f"{spec['name']}: {spec['desc']}")
+        if row["special_abilities"] != None:
+            for spec in row["special_abilities"]:
+                self.SpecialAbilities.append(f"{spec['name']}")#: {spec['desc'] if 'desc' in spec else spec['description']}")
         #spell_list, remove https://api.open5e.com/v1/spells/,-, and /, then make title
-        for spell in row["spell_list"]:
-            self.SpellList.append(spell.replace("https://api.open5e.com/v1/spells/","").replace("-"," ").replace("/",""))
+        if row["spell_list"] != None:
+            for spell in row["spell_list"]:
+                self.SpellList.append(spell.replace("https://api.open5e.com/v1/spells/","").replace("-"," ").replace("/",""))
 
     def __format__(self, format_spec: str) -> str:
         return self.Name
@@ -330,15 +336,21 @@ class DnDMonster:
                         inline=False)
         
         #Actions
-        embed.add_field(name="Actions", value="\n".join(self.Actions), inline=False)
+        if len(self.Actions) != 0:
+            embed.add_field(name="Actions", value="- "+"\n- ".join(self.Actions), inline=False)
         #BonusActions
-        embed.add_field(name="Bonus Actions", value="\n".join(self.BonusActions), inline=False)
+        if len(self.BonusActions) != 0:
+            embed.add_field(name="Bonus Actions", value="- "+"\n- ".join(self.BonusActions), inline=False)
         #Reactions
-        embed.add_field(name="Reactions", value="\n".join(self.Reactions), inline=False)
+        if len(self.Reactions) != 0:
+            embed.add_field(name="Reactions", value="- "+"\n- ".join(self.Reactions), inline=False)
         #LegendaryActions
-        embed.add_field(name="Legendary Actions", value="\n".join(self.LegendaryActions), inline=False)
+        if len(self.LegendaryActions) != 0:
+            embed.add_field(name="Legendary Actions", value="- "+"\n- ".join(self.LegendaryActions), inline=False)
         #SpecialAbilities
-        embed.add_field(name="Special Abilities", value="\n".join(self.SpecialAbilities), inline=False)
+        if len(self.SpecialAbilities) != 0:
+            embed.add_field(name="Special Abilities", value="- "+"\n- ".join(self.SpecialAbilities), inline=False)
         #SpellList
-        embed.add_field(name="Spell List", value=", ".join(self.SpellList), inline=False)
+        if len(self.SpellList) != 0:
+            embed.add_field(name="Spell List", value=", ".join(self.SpellList), inline=False)
         return embed
