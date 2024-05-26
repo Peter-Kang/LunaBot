@@ -284,7 +284,10 @@ class DnDMonster:
                             inline=True)
         if(self.Skills != ""):
             embed.add_field(name="Skills", value=self.Skills, inline=True)
-        embed.add_field(name = chr(173), value = chr(173),inline=False)
+        #details
+        embed.add_field(name="Details",
+                        value=f"\n>  **Senses:** {self.Senses}\n>  **Languages:** {self.Languages}",
+                        inline=False)
         #environment
         environmentList:list[str] = []
         if self.Arctic == True: environmentList.append("Arctic")
@@ -329,10 +332,7 @@ class DnDMonster:
             embed.add_field(name="Damage Immunities", value=f">  {self.DamageImmunities}", inline=True)
         if(self.ConditionImmunities != ""):
             embed.add_field(name="Conditional Immunities", value=f">  {self.ConditionImmunities}", inline=True)
-        #details
-        embed.add_field(name="Details",
-                        value=f"\n>  **Senses:** {self.Senses}\n>  **Languages:** {self.Languages}",
-                        inline=False)
+        
         
         #Actions
         if len(self.Actions) != 0:
