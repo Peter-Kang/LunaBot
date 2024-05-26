@@ -70,6 +70,13 @@ class DnDMonster:
     Resistances:str = ""
     DamageImmunities:str =""
     ConditionImmunities:str = ""
+    #actions
+    Actions:list[str] = []
+    BonusActions:list[str] = []
+    Reactions:list[str] = []
+    LegendaryActions:list[str] = []
+    SpecialAbilities:list[str] = []
+    SpellList:list[str] = []
     #Extra info
     Additional:str = ""                     
     Source:str= ""                          
@@ -221,13 +228,24 @@ class DnDMonster:
         self.Resistances = row["damage_resistances"]
         self.DamageImmunities = row["damage_immunities"]
         self.ConditionImmunities = row["condition_immunities"]
-        '''         
-        #details                                       
-        self.WeaknessResistanceImmunities:str = row[20]        
-        #Extra info
-        self.Additional:str = row[39]                        
-        self.Source:str = row[40]                           
-        '''
+        #actions
+        for action in row["actions"]:
+            self.Actions.append(f"{action['name']}: {action['desc']}")
+        #bonus_actions
+        for bonus in row["bonus_actions"]:
+            self.BonusActions.append(f"{bonus['name']}: {bonus['desc']}")
+        #reactions
+        for reaction in row["reactions"]:
+            self.Reactions.append(f"{reaction['name']}: {reaction['desc']}")
+        #legendary_actions
+        for legendary in row["legendary_actions"]:
+            self.LegendaryActions.append(f"{legendary['name']}: {legendary['desc']}")
+        #special_abilities
+        for spec in row["special_abilities"]:
+            self.SpecialAbilities.append(f"{spec['name']}: {spec['desc']}")
+        #spell_list, remove https://api.open5e.com/v1/spells/,-, and /, then make title
+        for spell in row["spell_list"]:
+            self.SpellList.append(spell.replace("https://api.open5e.com/v1/spells/","").replace("-"," ").replace("/",""))
 
     def __format__(self, format_spec: str) -> str:
         return self.Name
@@ -311,5 +329,16 @@ class DnDMonster:
                         value=f"\n>  **Senses:** {self.Senses}\n>  **Languages:** {self.Languages}",
                         inline=False)
         
-        #embed.add_field(name="Extra",value=f">  **Actions:** {self.Additional}")
+        #Actions
+        embed.add_field(name="Actions", value="\n".join(self.Actions), inline=False)
+        #BonusActions
+        embed.add_field(name="Bonus Actions", value="\n".join(self.BonusActions), inline=False)
+        #Reactions
+        embed.add_field(name="Reactions", value="\n".join(self.Reactions), inline=False)
+        #LegendaryActions
+        embed.add_field(name="Legendary Actions", value="\n".join(self.LegendaryActions), inline=False)
+        #SpecialAbilities
+        embed.add_field(name="Special Abilities", value="\n".join(self.SpecialAbilities), inline=False)
+        #SpellList
+        embed.add_field(name="Spell List", value=", ".join(self.SpellList), inline=False)
         return embed
