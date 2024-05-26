@@ -330,7 +330,6 @@ class DnDMonster:
         if(self.ConditionImmunities != ""):
             embed.add_field(name="Conditional Immunities", value=f">  {self.ConditionImmunities}", inline=True)
         #details
-        embed.add_field(name = chr(173), value = chr(173),inline=False)
         embed.add_field(name="Details",
                         value=f"\n>  **Senses:** {self.Senses}\n>  **Languages:** {self.Languages}",
                         inline=False)
