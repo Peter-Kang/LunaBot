@@ -19,7 +19,8 @@ class Champions:
         if self.version is None or result > self.version:
             self.version = result
             print(f"Update the version {self.version}")
-            return asyncio.run(self._repopulateChampionList())
+            loop = asyncio.get_event_loop()
+            return loop.run_until_complete(self._repopulateChampionList())
         return None
 
 #network calls
