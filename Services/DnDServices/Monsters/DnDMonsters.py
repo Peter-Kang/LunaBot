@@ -31,11 +31,11 @@ class DnDEnvironments(Enum):
     EtherealPlane = 22
     Laboratory  = 23
     ShadowFell  = 24
-    Abyss       = 25
-    Caves       = 26
-    Temple      = 27
-    Volcano     = 28
-    Flexible    = 29
+ #  Abyss       = 25
+ #  Caves       = 26
+ #  Temple      = 27
+ #  Volcano     = 28
+ #  Flexible    = 29
 
 class DnDMonsters:
     #monster location Enum

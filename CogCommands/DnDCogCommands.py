@@ -18,9 +18,11 @@ class DnDCogCommands(commands.Cog):
         for env in DnDEnvironments:
             if( int(env)<24 ):
                 result.append(app_commands.Choice(name=env.name,value=env))
+        return result
 
     @app_commands.command(name="encounter", description="Makes an encounter for a monster")
     @app_commands.describe(challenge = "The Challenge rating of the encounter", environment = "The environment")
+    @app_commands.choices(choices=getEnvironmentChoices())
     async def encounter(self,interaction:discord.Interaction, challenge:float=-1.0, environment:DnDEnvironments = DnDEnvironments.All):
         result:discord.Embed = self.bot.DnDService.Encounter(challenge,environment)
         await interaction.response.send_message(embed=result)
