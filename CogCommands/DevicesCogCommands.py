@@ -9,7 +9,7 @@ class DevicesCogCommands(commands.Cog):
 
     @app_commands.command(name="temperature", description="Gets the temperature and humidity")
     async def temperature(self,interaction:discord.Interaction):
-        result:str = self.bot.RPIService.GetTemperatureAndHumidity()
+        result:str = "Down"#self.bot.RPIService.GetTemperatureAndHumidity()
         await interaction.response.send_message(result)
 
 async def setup(bot:commands.Bot) ->None:
