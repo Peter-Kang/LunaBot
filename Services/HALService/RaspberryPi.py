@@ -10,8 +10,7 @@ class RPI:
     def is_RPI(self) -> bool:
         try:
             with io.open('/sys/firmware/devicetree/base/model', 'r') as m:
-                if 'raspberry pi' in m.read().lower(): 
-                    self.RPI_Valid = True
-                    return True
+                self.RPI_Valid = 'raspberry pi' in m.read().lower()
+                return self.RPI_Valid
         except Exception: pass
         return False
