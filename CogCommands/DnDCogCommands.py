@@ -16,7 +16,7 @@ class DnDCogCommands(commands.Cog):
     def getEnvironmentChoices(self) ->app_commands.Choice[int]:
         result = []
         for env in DnDEnvironments:
-            if( env != 0 and env<25 ):
+            if( env.value != 0 and env.value<25 ):
                 result.append(app_commands.Choice(name=env.name,value=env))
 
     @app_commands.command(name="encounter", description="Makes an encounter for a monster")
