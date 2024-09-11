@@ -9,8 +9,7 @@ class RPI:
     
     def is_RPI(self) -> bool:
         try:
-            with io.open('model', 'r') as m:
-                self.RPI_Valid = 'raspberry pi' in m.read().lower()
+                self.RPI_Valid = 'rpi' in os.uname().release
                 return self.RPI_Valid
         except Exception: pass
         return False
