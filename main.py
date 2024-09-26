@@ -1,6 +1,7 @@
 #!/usr/bin/env python3.11
 import discord
 from discord.ext import commands
+from discord import scheduled_event
 
 from LeagueDiscordBot import LeagueDiscordBot
 
@@ -11,6 +12,15 @@ async def on_command_error(ctx, error):
     if isinstance(error, discord.ext.commands.errors.CommandNotFound):
         await ctx.send("That command wasn't found! Sorry :(")
 
+@bot.event
+async def on_scheduled_event_create(event:scheduled_event):
+    try:
+        eventChannel = discord.utils.get(bot.get_guild(event.guild.id).channels, name="event-details")
+        if(isinstance(eventChannel, discord.ForumChannel)):
+            await eventChannel.create_thread(name = event.name, content=event.url)
+    except Exception as error:
+                print(error)
+     
 @bot.command(name="sync")
 @commands.guild_only()
 async def sync(ctx:commands.context):
