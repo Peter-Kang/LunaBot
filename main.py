@@ -19,7 +19,21 @@ async def on_scheduled_event_create(event:scheduled_event):
         if(isinstance(eventChannel, discord.ForumChannel)):
             await eventChannel.create_thread(name = event.name, content=event.url)
     except Exception as error:
-                print(error)
+        print(error)
+
+@bot.event
+async def on_scheduled_event_user_add(event:scheduled_event, user:discord.user):
+    try:
+        eventChannel = discord.utils.get(bot.get_guild(event.guild.id).channels, name="event-details")
+        if(isinstance(eventChannel, discord.ForumChannel)):
+            for thread in eventChannel.threads:
+                start = [message async for message in thread.history(limit=1, oldest_first = True)]
+                if(len(start) > 0 and str(event.id) in start[0].content):
+                    await thread.add_user(user)
+                    break
+
+    except Exception as error:
+        print(error)
      
 @bot.command(name="sync")
 @commands.guild_only()
