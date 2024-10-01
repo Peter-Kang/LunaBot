@@ -18,7 +18,11 @@ async def on_scheduled_event_create(event:scheduled_event):
         eventChannel = discord.utils.get(bot.get_guild(event.guild.id).channels, name="event-forums")
         if(isinstance(eventChannel, discord.ForumChannel)):
             #set embed image
-            await eventChannel.create_thread(name = event.name, content=event.url)
+            if event.cover_image != None:
+                embedToUse:discord.Embed = discord.Embed(event.cover_image)
+                await eventChannel.create_thread(name = event.name, content=event.url, embed=embedToUse)
+            else:
+                await eventChannel.create_thread(name = event.name, content=event.url)
         else:
             print("Could not find event-forums channel")
     except Exception as error:
