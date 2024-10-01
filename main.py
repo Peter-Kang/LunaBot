@@ -19,7 +19,8 @@ async def on_scheduled_event_create(event:scheduled_event):
         if(isinstance(eventChannel, discord.ForumChannel)):
             #set embed image
             if event.cover_image != None:
-                embedToUse:discord.Embed = discord.Embed(event.cover_image)
+                embedToUse:discord.Embed = discord.Embed()
+                embedToUse.set_image(event.cover_image)
                 await eventChannel.create_thread(name = event.name, content=event.url, embed=embedToUse)
             else:
                 await eventChannel.create_thread(name = event.name, content=event.url)
