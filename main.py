@@ -39,7 +39,7 @@ async def on_scheduled_event_update(before:scheduled_event, after:scheduled_even
                 if thread.archived == False and thread.locked == False:
                     start = [message async for message in thread.history(limit=1, oldest_first = True)]
                     if(len(start) > 0 and str(before.id) in start[0].content):
-                        await thread.edit(name=thread.name, archived=True, locked=True, invitable= thread.invitable, auto_archive_duration=thread.auto_archive_duration, slowmode_delay=0, applied_tags=thread.applied_tags)
+                        await thread.edit(name=thread.name, archived=False, locked=True, invitable= thread.invitable, auto_archive_duration=thread.auto_archive_duration, slowmode_delay=0, applied_tags=thread.applied_tags)
                         break
         else:
             print("Could not find event-forums channel")
