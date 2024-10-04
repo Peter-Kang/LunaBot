@@ -30,6 +30,22 @@ async def on_scheduled_event_create(event:scheduled_event):
         print(error)
 
 @bot.event
+async def on_scheduled_event_delete(event:scheduled_event):
+    try:
+        eventChannel = discord.utils.get(bot.get_guild(event.guild.id).channels, name="event-forums")
+        if(isinstance(eventChannel, discord.ForumChannel)):
+            for thread in eventChannel.threads:
+                #check if thread is archived 
+                if thread.archived == False and thread.locked == False:
+                    start = [message async for message in thread.history(limit=1, oldest_first = True)]
+                    if(len(start) > 0 and str(event.id) in start[0].content):
+                        thread.locked = True
+                        break
+        else:
+            print("Could not find event-forums channel")
+    except Exception as error:
+        print(error)
+@bot.event
 async def on_scheduled_event_user_add(event:scheduled_event, user:discord.user):
     try:
         eventChannel = discord.utils.get(bot.get_guild(event.guild.id).channels, name="event-forums")
@@ -44,6 +60,7 @@ async def on_scheduled_event_user_add(event:scheduled_event, user:discord.user):
 
     except Exception as error:
         print(error)
+     
      
 @bot.command(name="sync")
 @commands.guild_only()
