@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 
 import discord
 from discord.ext import commands
+from discord import scheduled_event
 
 from Services.LeagueServices.league import league
 from DataAccess.LeagueDatabase import LeagueDatabase
@@ -11,7 +12,6 @@ from Services.DnDServices.DnDService import DnD
 from Services.HALService.RaspberryPi.RaspberryPi import RPI
 
 class LeagueDiscordBot(commands.Bot):
-
 
     def __init__(self):
         #member variables
@@ -58,6 +58,54 @@ class LeagueDiscordBot(commands.Bot):
         #set the status for the bot
         await self.change_presence(activity=discord.Activity(type=discord.ActivityType.playing, name=self.BOT_STATUS))#services
 
+    async def on_scheduled_event_create(self, event:scheduled_event):
+        try:
+            eventChannel = discord.utils.get(self.get_guild(event.guild.id).channels, name="event-forums")
+            if(isinstance(eventChannel, discord.ForumChannel)):
+                #set embed image
+                if event.cover_image != None:
+                    embedToUse:discord.Embed = discord.Embed()
+                    embedToUse.set_image(url=event.cover_image.url)
+                    await eventChannel.create_thread(name = event.name, embed=embedToUse, content=event.url)
+                else:
+                    await eventChannel.create_thread(name = event.name, content=event.url)
+            else:
+                print("Could not find event-forums channel")
+        except Exception as error:
+            print(error)
+
+
+    async def on_scheduled_event_update(self, before:scheduled_event, after:scheduled_event):
+        try:
+            eventChannel = discord.utils.get(self.get_guild(before.guild.id).channels, name="event-forums")
+            if(isinstance(eventChannel, discord.ForumChannel) and (after.status == discord.EventStatus.completed) or (after.status == discord.EventStatus.ended)):
+                for thread in eventChannel.threads:
+                    #check if thread is archived 
+                    if thread.archived == False and thread.locked == False:
+                        start = [message async for message in thread.history(limit=1, oldest_first = True)]
+                        if(len(start) > 0 and str(before.id) in start[0].content):
+                            await thread.edit(name=thread.name, archived=True, locked=False, invitable= thread.invitable, auto_archive_duration=60, slowmode_delay=0, applied_tags=thread.applied_tags)
+                            break
+            else:
+                print("Could not find event-forums channel")
+        except Exception as error:
+            print(error)
+
+
+    async def on_scheduled_event_user_add(self, event:scheduled_event, user:discord.user):
+        try:
+            eventChannel = discord.utils.get(self.get_guild(event.guild.id).channels, name="event-forums")
+            if(isinstance(eventChannel, discord.ForumChannel)):
+                for thread in eventChannel.threads:
+                    #check if thread is archived 
+                    if thread.archived == False and thread.locked == False:
+                        start = [message async for message in thread.history(limit=1, oldest_first = True)]
+                        if(len(start) > 0 and str(event.id) in start[0].content):
+                            await thread.add_user(user)
+                            break
+
+        except Exception as error:
+            print(error)
     async def load_extensions(self):
         #attach cogs
         for Filename in os.listdir('./CogCommands'):

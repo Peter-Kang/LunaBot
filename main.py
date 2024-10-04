@@ -1,7 +1,7 @@
 #!/usr/bin/env python3.11
 import discord
 from discord.ext import commands
-from discord import scheduled_event
+
 
 from LeagueDiscordBot import LeagueDiscordBot
 
@@ -11,57 +11,6 @@ bot = LeagueDiscordBot()
 async def on_command_error(ctx, error):
     if isinstance(error, discord.ext.commands.errors.CommandNotFound):
         await ctx.send("That command wasn't found! Sorry :(")
-
-@bot.event
-async def on_scheduled_event_create(event:scheduled_event):
-    try:
-        eventChannel = discord.utils.get(bot.get_guild(event.guild.id).channels, name="event-forums")
-        if(isinstance(eventChannel, discord.ForumChannel)):
-            #set embed image
-            if event.cover_image != None:
-                embedToUse:discord.Embed = discord.Embed()
-                embedToUse.set_image(url=event.cover_image.url)
-                await eventChannel.create_thread(name = event.name, embed=embedToUse, content=event.url)
-            else:
-                await eventChannel.create_thread(name = event.name, content=event.url)
-        else:
-            print("Could not find event-forums channel")
-    except Exception as error:
-        print(error)
-
-@bot.event
-async def on_scheduled_event_update(before:scheduled_event, after:scheduled_event):
-    try:
-        eventChannel = discord.utils.get(bot.get_guild(before.guild.id).channels, name="event-forums")
-        if(isinstance(eventChannel, discord.ForumChannel) and (after.status == discord.EventStatus.completed) or (after.status == discord.EventStatus.ended)):
-            for thread in eventChannel.threads:
-                #check if thread is archived 
-                if thread.archived == False and thread.locked == False:
-                    start = [message async for message in thread.history(limit=1, oldest_first = True)]
-                    if(len(start) > 0 and str(before.id) in start[0].content):
-                        await thread.edit(name=thread.name, archived=False, locked=True, invitable= thread.invitable, auto_archive_duration=60, slowmode_delay=0, applied_tags=thread.applied_tags)
-                        break
-        else:
-            print("Could not find event-forums channel")
-    except Exception as error:
-        print(error)
-
-@bot.event
-async def on_scheduled_event_user_add(event:scheduled_event, user:discord.user):
-    try:
-        eventChannel = discord.utils.get(bot.get_guild(event.guild.id).channels, name="event-forums")
-        if(isinstance(eventChannel, discord.ForumChannel)):
-            for thread in eventChannel.threads:
-                #check if thread is archived 
-                if thread.archived == False and thread.locked == False:
-                    start = [message async for message in thread.history(limit=1, oldest_first = True)]
-                    if(len(start) > 0 and str(event.id) in start[0].content):
-                        await thread.add_user(user)
-                        break
-
-    except Exception as error:
-        print(error)
-     
      
 @bot.command(name="sync")
 @commands.guild_only()
