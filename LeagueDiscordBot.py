@@ -108,7 +108,7 @@ class LeagueDiscordBot(commands.Bot):
         except Exception as error:
             print(error)
 
-    @tasks.loop(hours=6)
+    @tasks.loop(hours=12)
     async def refreshEventForumThreads(self):
         try:
             for guild in self.guilds:
