@@ -1,8 +1,9 @@
 import os
 from dotenv import load_dotenv
+import re
 
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
 from discord import scheduled_event
 
 from Services.LeagueServices.league import league
@@ -57,6 +58,7 @@ class LeagueDiscordBot(commands.Bot):
         await self.load_extensions()
         #set the status for the bot
         await self.change_presence(activity=discord.Activity(type=discord.ActivityType.playing, name=self.BOT_STATUS))#services
+        await self.refreshEventForumThreads.start()
 
     async def on_scheduled_event_create(self, event:scheduled_event):
         try:
@@ -91,7 +93,6 @@ class LeagueDiscordBot(commands.Bot):
         except Exception as error:
             print(error)
 
-
     async def on_scheduled_event_user_add(self, event:scheduled_event, user:discord.user):
         try:
             eventChannel = discord.utils.get(self.get_guild(event.guild.id).channels, name="event-forums")
@@ -106,6 +107,33 @@ class LeagueDiscordBot(commands.Bot):
 
         except Exception as error:
             print(error)
+
+    @tasks.loop(hours=6)
+    async def refreshEventForumThreads(self):
+        try:
+            for guild in self.guilds:
+                eventChannel = discord.utils.get(self.get_guild(guild.id).channels, name="event-forums")
+                if(isinstance(eventChannel, discord.ForumChannel)):
+                    #get the scheduled event list
+                    listOfEvents = await guild.fetch_scheduled_events()
+                    setOfSchEventIDs = set()
+                    for event in listOfEvents:
+                        setOfSchEventIDs.add(int(event.id))
+                    if(len(listOfEvents) != 0):
+                        for thread in eventChannel.threads:
+                            if thread.archived == False and thread.locked == False:
+                                start = [message async for message in thread.history(limit=1, oldest_first = True)]
+                                if(len(start) > 0):
+                                    eventID = re.search('(\d+)(?!.*\d)',start[0].content)
+                                    if eventID and int(eventID.group(0)) in setOfSchEventIDs:
+                                        #make sure the event is alive
+                                        await thread.edit(name=thread.name, archived=False, locked=False, invitable= thread.invitable, auto_archive_duration=10080, slowmode_delay=0, applied_tags=thread.applied_tags)
+                                    else:
+                                        #close the thread, event ended
+                                        await thread.edit(name=thread.name, archived=True, locked=False, invitable= thread.invitable, auto_archive_duration=10080, slowmode_delay=0, applied_tags=thread.applied_tags)                        
+        except Exception as error:
+            print(error)
+
     async def load_extensions(self):
         #attach cogs
         for Filename in os.listdir('./CogCommands'):
