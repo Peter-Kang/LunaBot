@@ -50,7 +50,7 @@ class LeagueDiscordBot(commands.Bot):
         #Check if we are on a Raspberry Pi
         self.RPIService:RPI = RPI()
         print(f'Is RPI {self.RPIService.is_RPI()}')
-
+#On boot tasks, please try to keep this skinny, use Cron jobs if needed
     async def on_ready(self):
         #can remove the init service
         for a_guild in self.guilds:
@@ -59,7 +59,7 @@ class LeagueDiscordBot(commands.Bot):
         #set the status for the bot
         await self.change_presence(activity=discord.Activity(type=discord.ActivityType.playing, name=self.BOT_STATUS))#services
         await self.refreshEventForumThreads.start()
-
+#Scheduled Event Events
     async def on_scheduled_event_create(self, event:scheduled_event):
         try:
             eventChannel = discord.utils.get(self.get_guild(event.guild.id).channels, name="event-forums")
@@ -75,7 +75,6 @@ class LeagueDiscordBot(commands.Bot):
                 print("Could not find event-forums channel")
         except Exception as error:
             print(error)
-
 
     async def on_scheduled_event_update(self, before:scheduled_event, after:scheduled_event):
         try:
@@ -107,7 +106,7 @@ class LeagueDiscordBot(commands.Bot):
 
         except Exception as error:
             print(error)
-
+#Cron Jobs
     @tasks.loop(hours=12)
     async def refreshEventForumThreads(self):
         try:
@@ -133,7 +132,7 @@ class LeagueDiscordBot(commands.Bot):
                                         await thread.edit(name=thread.name, archived=True, locked=False, invitable= thread.invitable, auto_archive_duration=10080, slowmode_delay=0, applied_tags=thread.applied_tags)                        
         except Exception as error:
             print(error)
-
+#Loading all Cogs
     async def load_extensions(self):
         #attach cogs
         for Filename in os.listdir('./CogCommands'):
