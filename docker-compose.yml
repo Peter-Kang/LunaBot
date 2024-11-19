@@ -3,6 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    restart: always
     image: long-horns
     container_name: long-horns
     volumes:
