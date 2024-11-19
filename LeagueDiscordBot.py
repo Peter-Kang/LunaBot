@@ -134,7 +134,7 @@ class LeagueDiscordBot(commands.Bot):
                                         await thread.edit(name=thread.name, archived=True, locked=False, invitable= thread.invitable, auto_archive_duration=10080, slowmode_delay=0, applied_tags=thread.applied_tags)                        
         except Exception as error:
             print(error)
-#Loading all Cogs
+#Loading all Cogsjhgjhgjh
     async def load_extensions(self):
         #attach cogs
         for Filename in os.listdir('./CogCommands'):
