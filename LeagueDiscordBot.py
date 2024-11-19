@@ -126,6 +126,8 @@ class LeagueDiscordBot(commands.Bot):
                                     eventID = re.search('(\d+)(?!.*\d)',start[0].content)
                                     if eventID and int(eventID.group(0)) in setOfSchEventIDs:
                                         #make sure the event is alive
+                                        await thread.edit(name=thread.name, archived=False, locked=False, invitable= thread.invitable, auto_archive_duration=60, slowmode_delay=0, applied_tags=thread.applied_tags)
+                                        #refresh it
                                         await thread.edit(name=thread.name, archived=False, locked=False, invitable= thread.invitable, auto_archive_duration=10080, slowmode_delay=0, applied_tags=thread.applied_tags)
                                     else:
                                         #close the thread, event ended
