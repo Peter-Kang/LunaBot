@@ -13,3 +13,13 @@ To exit .venv
 '''
 deactivate
 '''
+
+For docker-compose run
+'''
+docker-compose up
+'''
+
+to rebuild:
+'''
+docker-compose up -d --no-deps --build
+'''
