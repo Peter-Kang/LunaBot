@@ -64,13 +64,18 @@ class LeagueDiscordBot(commands.Bot):
         try:
             eventChannel = discord.utils.get(self.get_guild(event.guild.id).channels, name="event-forums")
             if(isinstance(eventChannel, discord.ForumChannel)):
-                #set embed image
-                if event.cover_image != None:
-                    embedToUse:discord.Embed = discord.Embed()
-                    embedToUse.set_image(url=event.cover_image.url)
-                    await eventChannel.create_thread(name = event.name, embed=embedToUse, content=event.url)
-                else:
-                    await eventChannel.create_thread(name = event.name, content=event.url)
+                setOfNames = set();
+                for thread in eventChannel.threads:
+                    if thread.archived == False and thread.locked == False:
+                        setOfNames.add(str(thread.name))
+                if( not event.name in setOfNames ): #check if channel already exists
+                    #set embed image
+                    if event.cover_image != None:
+                        embedToUse:discord.Embed = discord.Embed()
+                        embedToUse.set_image(url=event.cover_image.url)
+                        await eventChannel.create_thread(name = event.name, embed=embedToUse, content=event.url)
+                    else:
+                        await eventChannel.create_thread(name = event.name, content=event.url)
             else:
                 print("Could not find event-forums channel")
         except Exception as error:
