@@ -3,7 +3,7 @@ run-name: ${{ github.repository }} PR into Main Run Attempt ${{ github.run_attem
 on: 
   pull_request:
     branches:
-      -main
+      - main
     types: [closed]
 jobs:
   if_merged:
