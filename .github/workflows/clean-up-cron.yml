@@ -1,0 +1,29 @@
+name: Cleanup Old GHCR Images
+
+on:
+  schedule:
+    # Runs every day at 3 AM UTC
+    - cron: "0 3 * * *"
+
+  # Optional: allows manual execution from GitHub UI
+  workflow_dispatch:
+
+permissions:
+  packages: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Delete old container versions
+        uses: actions/delete-package-versions@v5
+        with:
+          package-name: ${{ github.event.repository.name }}
+          package-type: container
+
+          # Keep only the newest version
+          min-versions-to-keep: 1
+
+          # Delete tagged versions too
+          delete-only-untagged-versions: false
