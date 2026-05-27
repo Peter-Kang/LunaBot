@@ -8,7 +8,7 @@ on:
 jobs:
   if_merged:
     if: github.event.pull_request.merged == true
-    runs-on: ubuntu-latest
+    runs-on: macos-15
     permissions: 
         contents: read
         packages: write
