@@ -81,6 +81,7 @@ class league:
 
 #summoner stats
     def updateMissingMatchesData(self, matchList:list[Match]) -> None:
+        self.db.MatchesDB.clearPastDays(7)
         for match in matchList:
             self.matchCache[match.matchID] = match
             self.db.MatchesDB.addMatches(match.matchID,match.EndEpoch,json.dumps(match.results))
