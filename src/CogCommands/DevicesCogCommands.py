@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 from discord import app_commands
-from src.Services.HALService.RaspberryPi.RaspberryPi import RPI
+from Services.HALService.RaspberryPi.RaspberryPi import RPI
 
 class DevicesCogCommands(commands.Cog):
     def __init__(self, bot):

@@ -1,4 +1,4 @@
-from src.DataAccess.Util.LeagueDBCommandBase import LeagueDBCommandBase as base
+from DataAccess.Util.LeagueDBCommandBase import LeagueDBCommandBase as base
 from datetime import datetime, timedelta
 import sqlite3
 

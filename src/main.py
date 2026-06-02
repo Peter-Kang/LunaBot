@@ -3,7 +3,7 @@ import discord
 from discord.ext import commands
 
 
-from src.LeagueDiscordBot import LeagueDiscordBot
+from LeagueDiscordBot import LeagueDiscordBot
 
 bot = LeagueDiscordBot()
 

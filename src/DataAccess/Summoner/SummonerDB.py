@@ -1,4 +1,4 @@
-from src.DataAccess.Util.LeagueDBCommandBase import LeagueDBCommandBase as base
+from DataAccess.Util.LeagueDBCommandBase import LeagueDBCommandBase as base
 import sqlite3
 
 class SummonerDB(base):

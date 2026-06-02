@@ -1,6 +1,6 @@
 from enum import Enum
-from src.DataAccess.DnD.DnDMonsterReader import DnDMonsterReader
-from src.DataAccess.DnD.DnDMonster import DnDMonster
+from DataAccess.DnD.DnDMonsterReader import DnDMonsterReader
+from DataAccess.DnD.DnDMonster import DnDMonster
 import random
 
 #enums for the environment array

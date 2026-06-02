@@ -1,4 +1,4 @@
-from src.DataAccess.DnD.DnDMonster import DnDMonster
+from DataAccess.DnD.DnDMonster import DnDMonster
 import json
 
     #read in from https://api.open5e.com/

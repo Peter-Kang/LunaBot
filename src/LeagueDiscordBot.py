@@ -6,11 +6,11 @@ import discord
 from discord.ext import commands, tasks
 from discord import scheduled_event
 
-from src.Services.LeagueServices.league import league
-from src.DataAccess.LeagueDatabase import LeagueDatabase
-from src.Services.DnDServices.DnDService import DnD
+from Services.LeagueServices.league import league
+from DataAccess.LeagueDatabase import LeagueDatabase
+from Services.DnDServices.DnDService import DnD
 
-from src.Services.HALService.RaspberryPi.RaspberryPi import RPI
+from Services.HALService.RaspberryPi.RaspberryPi import RPI
 
 class LeagueDiscordBot(commands.Bot):
 
