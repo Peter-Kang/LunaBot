@@ -13,3 +13,6 @@ __pycache__/
 
 #generated files
 db.sqlite3
+
+# build files generated from pip install . with pyproject.toml
+/build
