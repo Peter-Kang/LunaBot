@@ -23,3 +23,7 @@ to rebuild:
 '''
 docker-compose up -d --no-deps --build
 '''
+
+to install:
+pip install .
+
