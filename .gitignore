@@ -16,3 +16,6 @@ db.sqlite3
 
 # build files generated from pip install . with pyproject.toml
 /build
+
+# in case there is ever a unkown.egg-info on build
+*/UNKNOWN.egg-info
