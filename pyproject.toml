@@ -1,6 +1,7 @@
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-ra -q"
+pythonpath = ["src"]
 [project]
 name = "LunabotTest"
 version = "0.0.0"
