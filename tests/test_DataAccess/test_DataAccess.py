@@ -32,6 +32,8 @@ def test_SummonerDB():
         db = LeagueDatabase('',':memory:')# use in memory
         db.SummonerDB.initUserToSummonerMapping()
         assert db.SummonerDB.getAllUsers() == []
+        db.SummonerDB.addOrUpdateUserToSummonerMapping('12345', 'testSummoner', 'testPUUID')
+        assert db.SummonerDB.getAllUsers() == [('12345', 'testPUUID')]
         del db
     except Exception as e:
         assert False, f"Exception occurred: {e}"
