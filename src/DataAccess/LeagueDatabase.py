@@ -8,6 +8,8 @@ class LeagueDatabase:
         fileNameAndPath:str = ""; 
         if(dataPath.endswith("\\") or dataPath.endswith("/")):
             fileNameAndPath = dataPath+fileName
+        elif (fileName == ":memory:"):
+            fileNameAndPath = fileName
         else:
             fileNameAndPath = dataPath+"/"+fileName
         self.Path:str = fileNameAndPath
