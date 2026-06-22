@@ -3,7 +3,7 @@
 .AppleDouble
 .LSOverride
 .env
-.venv/*
+.venv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -13,3 +13,9 @@ __pycache__/
 
 #generated files
 db.sqlite3
+
+# build files generated from pip install . with pyproject.toml
+/build
+
+# in case there is ever a unkown.egg-info on build
+*.egg-info/

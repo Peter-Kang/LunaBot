@@ -23,3 +23,10 @@ to rebuild:
 '''
 docker-compose up -d --no-deps --build
 '''
+
+Test are done via pytest. And pyproject.toml
+'''
+python -m venv .venv
+pip install -r requirements-test.txt
+pytest
+'''
