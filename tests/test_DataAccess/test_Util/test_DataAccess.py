@@ -18,15 +18,6 @@ def test_LeagueDBCommandBase():
         conn.close() #destroy the database when the connection closes
         assert False, f"Exception occurred: {e}"
 
-def test_LeagueDatabase():
-    try:
-        db = LeagueDatabase('',':memory:')# use in memory
-        assert isinstance(db.SummonerDB, object)
-        assert isinstance(db.MatchesDB, object)
-        del db
-    except Exception as e:
-        assert False, f"Exception occurred: {e}"
-
 def test_SummonerDB():
     try:
         db = LeagueDatabase('',':memory:')# use in memory
