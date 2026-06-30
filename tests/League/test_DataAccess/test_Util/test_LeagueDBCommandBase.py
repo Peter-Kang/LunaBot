@@ -1,8 +1,9 @@
-from DataAccess.LeagueDatabase import LeagueDBCommandBase
 import sqlite3
 
+from DataAccess.Util.LeagueDBCommandBase import LeagueDBCommandBase
+
 def test_LeagueDBCommandBase():
-    db = LeagueDBCommandBase('',':memory:')# use in memory
+    db = LeagueDBCommandBase(sqlite3.connect(":memory:"))# use in memory
     try:
         assert isinstance(db, object)
         db.sendVoidCommand("CREATE TABLE test (id INTEGER PRIMARY KEY, name TEXT)", ())
