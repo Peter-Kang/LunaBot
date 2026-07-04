@@ -11,16 +11,14 @@ class Champions:
         self.ChampionList:list[tuple[str,dict[str:str]]] = []
         self.RIOT_API_KEY:str = riotAPIKey
         self.version:Version = None
-        self.Update()
         
 #macro Call
-    def Update(self) -> list[tuple[str,dict[str:str]]] :
+    async def Update(self) -> list[tuple[str,dict[str:str]]] :
         result:Version = self.getLatestVersion()
         if self.version is None or result > self.version:
             self.version = result
             print(f"Update the version {self.version}")
-            loop = asyncio.get_event_loop()
-            return loop.run_until_complete(self._repopulateChampionList())
+            return await self._repopulateChampionList()
         return None
 
 #network calls

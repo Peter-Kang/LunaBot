@@ -62,10 +62,10 @@ class league:
             self.matchCache[row[matchIDIndex]] = Match(self.RIOT_API_KEY,row[matchIDIndex],json.loads(row[jsonIndex]))
         
 #update Champion Lists, cron call
-    def UpdateChampionList(self):
-        result = self.ChampionAPI.Update()
+    async def UpdateChampionList(self):
+        result = await self.ChampionAPI.Update()
         if result is not None:
-            self.ChampionData = ChampionStats(self.ChampionAPI.version.result)
+            self.ChampionData = ChampionStats(result)
             print(f"Champion Data updated to {self.ChampionAPI.version}")
        
 #champion Data
