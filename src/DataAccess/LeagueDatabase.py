@@ -1,3 +1,4 @@
+import os
 import sqlite3
 from .Summoner.SummonerDB import SummonerDB
 from .Matches.MatchesDB import MatchesDB
@@ -13,7 +14,7 @@ class LeagueDatabase:
         else:
             fileNameAndPath = dataPath+"/"+fileName
         self.Path:str = fileNameAndPath
-        self.sqliteConnection = sqlite3.connect(self.Path)
+        self.sqliteConnection:sqlite3.Connection = sqlite3.connect(self.Path)
         self.SummonerDB:SummonerDB = SummonerDB(self.sqliteConnection)
         self.MatchesDB:MatchesDB = MatchesDB(self.sqliteConnection)
         self.InitTables()
