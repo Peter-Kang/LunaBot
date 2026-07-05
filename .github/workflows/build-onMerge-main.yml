@@ -26,6 +26,7 @@ jobs:
         run: |
           pytest
   if_merged:
+    needs: test
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     permissions: 
