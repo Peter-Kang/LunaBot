@@ -17,7 +17,7 @@ class Champions:
         result:Version = self.getLatestVersion()
         if self.version is None or result > self.version:
             self.version = result
-            print(f"Update the version {self.version}")
+            print(f"Fetched the version {self.version}")
             return await self._repopulateChampionList()
         return None
 
