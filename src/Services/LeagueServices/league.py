@@ -30,13 +30,11 @@ class league:
         self.db:LeagueDatabase = db
     #Champion Data
         #API call objects
-        self.ChampionAPI:ChampionsAPI = ChampionsAPI(riotAPIKey)
-        #Features/DataModels
-        self.ChampionData:ChampionStats = ChampionStats(self.ChampionAPI.version, self.ChampionAPI.ChampionList)
+        self.ChampionAPI:ChampionsAPI = ChampionsAPI(self.RIOT_API_KEY)
     #Summoner Data
         #API call objects
-        self.UserSummonerAPI:SummonersAPI = SummonersAPI(riotAPIKey)
-        self.SummonerMatchAPI:MatchesAPI = MatchesAPI(riotAPIKey)
+        self.UserSummonerAPI:SummonersAPI = SummonersAPI(self.RIOT_API_KEY)
+        self.SummonerMatchAPI:MatchesAPI = MatchesAPI(self.RIOT_API_KEY)
         #Features/DataModels
         self.SummonerStat:SummonerStatSummary = SummonerStatSummary()
     #Cache and mappings
@@ -65,7 +63,7 @@ class league:
     async def UpdateChampionList(self):
         result = await self.ChampionAPI.Update()
         if result is not None:
-            self.ChampionData = ChampionStats(result)
+            self.ChampionData = ChampionStats(self.ChampionAPI.version, result)
             print(f"Champion Data updated to {self.ChampionAPI.version}")
        
 #champion Data
