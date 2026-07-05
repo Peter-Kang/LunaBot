@@ -6,7 +6,12 @@ from discord import Embed
 class LeagueCogCommands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+
+    async def cog_load(self):
         self.updateChampionList.start()
+
+    async def cog_unload(self):
+        self.updateChampionList.cancel()
 
     @app_commands.command(name="random",  description="Gets a random Champion")
     async def random(self,interaction:discord.Interaction):
@@ -37,7 +42,7 @@ class LeagueCogCommands(commands.Cog):
 
     @tasks.loop(minutes=15)
     async def updateChampionList(self):
-        self.bot.LeagueService.UpdateChampionList()
+        await self.bot.LeagueService.UpdateChampionList()
 
 async def setup(bot:commands.Bot) ->None:
     await bot.add_cog(LeagueCogCommands(bot=bot))

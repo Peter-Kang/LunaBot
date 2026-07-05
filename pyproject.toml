@@ -2,6 +2,7 @@
 testpaths = ["tests"]
 addopts = "-ra -q"
 pythonpath = ["src"]
+asyncio_mode = "auto"
 [project]
 name = "LunabotTest"
 version = "0.0.0"
