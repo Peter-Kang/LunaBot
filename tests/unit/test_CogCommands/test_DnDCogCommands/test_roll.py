@@ -21,7 +21,7 @@ class DummyBot():
 async def test_roll_calls_service_roll_and_sends_message():
     dice_expression = "2d8+3"
     expected_result = "2d8+3 => 12"
-    bot = Mock()# DummyBot(roll_result=expected_result)
+    bot = Mock()
     bot.DnDService = Mock()
     bot.DnDService.roll = Mock(return_value=expected_result)
 
@@ -32,5 +32,3 @@ async def test_roll_calls_service_roll_and_sends_message():
 
     bot.DnDService.roll.assert_called_once_with(dice_expression)
     interaction.response.send_message.assert_awaited_once_with(expected_result)
-
-
