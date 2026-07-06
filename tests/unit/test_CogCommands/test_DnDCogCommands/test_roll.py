@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import AsyncMock, MagicMock, Mock
 
-from src.CogCommands.DnDCogCommands import DnDCogCommands
+from CogCommands.DnDCogCommands import DnDCogCommands
 
 
 class DummyInteraction:

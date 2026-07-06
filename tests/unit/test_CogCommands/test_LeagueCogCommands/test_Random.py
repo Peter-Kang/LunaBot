@@ -24,7 +24,7 @@ def interaction_mock():
 @pytest.mark.asyncio
 async def test_random_command_sends_embed(bot_mock, interaction_mock):
     """Test that the random command calls randomChampion and sends the result."""
-    from src.CogCommands.LeagueCogCommands import LeagueCogCommands
+    from CogCommands.LeagueCogCommands import LeagueCogCommands
     
     # Arrange
     test_embed = Embed(title="Test Champion")
@@ -43,7 +43,7 @@ async def test_random_command_sends_embed(bot_mock, interaction_mock):
 @pytest.mark.asyncio
 async def test_random_command_calls_service(bot_mock, interaction_mock):
     """Test that the random command calls LeagueService.randomChampion."""
-    from src.CogCommands.LeagueCogCommands import LeagueCogCommands
+    from CogCommands.LeagueCogCommands import LeagueCogCommands
     
     # Arrange
     test_embed = Embed(title="Random Champion")
@@ -61,7 +61,7 @@ async def test_random_command_calls_service(bot_mock, interaction_mock):
 @pytest.mark.asyncio
 async def test_random_command_with_callback_verification(bot_mock, interaction_mock):
     """Test random command with callback to verify embed was sent."""
-    from src.CogCommands.LeagueCogCommands import LeagueCogCommands
+    from CogCommands.LeagueCogCommands import LeagueCogCommands
     
     # Arrange
     test_embed = Embed(title="Champion", description="Test Description")

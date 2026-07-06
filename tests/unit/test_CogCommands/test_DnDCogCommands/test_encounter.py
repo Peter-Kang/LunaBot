@@ -2,7 +2,7 @@ import pytest
 import discord
 from unittest.mock import AsyncMock, Mock
 
-from src.CogCommands.DnDCogCommands import DnDCogCommands
+from CogCommands.DnDCogCommands import DnDCogCommands
 from Services.DnDServices.Monsters.DnDMonsters import DnDEnvironments
 
 
