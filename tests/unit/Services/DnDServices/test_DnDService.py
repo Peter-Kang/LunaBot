@@ -2,6 +2,7 @@
 import pytest
 from unittest.mock import patch, MagicMock
 from Services.DnDServices.DnDService import DnD
+from Services.DnDServices.Monsters.DnDMonsters import DnDEnvironments
 
 
 class TestDnDRoll:
@@ -117,3 +118,28 @@ class TestDnDRoll:
             result = self.dnd.roll("1d20")
             assert "You Rolled 1d20" in result
             assert "Total:" in result
+
+    def test_encounter_no_result(self):
+        """When the monsters provider returns None, Encounter should return a 'No result' embed"""
+        mock_monsters = MagicMock()
+        mock_monsters.Encounter.return_value = None
+        dnd = DnD(argsDnDMonsters=mock_monsters)
+        embed = dnd.Encounter(ChallengeRating=1.0, Environment=DnDEnvironments.All)
+        assert hasattr(embed, 'title')
+        assert getattr(embed, 'title') == "No result"
+
+    def test_encounter_returns_embedding(self):
+        """When the monsters provider returns a DnDMonster, its embedding is returned"""
+        mock_monster = MagicMock()
+        fake_embed = MagicMock()
+        mock_monster.getEmbedding.return_value = fake_embed
+
+        mock_monsters = MagicMock()
+        mock_monsters.Encounter.return_value = mock_monster
+
+        dnd = DnD(argsDnDMonsters=mock_monsters)
+        embed = dnd.Encounter(ChallengeRating=2.0, Environment=DnDEnvironments.Forest)
+        # Should be the exact object returned by getEmbedding
+        assert embed is fake_embed
+
+            
