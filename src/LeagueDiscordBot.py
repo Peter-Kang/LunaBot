@@ -47,9 +47,6 @@ class LeagueDiscordBot(commands.Bot):
         intents_LeagueDiscBot.message_content = True
         super().__init__(command_prefix="/",  case_insensitive=True,  intents=intents_LeagueDiscBot )
 
-        #Check if we are on a Raspberry Pi
-        #self.RPIService:RPI = RPI()
-        #print(f'Is RPI {self.RPIService.is_RPI()}')
 #On boot tasks, please try to keep this skinny, use Cron jobs if needed
     async def on_ready(self):
         #can remove the init service
