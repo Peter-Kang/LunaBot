@@ -57,3 +57,17 @@ async def test_encounter_with_parameters():
     bot.DnDService.Encounter.assert_called_once_with(2.5, DnDEnvironments.Forest)
     args, kwargs = interaction.response.sent
     assert kwargs.get("embed") is fake_embed
+
+
+def test_get_environment_choices_filters_by_enum_value():
+    bot = DummyBot()
+    cog = DnDCogCommands(bot=bot)
+
+    choices = cog.getEnvironmentChoices()
+
+    expected_envs = [env for env in DnDEnvironments if int(env.value) < 24]
+    assert len(choices) == len(expected_envs)
+    for choice, env in zip(choices, expected_envs):
+        assert choice.name == env.name
+        assert choice.value == env
+
