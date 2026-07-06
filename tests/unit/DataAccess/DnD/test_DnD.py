@@ -3,8 +3,8 @@ import os
 import tempfile
 import unittest
 
-from src.DataAccess.DnD.DnDMonster import DnDMonster
-from src.DataAccess.DnD.DnDMonsterReader import DnDMonsterReader
+from DataAccess.DnD.DnDMonster import DnDMonster
+from DataAccess.DnD.DnDMonsterReader import DnDMonsterReader
 
 
 class TestDnDMonster(unittest.TestCase):
