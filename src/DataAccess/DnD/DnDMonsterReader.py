@@ -1,4 +1,5 @@
 from DataAccess.DnD.DnDMonster import DnDMonster
+from pathlib import Path
 import json
 
     #read in from https://api.open5e.com/
@@ -9,9 +10,8 @@ class DnDMonsterReader:
 
     def __init__(self, monsterList:list[DnDMonster] = []):
         self.monsterList = monsterList
-        if(len(self.monsterList) == 0):
+        if Path(self.MonsterFileLocation).exists():
             self.ReadInMonsters()
-        pass
 
     def ReadInMonsters(self) -> None:
         with open(self.MonsterFileLocation,'r') as file:
