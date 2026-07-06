@@ -3,6 +3,7 @@ import json
 
     #read in from https://api.open5e.com/
 class DnDMonsterReader:
+    #toDo: Move this to ENV file
     MonsterFileLocation:str = "./data/monster.data.txt"
     monsterList:list[DnDMonster] = []
 
