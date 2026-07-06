@@ -7,8 +7,10 @@ class DnDMonsterReader:
     MonsterFileLocation:str = "./data/monster.data.txt"
     monsterList:list[DnDMonster] = []
 
-    def __init__(self):
-        self.ReadInMonsters()
+    def __init__(self, monsterList:list[DnDMonster] = []):
+        self.monsterList = monsterList
+        if(len(self.monsterList) == 0):
+            self.ReadInMonsters()
         pass
 
     def ReadInMonsters(self) -> None:
