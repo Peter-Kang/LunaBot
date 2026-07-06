@@ -74,8 +74,8 @@ class DnDMonsters:
 
     Environments:list[list[DnDMonster]] = [ All, Arctic, Coastal, Desert, Forest, Grassland, Hills, Jungle, Mountain, Swamp, Underdark, Underwater,Urban,Sewer, Ruin, Feywild, Hell, EarthPlane, FirePlane, WaterPlane, AirPlane, AstralPlane, EtherealPlane, Laboratory, ShadowFell, Abyss, Caves, Temple, Volcano, Flexible]
 
-    def __init__(self):
-        self.Reader:DnDMonsterReader = DnDMonsterReader()
+    def __init__(self, argsDnDMonsterReader:DnDMonsterReader = DnDMonsterReader()):
+        self.Reader:DnDMonsterReader = argsDnDMonsterReader
         self.__populateEnvironment()
 
     def __populateEnvironment(self):

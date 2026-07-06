@@ -5,8 +5,8 @@ import discord
 
 class DnD:
 
-    def __init__(self):
-        self.DnDMonsters:DnDMonsters = DnDMonsters()
+    def __init__(self, argsDnDMonsters:DnDMonsters = DnDMonsters()):
+        self.DnDMonsters:DnDMonsters = argsDnDMonsters
 
     def roll(self, input:str)->str:
         diceInfo:list[str] = input.lower().replace(" ","").split('d') #ie 2d8
