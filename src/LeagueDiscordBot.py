@@ -18,7 +18,6 @@ class LeagueDiscordBot(commands.Bot):
         self.db:LeagueDatabase = None
         self.LeagueService:league = None
         self.DnDService:DnD = None
-        self.RPIService:RPI = None
         #Keys
         self.DISCORD_BOT_TOKEN:str= None
 
