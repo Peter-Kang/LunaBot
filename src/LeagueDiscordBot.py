@@ -10,8 +10,6 @@ from Services.LeagueServices.league import league
 from DataAccess.LeagueDatabase import LeagueDatabase
 from Services.DnDServices.DnDService import DnD
 
-from Services.HALService.RaspberryPi.RaspberryPi import RPI
-
 class LeagueDiscordBot(commands.Bot):
 
     def __init__(self):
@@ -20,7 +18,6 @@ class LeagueDiscordBot(commands.Bot):
         self.db:LeagueDatabase = None
         self.LeagueService:league = None
         self.DnDService:DnD = None
-        self.RPIService:RPI = None
         #Keys
         self.DISCORD_BOT_TOKEN:str= None
 
