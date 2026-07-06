@@ -16,7 +16,7 @@ class DnDCogCommands(commands.Cog):
     def getEnvironmentChoices(self) ->app_commands.Choice[int]:
         result = []
         for env in DnDEnvironments:
-            if( int(env)<24 ):
+            if( int(env.value)<24 ):
                 result.append(app_commands.Choice(name=env.name,value=env))
         return result
 
