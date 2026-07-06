@@ -10,8 +10,6 @@ from Services.LeagueServices.league import league
 from DataAccess.LeagueDatabase import LeagueDatabase
 from Services.DnDServices.DnDService import DnD
 
-from Services.HALService.RaspberryPi.RaspberryPi import RPI
-
 class LeagueDiscordBot(commands.Bot):
 
     def __init__(self):
