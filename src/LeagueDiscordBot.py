@@ -52,7 +52,7 @@ class LeagueDiscordBot(commands.Bot):
         await self.load_extensions()
         #set the status for the bot
         await self.change_presence(activity=discord.Activity(type=discord.ActivityType.playing, name=self.BOT_STATUS))#services
-        await self.refreshEventForumThreads.start()
+        self.refreshEventForumThreads.start()
 #Scheduled Event Events
     async def on_scheduled_event_create(self, event:scheduled_event):
         try:
