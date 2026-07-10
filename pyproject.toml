@@ -7,5 +7,6 @@ filterwarnings = [
     "ignore::DeprecationWarning:discord.player"
 ]
 [project]
+requires-python = ">=3.14"
 name = "LunabotTest"
 version = "0.0.0"

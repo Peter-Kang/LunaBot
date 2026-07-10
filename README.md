@@ -1,5 +1,5 @@
 # Luna Bot
-Python 3.11 Discord Bot
+Python 3.14 Discord Bot
 
 To Run:
 '''
