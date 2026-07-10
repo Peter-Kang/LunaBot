@@ -20,4 +20,6 @@ async def sync(ctx:commands.context):
         synced = await ctx.bot.tree.sync(guild=ctx.guild)
         print(f"Synced {len(synced)} commands for {ctx.guild}({ctx.guild.name})")
 
-bot.run(bot.DISCORD_BOT_TOKEN)
+
+if __name__ == "__main__":
+        bot.run(bot.DISCORD_BOT_TOKEN)
