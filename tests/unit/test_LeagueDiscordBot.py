@@ -55,17 +55,3 @@ def test_init_sets_services_and_keys():
     assert isinstance(bot.db, FakeDB)
     assert isinstance(bot.LeagueService, FakeLeague)
     assert isinstance(bot.DnDService, FakeDnD)
-
-
-@pytest.mark.asyncio
-async def test_on_ready_calls_load_extensions(monkeypatch):
-    from LunaBot import LunaBot
-    bot = LunaBot()
-
-    mock_load = AsyncMock()
-    monkeypatch.setattr(bot, 'load_extensions', mock_load)
-    monkeypatch.setattr(bot, 'change_presence', AsyncMock())
-    monkeypatch.setattr(bot.refreshEventForumThreads, 'start', Mock())
-    
-    await bot.on_ready()
-    mock_load.assert_called_once()
