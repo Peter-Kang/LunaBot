@@ -9,7 +9,7 @@ from Services.LeagueServices.league import league
 from DataAccess.LeagueDatabase import LeagueDatabase
 from Services.DnDServices.DnDService import DnD
 
-class CoreDiscordBot(commands.Bot):
+class LunaBot(commands.Bot):
 
     def __init__(self):
         #member variables

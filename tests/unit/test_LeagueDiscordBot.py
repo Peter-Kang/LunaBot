@@ -6,7 +6,7 @@ import pytest
 from unittest.mock import AsyncMock, Mock
 
 
-# Create fake modules/classes for imports used by CoreDiscordBot
+# Create fake modules/classes for imports used by LunaBot
 fake_league_module = types.ModuleType("Services.LeagueServices.league")
 class FakeLeague:
     def __init__(self, key, db):
@@ -45,9 +45,9 @@ def env(monkeypatch, tmp_path, tmp_path_factory):
 
 def test_init_sets_services_and_keys():
     # import after injecting fake modules
-    from CoreDiscordBot import CoreDiscordBot
+    from LunaBot import LunaBot
 
-    bot = CoreDiscordBot()
+    bot = LunaBot()
 
     assert bot.DISCORD_BOT_TOKEN == 'dummy_token'
     assert bot.RIOT_API_KEY == 'riot_key'
@@ -59,8 +59,8 @@ def test_init_sets_services_and_keys():
 
 @pytest.mark.asyncio
 async def test_on_ready_calls_load_extensions(monkeypatch):
-    from CoreDiscordBot import CoreDiscordBot
-    bot = CoreDiscordBot()
+    from LunaBot import LunaBot
+    bot = LunaBot()
 
     mock_load = AsyncMock()
     monkeypatch.setattr(bot, 'load_extensions', mock_load)

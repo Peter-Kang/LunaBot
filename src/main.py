@@ -3,9 +3,9 @@ import discord
 from discord.ext import commands
 
 
-from CoreDiscordBot import CoreDiscordBot
+from LunaBot import LunaBot
 
-bot = CoreDiscordBot()
+bot = LunaBot()
 
 @bot.event
 async def on_command_error(ctx, error):
