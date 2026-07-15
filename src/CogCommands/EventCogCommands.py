@@ -42,7 +42,7 @@ class EventCogCommands(commands.Cog):
                                         #refresh it
                                         await thread.edit(name=thread.name, archived=False, locked=False, invitable= thread.invitable, auto_archive_duration=10080, slowmode_delay=0, applied_tags=thread.applied_tags)
                                     else:
-                                        print(f"EventID: {eventID} Not Found. Closing")
+                                        print(f"Event Name: {event.name} EventID: {eventID}  Not Found. Closing")
                                         #close the thread, event ended
                                         await thread.edit(name=thread.name, archived=True, locked=False, invitable= thread.invitable, auto_archive_duration=10080, slowmode_delay=0, applied_tags=thread.applied_tags)                        
         except Exception as error:
