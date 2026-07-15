@@ -1,11 +1,9 @@
 import pytest
-from unittest.mock import Mock, MagicMock, patch, AsyncMock
+from unittest.mock import Mock, patch, AsyncMock
 from Services.LeagueServices.league import league
-from Services.LeagueServices.API.Champions import Champions as ChampionsAPI
-from Services.LeagueServices.API.Summoners import Summoners as SummonersAPI
-from Services.LeagueServices.API.Matches import Matches as MatchesAPI, Match
+from Services.LeagueServices.API.Matches import Match
 from Services.LeagueServices.DataUtil.SummonerStatSummary import SummonerStatSummary, SummonerStatSummaryResults
-from Services.LeagueServices.DataUtil.ChampionStats import ChampionStats
+
 from DataAccess.LeagueDatabase import LeagueDatabase
 
 
@@ -23,10 +21,7 @@ def mock_db():
 @pytest.fixture
 def league_service(mock_db):
     """Create a league service instance with mocked dependencies"""
-    with patch('Services.LeagueServices.league.ChampionsAPI'), \
-         patch('Services.LeagueServices.league.SummonersAPI'), \
-         patch('Services.LeagueServices.league.MatchesAPI'):
-        service = league("test_api_key", mock_db)
+    service = league("test_api_key", mock_db)
     return service
 
 
@@ -68,22 +63,14 @@ class TestInitUserToSummonerPUUID:
         ]
         mock_db.MatchesDB.getMatches.return_value = []
         
-        with patch('Services.LeagueServices.league.ChampionsAPI'), \
-             patch('Services.LeagueServices.league.SummonersAPI'), \
-             patch('Services.LeagueServices.league.MatchesAPI'):
-            service = league("test_key", mock_db)
+        service = league("test_key", mock_db)
         
         assert service.userToSummonerPUUID["user1"] == "puuid1"
         assert service.userToSummonerPUUID["user2"] == "puuid2"
     
     def test_handles_empty_database(self, mock_db):
         mock_db.MatchesDB.getMatches.return_value = []
-        
-        with patch('Services.LeagueServices.league.ChampionsAPI'), \
-             patch('Services.LeagueServices.league.SummonersAPI'), \
-             patch('Services.LeagueServices.league.MatchesAPI'):
-            service = league("test_key", mock_db)
-        
+        service = league("test_key", mock_db)
         assert len(service.userToSummonerPUUID) == 0
 
 
@@ -131,13 +118,13 @@ class TestUpdateChampionList:
     
     @pytest.mark.asyncio
     async def test_update_champion_list_success(self, league_service):
-        mock_result = {"data": "champion_data"}
+        mock_result = [("Ahri", {"name": "Ahri", "tags":"","id":"Ahri","lore":"", "title": "the Nine-Tailed Fox", "allytips":[],"enemytips":[] })]
         league_service.ChampionAPI.Update = AsyncMock(return_value=mock_result)
         league_service.ChampionAPI.version = "1.0.0"
-        
-        with patch('Services.LeagueServices.league.ChampionStats') as mock_stats:
-            await league_service.UpdateChampionList()
-            mock_stats.assert_called_once_with("1.0.0", mock_result)
+        await league_service.UpdateChampionList()
+        assert league_service.ChampionData is not None
+        assert league_service.ChampionData.ChampionVersion == "1.0.0"
+            
     
     @pytest.mark.asyncio
     async def test_update_champion_list_none_result(self, league_service):

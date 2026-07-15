@@ -31,6 +31,7 @@ class league:
     #Champion Data
         #API call objects
         self.ChampionAPI:ChampionsAPI = ChampionsAPI(self.RIOT_API_KEY)
+        self.ChampionData = None
     #Summoner Data
         #API call objects
         self.UserSummonerAPI:SummonersAPI = SummonersAPI(self.RIOT_API_KEY)
