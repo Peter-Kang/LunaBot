@@ -35,7 +35,7 @@ class EventCogCommands(commands.Cog):
                             if thread.archived == False and thread.locked == False:
                                 start = [message async for message in thread.history(limit=1, oldest_first = True)]
                                 if(len(start) > 0):
-                                    eventID = re.search('(\d+)(?!.*\d)',start[0].content)
+                                    eventID = re.search(r'(\d+)(?!.*\d)',start[0].content)
                                     if eventID and int(eventID.group(0)) in setOfSchEventIDs or thread.name in setOfNames:
                                         #make sure the event is alive
                                         await thread.edit(name=thread.name, archived=False, locked=False, invitable= thread.invitable, auto_archive_duration=60, slowmode_delay=0, applied_tags=thread.applied_tags)
