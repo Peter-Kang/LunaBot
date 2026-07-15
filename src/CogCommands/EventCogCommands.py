@@ -49,6 +49,7 @@ class EventCogCommands(commands.Cog):
             print(error)
 
 #Scheduled Event Events
+    @commands.Cog.listener()
     async def on_scheduled_event_create(self, event:scheduled_event):
         try:
             eventChannel = discord.utils.get(self.bot.get_guild(event.guild.id).channels, name="event-forums")
@@ -70,6 +71,7 @@ class EventCogCommands(commands.Cog):
         except Exception as error:
             print(error)
 
+    @commands.Cog.listener()
     async def on_scheduled_event_update(self, before:scheduled_event, after:scheduled_event):
         try:
             eventChannel = discord.utils.get(self.bot.get_guild(before.guild.id).channels, name="event-forums")
@@ -85,7 +87,8 @@ class EventCogCommands(commands.Cog):
                 print("Could not find event-forums channel")
         except Exception as error:
             print(error)
-
+            
+    @commands.Cog.listener()
     async def on_scheduled_event_user_add(self, event:scheduled_event, user:discord.user):
         try:
             eventChannel = discord.utils.get(self.bot.get_guild(event.guild.id).channels, name="event-forums")
