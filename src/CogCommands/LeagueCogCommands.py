@@ -4,8 +4,8 @@ from discord import app_commands
 from discord import Embed
 
 class LeagueCogCommands(commands.Cog):
-    def __init__(self, bot):
-        self.bot = bot
+    def __init__(self, bot: commands.Bot):
+        self.bot:commands.Bot = bot
 
     async def cog_load(self):
         self.updateChampionList.start()
