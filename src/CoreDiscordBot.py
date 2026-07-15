@@ -10,7 +10,7 @@ from Services.LeagueServices.league import league
 from DataAccess.LeagueDatabase import LeagueDatabase
 from Services.DnDServices.DnDService import DnD
 
-class LeagueDiscordBot(commands.Bot):
+class CoreDiscordBot(commands.Bot):
 
     def __init__(self):
         #member variables

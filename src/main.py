@@ -3,9 +3,9 @@ import discord
 from discord.ext import commands
 
 
-from LeagueDiscordBot import LeagueDiscordBot
+from CoreDiscordBot import CoreDiscordBot
 
-bot = LeagueDiscordBot()
+bot = CoreDiscordBot()
 
 @bot.event
 async def on_command_error(ctx, error):
